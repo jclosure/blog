@@ -7,7 +7,7 @@ require "rails/test_unit/railtie"
 require "sprockets/railtie"
 
 # Auto-require default libraries and those for the current Rails environment. 
-Bundler.require :default, Rails.en
+Bundler.require :default, Rails.env
 
 
 

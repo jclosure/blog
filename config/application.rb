@@ -1,14 +1,14 @@
 require File.expand_path('../boot', __FILE__)
 
 #orig default
-#require 'rails/all'
+require 'rails/all'
 
 #joel added
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "active_resource/railtie"
-require "rails/test_unit/railtie"
-require "sprockets/railtie"
+#require "action_controller/railtie"
+#require "action_mailer/railtie"
+#require "active_resource/railtie"
+#require "rails/test_unit/railtie"
+#require "sprockets/railtie"
 
 
 

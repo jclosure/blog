@@ -8,12 +8,10 @@ gem 'rails', '3.1.3'
 #gem 'mysql2'
 gem 'sqlite3'
 
-group :development do
-   gem 'sqlite3-ruby', :require => 'sqlite3'
-end
 
 group :production do
   gem 'therubyracer-heroku', '0.8.1.pre3'
+  gem 'sqlite3-ruby', :require => 'sqlite3'
 end
 
 

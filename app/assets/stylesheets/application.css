@@ -5,3 +5,8 @@
  *= require_self
  *= require_tree . 
 */
+
+ul.plain 
+{
+	list-style: none;
+}

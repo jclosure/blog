@@ -8,6 +8,9 @@ gem 'rails', '3.1.3'
 #gem 'mysql2'
 gem 'sqlite3'
 
+gem 'whois'
+gem 'seeker'
+gem 'mechanize' #see docs: https://rubygems.org/gems/mechanize
 
 group :production do
   gem 'therubyracer-heroku', '0.8.1.pre3'

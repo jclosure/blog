@@ -1,4 +1,7 @@
 Blog::Application.routes.draw do
+  get "dns/index"
+  post "dns/available"
+
   resources :posts do
     resources :comments
   end

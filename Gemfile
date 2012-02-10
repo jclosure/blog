@@ -12,6 +12,9 @@ gem 'whois'
 gem 'seeker'
 gem 'mechanize' #see docs: https://rubygems.org/gems/mechanize
 
+# gem 'refinerycms', '= 1.0.9'
+
+
 group :production do
   gem 'therubyracer-heroku', '0.8.1.pre3'
   #gem 'sqlite3-ruby', :require => 'sqlite3'

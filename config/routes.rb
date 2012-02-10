@@ -1,4 +1,7 @@
 Blog::Application.routes.draw do
+  get "qr/index"
+  post "qr/generate"
+  
   get "dns/index"
   post "dns/available"
 

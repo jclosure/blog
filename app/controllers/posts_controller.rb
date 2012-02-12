@@ -1,3 +1,14 @@
+
+# module Tweet
+#   def tweet(message)
+#     client = Twitter.client
+#     client.update(message)
+#     "Message was tweeted."
+#   rescue Exception => e
+#     "Message was not tweeted due to an error: #{/\s\d{3}\s.*/.match(e)}"
+#   end
+# end
+
 class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
@@ -56,17 +67,32 @@ class PostsController < ApplicationController
   # PUT /posts/1
   # PUT /posts/1.json
   def update
+    
+    #NEW
     @post = Post.find(params[:id])
-
-    respond_to do |format|
-      if @post.update_attributes(params[:post])
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    #old_status = @post.status
+    if @post.update_attributes(params[:post])
+      #if @post.status == 'published' && old_status == 'pending'
+        response = tweet("A new post is available: '##{@post.id} #{@post.title}'   http://noolog.com/posts/#{@post.id}")
+        #response = tweet("A new post is available: '##{@post.sequence} #{@post.title}'   http://noolog.com/posts/#{@post.sequence}")
+      #end
+      redirect_to(post_url(@post.sequence), :notice => "Post was successfully updated. #{response}")
+    else
+      render :action => "edit"
     end
+
+    #ORIG
+    # @post = Post.find(params[:id])
+    #
+    #     respond_to do |format|
+    #       if @post.update_attributes(params[:post])
+    #         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+    #         format.json { head :ok }
+    #       else
+    #         format.html { render action: "edit" }
+    #         format.json { render json: @post.errors, status: :unprocessable_entity }
+    #       end
+    #     end
   end
 
   # DELETE /posts/1

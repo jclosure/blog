@@ -14,6 +14,7 @@ gem 'mechanize' #see docs: https://rubygems.org/gems/mechanize
 
 #gem 'refinerycms', '= 1.0.9'
 
+gem 'twitter'
 
 group :production do
   gem 'therubyracer-heroku', '0.8.1.pre3'

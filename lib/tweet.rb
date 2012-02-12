@@ -1,6 +1,9 @@
+
+require 'twitter'
+
 module Tweet
   def tweet(message)
-    client = Twitter.client
+    client = Twitter::Client.new({})
     client.update(message)
     "Message was tweeted."
   #rescue Exception => e

@@ -76,7 +76,7 @@ class PostsController < ApplicationController
         response = tweet("A new post is available: '##{@post.id} #{@post.title}'   http://noolog.com/posts/#{@post.id}")
         #response = tweet("A new post is available: '##{@post.sequence} #{@post.title}'   http://noolog.com/posts/#{@post.sequence}")
       #end
-      redirect_to(post_url(@post.sequence), :notice => "Post was successfully updated. #{response}")
+      redirect_to(post_url(@post.id), :notice => "Post was successfully updated. #{response}")
     else
       render :action => "edit"
     end

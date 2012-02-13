@@ -1,11 +1,10 @@
 
-if Rails.env.production?
-  Twitter.configure do |config|
-    config.consumer_key = "wz4Ax8ULQNfQ0YFtzOJig"
-    config.consumer_secret = "2YAjI4jvZY4ILc6fdHtj0r02oDTa8TutGNYodEreZbI"
-    config.oauth_token = "293860890-sshxBMYWdn4Amgj5EiyQVJ31Iv3Hr3dAOgTEHxLY"
-    config.oauth_token_secret = "gFEHMmeXjJBQBLgwOVYVStFpqEF03cp0FxeqGimeTJM"
-    #config.proxy = ENV['APIGEE_TWITTER_API_ENDPOINT']
-  end
+Twitter.configure do |config|
+  config.consumer_key = Rails.application.config.twitter_consumer_key
+  config.consumer_secret = Rails.application.config.twitter_consumer_secret
+  config.oauth_token = Rails.application.config.twitter_oauth_token
+  config.oauth_token_secret = Rails.application.config.twitter_oauth_token_secret
+  #config.proxy = ENV['APIGEE_TWITTER_API_ENDPOINT']
 end
+
 

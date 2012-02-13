@@ -1,0 +1,26 @@
+
+# These are the basic steps to use the twitter gem from @jnunemaker
+# IN IRB
+http://pastebin.com/MWCEn0hW
+
+# Using twitter client in Rails (Main)
+http://www.arailsdemo.com/posts/22
+
+# Using twitter client in Rails via Heroku
+http://www.arailsdemo.com/posts/23
+
+# Using ember and js bdd screencast
+http://vimeo.com/arailsdemo/videos
+
+# Turn on Heroku extended logging and tail
+heroku addons:add logging:basic
+Then you can view logs up to 500 lines (100 is default):
+
+$ heroku logs -n 500
+Better! (and still free)
+
+$ heroku addons:upgrade logging:expanded
+Then:
+
+$ heroku logs --tail
+references: http://devcenter.heroku.com/articles/logging

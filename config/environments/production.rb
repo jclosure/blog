@@ -58,4 +58,12 @@ config.action_dispatch.x_sendfile_header = nil # For Heroku
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+  
+  # CUSTOM CONFIGURATION VARIABLES
+  # noolog
+  config.twitter_consumer_key = 'wz4Ax8ULQNfQ0YFtzOJig'
+  config.twitter_consumer_secret = '2YAjI4jvZY4ILc6fdHtj0r02oDTa8TutGNYodEreZbI'
+  # jclosure
+  config.twitter_oauth_token = "293860890-sshxBMYWdn4Amgj5EiyQVJ31Iv3Hr3dAOgTEHxLY"
+  config.twitter_oauth_token_secret = "gFEHMmeXjJBQBLgwOVYVStFpqEF03cp0FxeqGimeTJM"
 end

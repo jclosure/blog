@@ -16,6 +16,9 @@ gem 'mechanize' #see docs: https://rubygems.org/gems/mechanize
 
 gem 'twitter'
 
+gem 'omniauth'
+gem 'omniauth-twitter'
+
 group :production do
   gem 'therubyracer-heroku', '0.8.1.pre3'
   #gem 'sqlite3-ruby', :require => 'sqlite3'
@@ -52,3 +55,8 @@ group :test do
   # Pretty printed test output
   gem 'turn', '0.8.2', :require => false
 end
+
+gem 'faraday'
+gem 'faraday_middleware'
+gem 'hashie'
+#gem 'simple_oauth'

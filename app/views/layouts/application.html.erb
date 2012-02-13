@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blog</title>
+  <title>NooLog</title>
   <%= stylesheet_link_tag "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -11,7 +11,33 @@
 <%= image_tag("header_1.png", :border=>0, :style => "height: 100px; width: 100%") %>
 
 
-<h1>Making By Doing</h1>
+<div id="user_nav">
+	
+	
+	<div style="float: right">
+		
+		<%= link_to "Blog", posts_path %>
+		<% if current_user %>
+		
+		<span>=></span>
+		
+		  Welcome <%= current_user.name %>!
+		  <%= link_to "Sign Out", signout_path %>
+		<% else %>
+		  <%= link_to "Sign in with Twitter", "/auth/twitter" %>
+		<% end %>
+	</div>
+	
+	<div id="social-container" style="float: left">
+		<a href="https://twitter.com/jclosure" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jclosure</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	</div>
+	
+</div>
+
+<h1>Welcome to The Noolog</h1>
+
+<h2>We bring your attention to @thismoment</h2>
 
 
 

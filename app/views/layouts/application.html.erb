@@ -1,49 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
-<head>
-  <title>NooLog</title>
-  <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<%= image_tag("header_1.png", :border=>0, :style => "height: 100px; width: 100%") %>
-
-
-<div id="user_nav">
-	
-	
-	<div style="float: right">
-		
-		<%= link_to "Blog", posts_path %>
-		<% if current_user %>
-		
-		<span>=></span>
-		
-		  Welcome <%= current_user.name %>!
-		  <%= link_to "Sign Out", signout_path %>
-		<% else %>
-		  <%= link_to "Sign in with Twitter", "/auth/twitter" %>
-		<% end %>
-	</div>
-	
-	<div id="social-container" style="float: left">
-		<a href="https://twitter.com/jclosure" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jclosure</a>
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-	</div>
-	
-</div>
-
-<h1>Welcome to The Noolog</h1>
-
-<h2>We bring your attention to @thismoment</h2>
-
-
-
-
-
-<%= yield %>
-
-</body>
+	<head>
+		<title>
+			NooLog
+		</title><%= stylesheet_link_tag "application" %><%= javascript_include_tag "application" %><%= csrf_meta_tags %>
+	</head>
+	<body>
+		<%= image_tag("Vector_Banner_000132.png", :border=>0, :style => "height: 200px; width: 100%") %>
+		<div id="container">
+			<div id="wrapper">
+				<div id="user_nav">
+					<div style="float: right">
+						<%= link_to "QR Generator", "/qr/index" %><span> | </span><%= link_to "DNS Trawler", "/dns/index" %><span> | </span><%= link_to "Blog", posts_path %><% if current_user %><span> | </span> Welcome <%= current_user.name %>! <%= link_to "Sign Out", signout_path %> <% else %> <%= link_to "Sign in with Twitter", "/auth/twitter" %> <% end %>
+					</div>
+					<div id="social-container" style="float: left">
+						<a href="https://twitter.com/jclosure" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jclosure</a> <script type="text/javascript">
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+						</script>
+					</div>
+				</div>
+				<h1 style="font-size: xx-large; color: #999999">
+					~~ NooLog ~~
+				</h1>
+				<h2>
+					A Public Journey of Discovery
+				</h2>
+				
+					<div id="main" style="padding: 5px 5px 5px 5px; border: 1px solid #AAAAAA; display: inline-block">
+						<%= yield %>
+					</div>
+					<div id="sidebar" style="background-color: #AAAAAA; display: inline-block;">
+						Side Bar
+					</div>
+			
+			</div>
+		</div>
+	</body>
 </html>

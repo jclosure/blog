@@ -1,4 +1,4 @@
-<h1>Listing posts</h1>
+<h2><strong>Your Blog Posts</strong></h2>
 
 <table>
   <tr>
@@ -15,9 +15,9 @@
     <td><%= post.name %></td>
     <td><%= post.title %></td>
     <td><%= post.content %></td>
-    <td><span> &nbsp; </span><%= link_to 'Show', post %><span> | </span></td>
-    <td><%= link_to 'Edit', edit_post_path(post) %><span> | </span></td>
-    <td><%= link_to 'Destroy', post, confirm: 'Are you sure?', method: :delete %></td>
+    <td nowrap="nowrap"><span> &nbsp; </span><%= link_to 'Show', post %><span> | </span></td>
+    <td nowrap="nowrap"><%= link_to 'Edit', edit_post_path(post) %><span> | </span></td>
+    <td nowrap="nowrap"><%= link_to 'Destroy', post, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

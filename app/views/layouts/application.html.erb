@@ -11,7 +11,13 @@
 			<div id="wrapper">
 				<div id="user_nav">
 					<div style="float: right">
-						<%= link_to "QR Generator", "/qr/index" %><span> | </span><%= link_to "DNS Trawler", "/dns/index" %><span> | </span><%= link_to "Blog", posts_path %><% if current_user %><span> | </span> Welcome <%= current_user.name %>! <%= link_to "Sign Out", signout_path %> <% else %> <%= link_to "Sign in with Twitter", "/auth/twitter" %> <% end %>
+						<span><%= link_to "QR Generator", "/qr/index" %></span>
+						<span> | </span>
+						<span><%= link_to "DNS Trawler", "/dns/index" %></span>
+						<span> | </span>
+						<span><%= link_to "Blog", posts_path %></span>
+						<span> | </span>
+						<span><% if current_user %> Welcome <%= current_user.name %>! <%= link_to "Sign Out", signout_path %> <% else %> <%= link_to "Sign in with Twitter", "/auth/twitter" %> <% end %></span>
 					</div>
 					<div id="social-container" style="float: left">
 						<a href="https://twitter.com/jclosure" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jclosure</a> <script type="text/javascript">
@@ -27,7 +33,7 @@
 				</h2>
 				
 					<div id="main" style="padding: 5px 5px 5px 5px; border: 1px solid #AAAAAA; display: inline-block">
-						<%= yield %>
+						<div><%=h yield %></div>
 					</div>
 					<div id="sidebar" style="background-color: #AAAAAA; display: inline-block;">
 						Side Bar

@@ -64,6 +64,6 @@ config.action_dispatch.x_sendfile_header = nil # For Heroku
   config.twitter_consumer_key = 'wz4Ax8ULQNfQ0YFtzOJig'
   config.twitter_consumer_secret = '2YAjI4jvZY4ILc6fdHtj0r02oDTa8TutGNYodEreZbI'
   # jclosure
-  config.twitter_oauth_token = "293860890-sshxBMYWdn4Amgj5EiyQVJ31Iv3Hr3dAOgTEHxLY"
-  config.twitter_oauth_token_secret = "gFEHMmeXjJBQBLgwOVYVStFpqEF03cp0FxeqGimeTJM"
+  config.twitter_oauth_token = "293860890-r0AIqy8LL6X0TQVahWEEoXb1v5Bk6HwyrnENPiwW".encode('utf-8')
+  config.twitter_oauth_token_secret = "2dvsPAAsVNs3M8lYo8IJcNPcDsPd7ZzgnQTL9qszlw".encode('utf-8')
 end

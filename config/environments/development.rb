@@ -37,9 +37,9 @@ Blog::Application.configure do
   
   # CUSTOM CONFIGURATION VARIABLES
   # noolog
-  config.twitter_consumer_key = 'wz4Ax8ULQNfQ0YFtzOJig'
-  config.twitter_consumer_secret = '2YAjI4jvZY4ILc6fdHtj0r02oDTa8TutGNYodEreZbI'
-  # jclosure
-  config.twitter_oauth_token = "293860890-sshxBMYWdn4Amgj5EiyQVJ31Iv3Hr3dAOgTEHxLY"
-  config.twitter_oauth_token_secret = "gFEHMmeXjJBQBLgwOVYVStFpqEF03cp0FxeqGimeTJM"
+  config.twitter_consumer_key = 'ggTmayieafovNaiHKsgBw'
+  config.twitter_consumer_secret = 'lFpf0pTkBDT1kfcMksdlKsa8RyIDl7bb1JqjhHd8'
+  # nthchild
+  config.twitter_oauth_token = "48279060-OnLnhyQJOL4g6FElPjcttVDKuKrYdjdykwGYZdsDF".encode('utf-8')
+  config.twitter_oauth_token_secret = "89zZ8JWMRRbM37y6EMKMn0634ftt8rbH2twFNHbqeU".encode('utf-8')
 end

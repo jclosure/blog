@@ -26,11 +26,26 @@ html {
   overflow-y: scroll;
 }
 
+	
+
 body { 
   font: 13px 'Helvetica Neue', Arial, sans-serif;
-  background: #D8D5D2;
+  background: #66a3d2;
   color: #222;
   line-height: 1.6em;
+}
+
+#header {
+	/* background-image: url('Vector_Banner_000145_slice.jpg'); */
+	background: black;
+	width: 100%;
+	color: #A7CCE9;
+}
+#header a {
+	color: #A7CCE9;
+}
+#header a:active {
+	color: #A7CCE9;
 }
 
 a {
@@ -58,7 +73,7 @@ h1, h2 {
 }
 
 h1 {
-  font-size: 92px;
+  font-size: 36px;
 }
 
 h2 {

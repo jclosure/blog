@@ -12,6 +12,10 @@ Blog::Application.routes.draw do
 
 
   get "home/index"
+  get "home/page2"
+  get "home/page3"
+  get "home/page4"
+  get "home/page5"
   
   match "/auth/:provider/callback" => "sessions#create"
   match "/signout" => "sessions#destroy", :as => :signout

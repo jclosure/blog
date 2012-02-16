@@ -6,10 +6,7 @@
  *= require_tree . 
 */
 
-ul.plain 
-{
-	list-style: none;
-}
+
 
 /* BASE BELOW */
 * {margin:0;padding:0}

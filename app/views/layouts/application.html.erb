@@ -5,6 +5,8 @@
 			NooLog
 		</title><%= stylesheet_link_tag "application" %><%= javascript_include_tag "application" %><%= csrf_meta_tags %>
 		<%= javascript_include_tag "jquery.masonry.min.js" %>
+		<%= javascript_include_tag "modernizr-transitions.js" %>
+		<%= javascript_include_tag "jquery.infinitescroll.min.js" %>
 	</head>
 	<body>
 		
@@ -44,7 +46,7 @@
 				
 				<div style="clear: both"></div>
 				
-					<div id="container" style="margin-left: 60px; margin-right: 60px; padding: 5px 5px 5px 5px; border: 1px solid #AAAAAA;">
+					<div id="container" class="transitions-enabled infinite-scroll has-gutters clearfix" style="margin-left: 60px; margin-right: 60px; padding: 5px 5px 5px 5px; border: 1px solid #AAAAAA;">
 						
 						
 						

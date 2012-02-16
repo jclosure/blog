@@ -9,13 +9,15 @@ Blog::Application.routes.draw do
     resources :comments
   end
   
-
+  get "photos/index"
+  match "show" => "photos#show",:as => :photo
 
   get "home/index"
   get "home/page2"
   get "home/page3"
   get "home/page4"
   get "home/page5"
+  get "home/flickr"
   
   match "/auth/:provider/callback" => "sessions#create"
   match "/signout" => "sessions#destroy", :as => :signout

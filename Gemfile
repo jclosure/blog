@@ -15,6 +15,7 @@ gem 'mechanize' #see docs: https://rubygems.org/gems/mechanize
 #gem 'refinerycms', '= 1.0.9'
 
 gem 'twitter'
+gem 'flickraw'
 
 gem 'omniauth'
 gem 'omniauth-twitter'

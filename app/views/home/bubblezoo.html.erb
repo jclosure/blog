@@ -15,7 +15,7 @@
 		 */
 		#tiles .box {
 		width: 200px;
-		height: 200px;
+		/* height: 200px; */
 		background-color: #ffffff;
 		border: 1px solid #dedede;
 		-moz-border-radius: 2px;
@@ -31,22 +31,22 @@
 		#tiles .box p {
 		color: #666;
 		font-size: 12px;
-		margin: 10px 0 0 10px;
+		margin: 5px 3px 3px 5px;
 		}
 
 		/**
 		 * Some extra styles to randomize heights of grid items.
 		 */
 		#tiles .box:nth-child(3n) {
-		height: 175px;
+		 /* height: 175px; */
 		}
 
 		#tiles .box:nth-child(4n-3) {
-		padding-bottom: 30px;
+		/* padding-bottom: 30px; */
 		}
 
 		#tiles .box:nth-child(5n) {
-		height: 250px;
+		/* height: 250px; */
 		}
 
 		</style>
@@ -101,19 +101,17 @@
 			$tiles.infinitescroll({
 			      navSelector  : '#page-nav',    // selector for the paged navigation 
 			      nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
-			      itemSelector : '.box',     // selector for all items you'll retrieve
-			      loading: {
-			          finishedMsg: 'No more pages to load.',
-			          img: 'http://i.imgur.com/6RMhx.gif'
-			        }
+			      itemSelector : '.box'     // selector for all items you'll retrieve
 			      },
 			      function( newElements ) {
 			        // hide new items while they are loading
-			        var $newElems = $( newElements );
+			        var $newElems = $( newElements ).css({ opacity: 0 });
 
 					// show elems now they're ready
-			          $newElems.animate({ opacity: 1 });
-			          $tiles.append($newElems.show());
+			         
+			          $tiles.append($newElems);
+			
+			 		  $newElems.animate({ opacity: 1 });
 
 			$('.box').wookmark(options);
 					// ensure that images load before adding to masonry layout

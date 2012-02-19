@@ -5,7 +5,7 @@ class TumbleController < ApplicationController
   end
   
   def page
-    redirect_to :controller => 'photos', :action => 'latest'
+    redirect_to :controller => 'home', :action => 'page'
   end
   
 end

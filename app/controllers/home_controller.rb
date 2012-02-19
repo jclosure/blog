@@ -4,7 +4,7 @@ class HomeController < ApplicationController
   end
   
   def page
-    redirect_to :action => 'latest'
+    
   end
   
   def bubblezoo

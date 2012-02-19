@@ -7,7 +7,127 @@
 	
 	<div id="log">
 	
-		<%= render "bubbles" %>
+	
+		
+		<style>
+		/**
+		 * Grid items
+		 */
+		#tiles .box {
+		width: 200px;
+		height: 200px;
+		background-color: #ffffff;
+		border: 1px solid #dedede;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+		display: none; /** Hide items initially to avoid a flicker effect **/
+		  cursor: pointer;
+		}
+
+		/**
+		 * Grid item text
+		 */
+		#tiles .box p {
+		color: #666;
+		font-size: 12px;
+		margin: 10px 0 0 10px;
+		}
+
+		/**
+		 * Some extra styles to randomize heights of grid items.
+		 */
+		#tiles .box:nth-child(3n) {
+		height: 175px;
+		}
+
+		#tiles .box:nth-child(4n-3) {
+		padding-bottom: 30px;
+		}
+
+		#tiles .box:nth-child(5n) {
+		height: 250px;
+		}
+
+		</style>
+
+		<nav id="page-nav">
+		  <a href="/home/page/2"></a>
+		</nav>
+
+		<div id="main" role="main">
+			<div id="tiles">
+				
+				<%=h render_cell :photos, :display, :params => params %>
+
+		    <!-- End of grid blocks -->
+		 	</div>
+		</div>
+
+
+		<!-- Include the plug-in -->
+
+		<%= javascript_include_tag "jquery.wookmark.js" %>
+
+		  <!-- Once the page is loaded, initalize the plug-in. -->
+		  <script type="text/javascript">
+		    $(document).ready(new function() {
+		      // Prepare layout options.
+		      var options = {
+		        autoResize: true, // This will auto-update the layout when the browser window is resized.
+		        container: $('#main'), // Optional, used for some extra CSS styling
+		        offset: 2, // Optional, the distance between grid items
+		        itemWidth: 202 // Optional, the width of a grid item
+		      };
+
+		      // Get a reference to your grid items.
+		      var handler = $('.box');
+
+		      // Call the layout function.
+		      handler.wookmark(options);
+
+		      // Capture clicks on grid items.
+		      handler.click(function(){
+		        // Randomize the height of the clicked item.
+		        $(this).css('height', Math.round(Math.random()*300+30)+'px');
+
+		        // Update the layout.
+		        handler.wookmark();
+		      });
+
+		    var $tiles = $('#tiles');
+
+			  //infinite scroll setup
+			$tiles.infinitescroll({
+			      navSelector  : '#page-nav',    // selector for the paged navigation 
+			      nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
+			      itemSelector : '.box',     // selector for all items you'll retrieve
+			      loading: {
+			          finishedMsg: 'No more pages to load.',
+			          img: 'http://i.imgur.com/6RMhx.gif'
+			        }
+			      },
+			      function( newElements ) {
+			        // hide new items while they are loading
+			        var $newElems = $( newElements );
+
+					// show elems now they're ready
+			          $newElems.animate({ opacity: 1 });
+			          $tiles.append($newElems.show());
+
+			$('.box').wookmark(options);
+					// ensure that images load before adding to masonry layout
+			        //$newElems.imagesLoaded(function(){});
+			      }
+			    );
+
+
+		    });
+		  </script>
+
+	
+	
+		
 		
 	</div>
 	

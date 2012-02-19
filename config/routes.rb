@@ -1,6 +1,8 @@
 Blog::Application.routes.draw do
   get "home/index"
   get "home/bubblezoo"
+  get "/home/page"
+  match "/home/page/:page", :to => redirect("/home/page?page=%{page}")
   
 
   get "qr/index"
@@ -13,13 +15,9 @@ Blog::Application.routes.draw do
     resources :comments
   end
   
-  get "photos/index"
-  match "show" => "photos#show",:as => :photo
-  get "photos/latest"
-  match "/photos/page/:page", :to => redirect("/photos/latest?page=%{page}")
 
   get "tumble/index"
-  match "/tumble/page/:page", :to => redirect("/photos/latest?page=%{page}")
+  match "/tumble/page/:page", :to => redirect("/home/page?page=%{page}")
   get "tumble/flickr"
   
   match "/auth/:provider/callback" => "sessions#create"

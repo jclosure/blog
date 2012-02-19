@@ -32,6 +32,9 @@ GEM
     ansi (1.4.2)
     arel (3.0.0)
     builder (3.0.0)
+    cells (3.8.2)
+      actionpack (~> 3.0)
+      railties (~> 3.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -155,6 +158,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  cells
   coffee-rails (~> 3.2.1)
   faraday
   faraday_middleware

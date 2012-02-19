@@ -8,6 +8,7 @@ gem 'rails', '3.2.1'
 #gem 'mysql2'
 gem 'sqlite3'
 
+gem 'cells'
 
 gem 'whois'
 gem 'seeker'

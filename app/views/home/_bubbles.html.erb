@@ -1,0 +1,69 @@
+
+<div id="main" role="main">
+<ul id="tiles">
+    <li><p>1</p></li>
+    <li><p>2</p></li>
+    <li><p>3</p></li>
+    <li><p>4</p></li>
+    <li><p>5</p></li>
+    <li><p>6</p></li>
+    <li><p>7</p></li>
+    <li><p>8</p></li>
+    <li><p>9</p></li>
+    <li><p>10</p></li>
+    <li><p>11</p></li>
+    <li><p>12</p></li>
+    <li><p>13</p></li>
+    <li><p>14</p></li>
+    <li><p>15</p></li>
+    <li><p>16</p></li>
+    <li><p>17</p></li>
+    <li><p>18</p></li>
+    <li><p>19</p></li>
+    <li><p>20</p></li>
+    <li><p>21</p></li>
+    <li><p>22</p></li>
+    <li><p>23</p></li>
+    <li><p>24</p></li>
+    <li><p>25</p></li>
+    <li><p>26</p></li>
+    <li><p>27</p></li>
+    <li><p>28</p></li>
+    <li><p>29</p></li>
+    <li><p>30</p></li>
+    <!-- End of grid blocks -->
+  </ul>
+</div>
+
+
+<!-- Include the plug-in -->
+
+<%= javascript_include_tag "jquery.wookmark.js" %>
+
+  <!-- Once the page is loaded, initalize the plug-in. -->
+  <script type="text/javascript">
+    $(document).ready(new function() {
+      // Prepare layout options.
+      var options = {
+        autoResize: true, // This will auto-update the layout when the browser window is resized.
+        container: $('#main'), // Optional, used for some extra CSS styling
+        offset: 2, // Optional, the distance between grid items
+        itemWidth: 202 // Optional, the width of a grid item
+      };
+
+      // Get a reference to your grid items.
+      var handler = $('#tiles li');
+
+      // Call the layout function.
+      handler.wookmark(options);
+
+      // Capture clicks on grid items.
+      handler.click(function(){
+        // Randomize the height of the clicked item.
+        $(this).css('height', Math.round(Math.random()*300+30)+'px');
+
+        // Update the layout.
+        handler.wookmark();
+      });
+    });
+  </script>

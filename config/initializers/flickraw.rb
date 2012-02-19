@@ -23,3 +23,7 @@
 # rescue FlickRaw::FailedResponse => e
 #   puts "Authentication failed : #{e.msg}"
 # end
+
+FlickRaw.api_key="a42deb4fd1bbae25914fddc84abcb530"
+FlickRaw.shared_secret="e68e71f5c5c60a31"
+

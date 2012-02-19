@@ -4,9 +4,7 @@
 		<title>
 			NooLog
 		</title><%= stylesheet_link_tag "application" %><%= javascript_include_tag "application" %><%= csrf_meta_tags %>
-		<%= javascript_include_tag "jquery.masonry.min.js" %>
-		<%= javascript_include_tag "modernizr-transitions.js" %>
-		<%= javascript_include_tag "jquery.infinitescroll.min.js" %>
+	
 	</head>
 	<body>
 		
@@ -19,7 +17,9 @@
 			 
 			 <div id="user_nav" style="padding-right: 20px; float: right;">
 				<div style="float: right">
-					<span><%= link_to "Log", "/" %></span>
+					<span><%= link_to "Bubbles", "/" %></span>
+					<span> | </span>
+					<span><%= link_to "Tumble Log", "/tumble/index" %></span>
 					<span> | </span>
 					<span><%= link_to "Photos", "/photos/index" %></span>
 					<span> | </span>

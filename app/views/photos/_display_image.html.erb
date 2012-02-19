@@ -1,0 +1,9 @@
+<% if @embed %>
+	<embed src="<%=@embed_photo['flickr']%>" width="375" height="225" />
+<% else %>
+	<img src="<%=@embed_photo['flickr']%>" alt="#{@title}" />
+<% end %>
+	
+<br/>
+<%= "Photo title is #{@title} with #{@views} views" %><br/>
+<%= "Tags are #{@tags}" %>

@@ -2,16 +2,24 @@
 <%= stylesheet_link_tag params[:controller] %>
 <%= javascript_include_tag params[:controller] %>
 
+<%= javascript_include_tag "jquery.masonry.min.js" %>
+<%= javascript_include_tag "modernizr-transitions.js" %>
+<%= javascript_include_tag "jquery.infinitescroll.min.js" %>
+
 <h1 style="text-align: center; font-weight: bold">~Noo~Log~</h1>
 	
 	
 	<div id="log">
 	
-		<%= render "bubbles" %>
+		<%= render "tumblelog" %>
 		
 	</div>
 	
 <div>
 	<p>Blog @<a href="http://uberpwn.wordpress.com">Wordpress</p>	
 </div>
+
+
+
+
 

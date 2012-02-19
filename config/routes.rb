@@ -1,4 +1,6 @@
 Blog::Application.routes.draw do
+  get "home/index"
+
   get "qr/index"
   post "qr/generate"
   
@@ -11,13 +13,11 @@ Blog::Application.routes.draw do
   
   get "photos/index"
   match "show" => "photos#show",:as => :photo
+  get "photos/latest"
 
-  get "home/index"
-  get "home/page2"
-  get "home/page3"
-  get "home/page4"
-  get "home/page5"
-  get "home/flickr"
+  get "tumble/index"
+  match "/tumble/page/:page", :to => redirect("/photos/latest?page=%{page}")
+  get "tumble/flickr"
   
   match "/auth/:provider/callback" => "sessions#create"
   match "/signout" => "sessions#destroy", :as => :signout

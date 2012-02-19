@@ -1,13 +1,13 @@
 
 <% col = 'col3' %>
 <div id="container" class="transitions-enabled clearfix">
-	<div class="box <%=col%>"> BEGIN: <%=debug session %></div>
+
 	<% @photos.each do |photo| %>
 		<div class="box <%=col%>">
 			<% if @embed %>
 				<embed src="<%=photo[:url]%>" width="375" height="225" />
 			<% else %>
-				<img src="<%=photo[:url]%>" alt="#{photo[:title]}" />
+				<img src="<%=photo[:url]%>" alt="#{photo[:title]}" width='202' />
 			<% end %>
         	
 			<br/>
@@ -15,5 +15,5 @@
 			<%= "Tags are #{photo[:tags]}" %>
 		</div>
 	<% end %>
-	<div class="box <%=col%>"> END: <%=debug session %> </div>
+
 </div>

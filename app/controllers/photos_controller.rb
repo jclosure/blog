@@ -7,6 +7,9 @@ class PhotosController < ApplicationController
     render
   end
 
+  def page
+    redirect_to :action => 'latest'
+  end
 
   def latest
     token = flickr.get_request_token(:oauth_callback => url_for(:action => 'check'))
@@ -16,7 +19,7 @@ class PhotosController < ApplicationController
     per_page = session[:per_page] || 1
     
     
-    list = flickr.photos.getRecent :page => page, :per_page =>  per_page
+    list = flickr.photos.getRecent :page => page, :per_page =>  20
     
     @photos = list.map do |item| 
       id     = item.id

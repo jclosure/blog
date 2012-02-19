@@ -1,5 +1,7 @@
 Blog::Application.routes.draw do
   get "home/index"
+  get "home/bubblezoo"
+  
 
   get "qr/index"
   post "qr/generate"
@@ -14,6 +16,7 @@ Blog::Application.routes.draw do
   get "photos/index"
   match "show" => "photos#show",:as => :photo
   get "photos/latest"
+  match "/photos/page/:page", :to => redirect("/photos/latest?page=%{page}")
 
   get "tumble/index"
   match "/tumble/page/:page", :to => redirect("/photos/latest?page=%{page}")

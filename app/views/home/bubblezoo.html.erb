@@ -68,6 +68,8 @@
 		<!-- Include the plug-in -->
 
 		<%= javascript_include_tag "jquery.wookmark.js" %>
+		<%= javascript_include_tag "jquery.waitforimages.js" %>
+		
 
 		  <!-- Once the page is loaded, initalize the plug-in. -->
 		  <script type="text/javascript">
@@ -101,7 +103,10 @@
 			$tiles.infinitescroll({
 			      navSelector  : '#page-nav',    // selector for the paged navigation 
 			      nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
-			      itemSelector : '.box'     // selector for all items you'll retrieve
+			      itemSelector : '.box',     // selector for all items you'll retrieve
+			      animate      : true, 
+			      bufferPx     : 1500,
+			      extraScrollPx: 0
 			      },
 			      function( newElements ) {
 			        // hide new items while they are loading
@@ -109,11 +114,30 @@
 
 					// show elems now they're ready
 			         
-			          $tiles.append($newElems);
+			        $tiles.append($newElems.show());
 			
-			 		  $newElems.animate({ opacity: 1 });
+					// $tiles.each(function(i, elem){
+					// 															
+					// 						$tile = $(elem);
+					// 						$tile.waitForImages(function() {
+					// 						  	$tile.css({ opacity: 1 });
+					// 							$('.box').wookmark(options);
+					// 						});
+					// 					
+					// 					});
+					
+					//$tiles.waitForImages(function() {
+										
+					//	$newElems.css({ opacity: 1 });
+					//	$('.box').wookmark(options);
+					//});
+					 
+					  
+					$newElems.css({ opacity: 1 });
+					$('.box').wookmark(options);
+			 		  
 
-			$('.box').wookmark(options);
+			         
 					// ensure that images load before adding to masonry layout
 			        //$newElems.imagesLoaded(function(){});
 			      }

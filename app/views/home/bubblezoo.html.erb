@@ -68,7 +68,7 @@
 		<!-- Include the plug-in -->
 
 		<%= javascript_include_tag "jquery.wookmark.js" %>
-		<%= javascript_include_tag "jquery.waitforimages.js" %>
+		<%= javascript_include_tag "jquery.imageloader.min.js" %>
 		
 
 		  <!-- Once the page is loaded, initalize the plug-in. -->
@@ -113,8 +113,38 @@
 			        var $newElems = $( newElements ).css({ opacity: 0 });
 
 					// show elems now they're ready
+			
+					var images = $newElems.find('img').map(function(){ 
+						return this.src;
+					});
+					//basic usage
+					$({}).imageLoader({
+					    images: images,
+					    async: true,
+						complete: function(e, ui) {
+							var i = ( ui.i + 1 );
+							var src = images[ ui.i ];
+							
+							//TODO: individual loads HERE INSTEAD OF BELOW
+							
+						
+						},
+						error: function(e, ui){
+							
+						},
+						allcomplete: function(e, ui){
+							$newElems.css({ opacity: 1 });
+							$tiles.append($newElems.show());
+							$tiles.append($newElems.show());
+							$('.box').wookmark(options);
+						}
+					});
+			
 			         
-			        $tiles.append($newElems.show());
+			        //$tiles.append($newElems.show());
+			
+			
+			
 			
 					// $tiles.each(function(i, elem){
 					// 															
@@ -126,15 +156,15 @@
 					// 					
 					// 					});
 					
-					$tiles.waitForImages(function() {
-															
-											$newElems.css({ opacity: 1 });
-											$('.box').wookmark(options);
-										});
+					//$tiles.waitForImages(function() {
+										
+					//	$newElems.css({ opacity: 1 });
+					//	$('.box').wookmark(options);
+					//});
 					 
 					  
-					// $newElems.css({ opacity: 1 });
-					// 					$('.box').wookmark(options);
+					//$newElems.css({ opacity: 1 });
+					//$('.box').wookmark(options);
 			 		  
 
 			         

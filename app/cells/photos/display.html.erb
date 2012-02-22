@@ -3,7 +3,7 @@
 <div id="container" class="transitions-enabled clearfix">
 
 	<% @photos.each do |photo| %>
-		<div class="box <%=col%>">
+		<div class="box <%=col%>" data-id="<%=photo[:id]%>">
 			<% if @embed %>
 				<embed src="<%=photo[:url]%>" width="375" height="225" />
 			<% else %>

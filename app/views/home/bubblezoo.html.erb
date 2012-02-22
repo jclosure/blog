@@ -48,12 +48,25 @@
 		#tiles .box:nth-child(5n) {
 		/* height: 250px; */
 		}
-
+		
+		#footer {
+			width: 100%;
+			text-align: center;
+			position: inline;
+			clear: both;
+			
+		}
+		
 		</style>
+		
+		<style type="text/css">
+		     
+		     #next { display:block!important; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border: 1px solid #ddd; background: #efefef; text-align: center; font-weight: bold; box-shadow: 2px 2px 2px rgba(50,50,50,0.4); color: #444; text-decoration: none; padding: 5px;}
+		     #next:hover { background: #dfdfdf; color: #222;}
+		  </style>
+		
 
-		<nav id="page-nav">
-		  <a href="/home/page/2"></a>
-		</nav>
+		
 
 		<div id="main" role="main">
 			<div id="tiles">
@@ -62,13 +75,40 @@
 
 		    <!-- End of grid blocks -->
 		 	</div>
+			
 		</div>
-
+		
+		<div id="footer">
+	      	<nav id="page-nav">
+			  <a id="next" href="/home/page/2">More</a>
+			</nav>
+	    </div>
+		
+		<!-- // <script type="text/javascript">
+				// 			$(function(){
+				// 			    $(window).resize(function(){
+				// 			        placeFooter();
+				// 			    });
+				// 			    placeFooter();
+				// 			    // hide it before it's positioned
+				// 			    $('#footer').css('display','inline');
+				// 			});
+				// 
+				// 			function placeFooter() {    
+				// 			    var windHeight = $(window).height();
+				// 			    var footerHeight = $('#footer').height();
+				// 			    var offset = parseInt(windHeight) - parseInt(footerHeight);
+				// 			    $('#footer').css('top',offset);
+				// 			}
+				// 			
+				// 		</script> -->
 
 		<!-- Include the plug-in -->
 
 		<%= javascript_include_tag "jquery.wookmark.js" %>
 		<%= javascript_include_tag "jquery.imageloader.min.js" %>
+		
+	  
 		
 
 		  <!-- Once the page is loaded, initalize the plug-in. -->
@@ -83,98 +123,101 @@
 		      };
 
 		      // Get a reference to your grid items.
-		      var handler = $('.box');
+		      var boxes = $('.box');
 
 		      // Call the layout function.
-		      handler.wookmark(options);
-
-		      // Capture clicks on grid items.
-		      handler.click(function(){
-		        // Randomize the height of the clicked item.
-		        $(this).css('height', Math.round(Math.random()*300+30)+'px');
-
-		        // Update the layout.
-		        handler.wookmark();
-		      });
+		      //boxes.wookmark(options);
+			  
+			  renderBoxes(boxes, options);
+		      
 
 		    var $tiles = $('#tiles');
 
 			  //infinite scroll setup
 			$tiles.infinitescroll({
-			      navSelector  : '#page-nav',    // selector for the paged navigation 
-			      nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
+			      navSelector  : "a#next:last",            
+			                     // selector for the paged navigation (it will be hidden)
+			      nextSelector : "a#next:last",   
+			                     // selector for the NEXT link (to page 2)
+			      
 			      itemSelector : '.box',     // selector for all items you'll retrieve
-			      animate      : true, 
-			      bufferPx     : 1500,
-			      extraScrollPx: 0
+			      animate      : false, 
+			      bufferPx     : 0,
+			      extraScrollPx: 0,
+				  loading: {
+			          finishedMsg: 'No more pages to load.',
+			          img: 'http://i.imgur.com/6RMhx.gif'
+			        }
 			      },
 			      function( newElements ) {
-			        // hide new items while they are loading
-			        var $newElems = $( newElements ).css({ opacity: 0 });
-
-					// show elems now they're ready
-			
-					var images = $newElems.find('img').map(function(){ 
-						return this.src;
-					});
-					//basic usage
-					$({}).imageLoader({
-					    images: images,
-					    async: true,
-						complete: function(e, ui) {
-							var i = ( ui.i + 1 );
-							var src = images[ ui.i ];
-							
-							//TODO: individual loads HERE INSTEAD OF BELOW
-							
-						
-						},
-						error: function(e, ui){
-							
-						},
-						allcomplete: function(e, ui){
-							$newElems.css({ opacity: 1 });
-							$tiles.append($newElems.show());
-							$tiles.append($newElems.show());
-							$('.box').wookmark(options);
-						}
-					});
-			
+			        
+					renderBoxes(newElements, options);
 			         
-			        //$tiles.append($newElems.show());
-			
-			
-			
-			
-					// $tiles.each(function(i, elem){
-					// 															
-					// 						$tile = $(elem);
-					// 						$tile.waitForImages(function() {
-					// 						  	$tile.css({ opacity: 1 });
-					// 							$('.box').wookmark(options);
-					// 						});
-					// 					
-					// 					});
-					
-					//$tiles.waitForImages(function() {
-										
-					//	$newElems.css({ opacity: 1 });
-					//	$('.box').wookmark(options);
-					//});
-					 
-					  
-					//$newElems.css({ opacity: 1 });
-					//$('.box').wookmark(options);
-			 		  
-
-			         
-					// ensure that images load before adding to masonry layout
-			        //$newElems.imagesLoaded(function(){});
 			      }
 			    );
 
+				// kill scroll binding
+				$(window).unbind('.infscr');
+				
+				$('a#next').click(function(){
+			      $(document).trigger('retrieve.infscr');
+			      return false;
+			    });
+			    
 
+			    // remove the paginator when we're done.
+			    $(document).ajaxError(function(e,xhr,opt){
+					//debugger;
+			      if (xhr.status == 404) $('a#next').remove();
+			    });
+
+				
+				
 		    });
+		
+		
+			function renderBoxes(newElements, options)
+			{
+				var $tiles = $('#tiles');
+				
+				// hide new items while they are loading
+		        var $newElems = $( newElements ).css({ opacity: 0 });
+
+				// show elems now they're ready
+		
+				var images = $newElems.find('img').map(function(){ 
+					return this.src;
+				});
+				
+				//preload images async
+				$({}).imageLoader({
+				    images: images,
+				    async: true,
+					complete: function(e, ui) {
+						
+						var src = images[ ui.i ];
+						
+						//TODO: individual loads HERE INSTEAD OF BELOW
+						var img = $newElems.find("img[src='" + src + "']");
+						
+						var box = img.closest('.box');
+						//box.css({ opacity: 1 });
+						$tiles.append(box.show());
+						//box.wookmark(options);
+						//$('.box').wookmark(options);
+					},
+					error: function(e, ui){
+						
+					},
+					allcomplete: function(e, ui){
+						$newElems.css({ opacity: 1 });
+						//$tiles.append($newElems.show());
+						$('.box').wookmark(options);
+						//placeFooter();
+					}
+				});
+			}
+		
 		  </script>
 
 	
@@ -183,7 +226,5 @@
 		
 	</div>
 	
-<div>
-	<p>Blog @<a href="http://uberpwn.wordpress.com">Wordpress</p>	
-</div>
+
 

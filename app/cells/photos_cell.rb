@@ -11,7 +11,7 @@ class PhotosCell < Cell::Rails
      per_page = session[:per_page] || 1
 
 
-     list = flickr.photos.getRecent :page => 1, :per_page =>  20
+     list = flickr.photos.getRecent :page => 1, :per_page =>  5
 
      @photos = list.map do |item| 
        id     = item.id
@@ -19,6 +19,8 @@ class PhotosCell < Cell::Rails
        info = flickr.photos.getInfo :photo_id => id, :secret => secret
 
        photo={
+         :id => id,
+         :secret => secret,
          :url => FlickRaw.url(info),
          :title => info.title,
          :square_url => FlickRaw.url_s(info),

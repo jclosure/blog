@@ -2,96 +2,7 @@
 
 
 
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-}
 
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-  display: block;
-}
-
-html {
-  overflow-y: scroll;
-}
-
-	
-
-body { 
-  font: 13px 'Helvetica Neue', Arial, sans-serif;
-  background: #66a3d2;
-  color: #222;
-  line-height: 1.6em;
-}
-
-#header {
-	/* background-image: url('Vector_Banner_000145_slice.jpg'); */
-	background: black;
-	width: 100%;
-	color: #A7CCE9;
-}
-#header a {
-	color: #A7CCE9;
-}
-#header a:active {
-	color: #A7CCE9;
-}
-
-a {
-  color: #A2C;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-a:hover {
-  color: #D26;
-}
-
-a:active {
-  background: hsla( 0, 100%, 100%, 0.5 );
-}
-
-ul.plain {
-	list-style: none;
-}
-
-h1, h2 {
-  font-weight: 100;
-  line-height: 1.2em;
-  margin-bottom: 0.6em;
-}
-
-h1 {
-  font-size: 36px;
-}
-
-h2 {
-  font-size: 24px;
-}
-
-h3 {
-  font-size: 17px;
-  font-weight: bold;
-}
-
-h3, p, ul, ol, pre, dl {
-  margin-bottom: 1.0em;
-}
-
-strong { font-weight: bold; }
 
 /**** #site-nav ****/
 
@@ -310,16 +221,6 @@ button {
 
 /**** Demos ****/
 
-#container {
-  background: #FFF;
-  padding: 5px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  clear: both;
-  -webkit-border-radius: 5px;
-     -moz-border-radius: 5px;
-          border-radius: 5px;
-}
 
 .centered { margin: 0 auto; }
 
@@ -552,22 +453,7 @@ button {
   max-width: none;
 }
 
-/* Infinite Scroll loader */
-#infscr-loading { 
-  text-align: center;
-  z-index: 100;
-  position: fixed;
-  left: 45%;
-  bottom: 40px;
-  width: 200px;
-  padding: 10px;
-  background: #000; 
-  opacity: 0.8;
-  color: #FFF;
-  -webkit-border-radius: 10px;
-     -moz-border-radius: 10px;
-          border-radius: 10px;
-}
+
 
 /**** Fluid ****/
 
@@ -594,8 +480,8 @@ button {
   padding: 10px;
   margin: 10px;
   float: right;
-  background: red;
-  color: white;
+  border: 1px dashed black;
+  color: black;
   -webkit-border-radius: 5px;
      -moz-border-radius: 5px;
           border-radius: 5px;

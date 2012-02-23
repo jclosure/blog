@@ -12,7 +12,13 @@ class DnsController < ApplicationController
       @io = StringIO.new
       seeker = Seeker.new
       seeker.set_out { @io }
-      seeker.work_list(@list) { |word| word + '.' + tld }
+      seeker.work_list(@list) do |word| 
+        unless tld == ''
+          word + '.' + tld
+        else
+          word
+        end
+      end
     rescue
       #log
     end

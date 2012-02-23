@@ -120,6 +120,10 @@ html, body {
 }
 
 **/
+.footer {
+	margin-left: 20px;
+	margin-right: 20px;
+}
 
 /* Infinite Scroll loader */
 #infscr-loading { 

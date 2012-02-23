@@ -28,8 +28,8 @@
 					<span> | </span>
 					<span><%= link_to "Tumble Log", "/tumble/index" %></span>
 					<span> | </span>
-					<span><%= link_to "Photos", "/photos/index" %></span>
-					<span> | </span>
+					<!-- <span><%= link_to "Photos", "/photos/index" %></span>
+										<span> | </span> -->
 					<span><%= link_to "QR Generator", "/qr/index" %></span>
 					<span> | </span>
 					<span><%= link_to "DNS Trawler", "/dns/index" %></span>
@@ -47,11 +47,7 @@
 		
 			<div id="wrapper">
 				
-				<div id="social-container" style="float: right">
-					<a href="https://twitter.com/jclosure" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jclosure</a> <script type="text/javascript">
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-					</script>
-				</div>
+				
 				
 				<div style="clear: both"></div>
 				
@@ -66,8 +62,15 @@
 					</div>
 			</div>
 			<div class="footer">
-        	 	<p>Copyright (c) 2008</p>
-				<p>Blog @<a href="http://uberpwn.wordpress.com">Wordpress</p>	
+        	 	<div style="display: float-left">Copyright (c) 2008</div>
+				<div style="display: float-left">Blog @<a href="http://uberpwn.wordpress.com">Wordpress</div>	
+					<div id="social-container" style="float: left">
+						<a href="https://twitter.com/jclosure" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @jclosure</a> <script type="text/javascript">
+	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+						</script>
+					</div>
+					<div style="float: right"></div>
+					<div style="clear: both"></div>
 	        </div>
 
 	</body>

@@ -10,12 +10,21 @@
 				<img src="<%=photo[:url]%>" alt="#{photo[:title]}" width='202'  />
 			<% end %>
         	
-			<br/>
-			<p>
-			<%= "Photo title is #{photo[:title]} with #{photo[:views]} views" %>
-			<br/>
-			<%= "Tags are #{photo[:tags]}" %>
-			</p>
+			
+			<div class='photoInfo'>
+				<p>
+				<%= "Photo title is #{photo[:title]} with #{photo[:views]} views" %>
+				<br/>
+				<%= "Tags are #{photo[:tags]}" %>
+				</p>
+			</div>
+			<hr />
+			<div class'comments' style="padding-left: 3px;">
+				<h3>Comments</h3>
+				<p>adfadf</p>
+				<p>adfadfsdfgsdfg</p>
+				<p>adfadfsf</p>
+			</div>
 		</div>
 	<% end %>
 

@@ -2,7 +2,9 @@
 <%= stylesheet_link_tag params[:controller] %>
 <%= javascript_include_tag params[:controller] %>
 
-<h1 style="text-align: center; font-weight: bold">~Noo~Log~</h1>
+<div style="text-align: center; font-weight: bold">
+	<%= link_to image_tag("header.png", :border=>0 ), :action => 'show' %>
+</div>
 	
 	
 	<div id="log">
@@ -13,6 +15,9 @@
 			/**
 			 * Grid items
 			 */
+			
+			
+			
 			#tiles .box {
 			width: 200px;
 			/* height: 200px; */
@@ -157,6 +162,7 @@
 			      animate      : false, 
 			      bufferPx     : 0,
 			      extraScrollPx: 0,
+				  autoResize: true,
 				  loading: {
 			          finishedMsg: 'No more pages to load.',
 			          img: '/images/processing.gif'

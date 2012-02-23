@@ -10,64 +10,78 @@
 	
 		
 		<style>
-		/**
-		 * Grid items
-		 */
-		#tiles .box {
-		width: 200px;
-		/* height: 200px; */
-		background-color: #ffffff;
-		border: 1px solid #dedede;
-		-moz-border-radius: 2px;
-		-webkit-border-radius: 2px;
-		border-radius: 2px;
-		display: none; /** Hide items initially to avoid a flicker effect **/
-		  cursor: pointer;
-		}
+			/**
+			 * Grid items
+			 */
+			#tiles .box {
+			width: 200px;
+			/* height: 200px; */
+			background-color: #ffffff;
+			border: 1px solid #dedede;
+			-moz-border-radius: 2px;
+			-webkit-border-radius: 2px;
+			border-radius: 2px;
+			display: none; /** Hide items initially to avoid a flicker effect **/
+			  cursor: pointer;
+			}
 
-		/**
-		 * Grid item text
-		 */
-		#tiles .box p {
-		color: #666;
-		font-size: 12px;
-		margin: 5px 3px 3px 5px;
-		}
+			/**
+			 * Grid item text
+			 */
+			#tiles .box p {
+			color: #666;
+			font-size: 12px;
+			margin: 5px 3px 3px 5px;
+			}
 
-		/**
-		 * Some extra styles to randomize heights of grid items.
-		 */
-		#tiles .box:nth-child(3n) {
-		 /* height: 175px; */
-		}
+			/**
+			 * Some extra styles to randomize heights of grid items.
+			 */
+			#tiles .box:nth-child(3n) {
+			 /* height: 175px; */
+			}
 
-		#tiles .box:nth-child(4n-3) {
-		/* padding-bottom: 30px; */
-		}
+			#tiles .box:nth-child(4n-3) {
+			/* padding-bottom: 30px; */
+			}
 
-		#tiles .box:nth-child(5n) {
-		/* height: 250px; */
-		}
+			#tiles .box:nth-child(5n) {
+			/* height: 250px; */
+			}
 		
-		#footer {
-			width: 100%;
-			text-align: center;
-			position: inline;
-			clear: both;
+			#footer {
+				width: 100%;
+				text-align: center;
+				position: inline;
+				clear: both;
 			
-		}
+			}
 		
 		</style>
 		
 		<style type="text/css">
 		     
-		     #next { display:block!important; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; border: 1px solid #ddd; background: #efefef; text-align: center; font-weight: bold; box-shadow: 2px 2px 2px rgba(50,50,50,0.4); color: #444; text-decoration: none; padding: 5px;}
-		     #next:hover { background: #dfdfdf; color: #222;}
-		  </style>
-		
+			#next {
+				display: block!important;
+				border-radius: 5px;
+				-moz-border-radius: 5px;
+				-webkit-border-radius: 5px;
+				border: 1px solid #ddd;
+				background: #efefef;
+				text-align: center;
+				font-weight: bold;
+				box-shadow: 2px 2px 2px rgba(50,50,50,0.4);
+				color: #444;
+				text-decoration: none;
+				padding: 5px;
+			}
+			#next:hover {
+				background: #dfdfdf;
+				color: #222;
+			}
 
+		</style>
 		
-
 		<div id="main" role="main">
 			<div id="tiles">
 				
@@ -75,7 +89,6 @@
 
 		    <!-- End of grid blocks -->
 		 	</div>
-			
 		</div>
 		
 		<div id="footer">
@@ -146,7 +159,7 @@
 			      extraScrollPx: 0,
 				  loading: {
 			          finishedMsg: 'No more pages to load.',
-			          img: 'http://i.imgur.com/6RMhx.gif'
+			          img: '/images/processing.gif'
 			        }
 			      },
 			      function( newElements ) {

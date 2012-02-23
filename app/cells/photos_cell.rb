@@ -10,6 +10,7 @@ class PhotosCell < Cell::Rails
      page = params[:page] || 1
      per_page = session[:per_page] || 1
 
+     
 
      list = flickr.photos.getRecent :page => 1, :per_page =>  5
 

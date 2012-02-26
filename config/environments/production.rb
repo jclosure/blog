@@ -59,6 +59,9 @@ config.action_dispatch.x_sendfile_header = nil # For Heroku
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
   
+  # Fix to load local modules from lib directory in Heroku
+  config.autoload_paths += Dir["#{config.root}/lib/**/"]
+  
   # CUSTOM CONFIGURATION VARIABLES
   # noolog
   config.twitter_consumer_key = 'wz4Ax8ULQNfQ0YFtzOJig'

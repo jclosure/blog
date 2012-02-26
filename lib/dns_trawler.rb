@@ -16,7 +16,6 @@ class DnsTrawler
 	def find_available dns_names, tld
 	  @io = StringIO.new
 		begin
-		  if (!dns_names.is_a)
 		  @list = dns_names.split
       @list.each { |n| n.strip! }
       seeker = Seeker.new

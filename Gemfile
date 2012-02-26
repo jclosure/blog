@@ -11,7 +11,7 @@ gem 'sqlite3'
 gem 'cells'
 
 gem 'whois'
-gem 'seeker'
+gem 'seeker', :git => 'git://github.com/jclosure/seeker.git'
 gem 'mechanize' #see docs: https://rubygems.org/gems/mechanize
 
 #gem 'refinerycms', '= 1.0.9'

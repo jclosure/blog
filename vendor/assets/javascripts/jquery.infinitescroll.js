@@ -258,7 +258,7 @@
   $.infinitescroll = {     
         defaults      : {
                           debug           : false,
-                          preload         : false,
+                          preload         : true,
                           nextSelector    : "div.navigation a:first",
                           loadingImg      : "http://www.infinite-scroll.com/loading.gif",
                           loadingText     : "<em>Loading the next set of posts...</em>",

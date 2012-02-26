@@ -1,27 +1,24 @@
+require 'combinator'
+
 class DnsController < ApplicationController
 
   def index
 
   end
+  
 
   def available
-    begin
-      dns_names = params[:dnsnames]
-      tld = params[:tld]
-      @list = dns_names.split.each { |n| n.strip! }
-      @io = StringIO.new
-      seeker = Seeker.new
-      seeker.set_out { @io }
-      seeker.work_list(@list) do |word| 
-        unless tld == ''
-          word + '.' + tld
-        else
-          word
-        end
-      end
-    rescue
-      #log
+    names = params[:dnsnames]
+    combinator = Combinator.new
+    
+    unless(params[:prefix].nil?) 
+      names = combinator.add_prefix(params[:prefix], names.split).join " "
     end
+    unless(params[:suffix].nil?) 
+        names = combinator.add_suffix(params[:suffix], names.split).join " "
+    end
+    
+    @io = DnsTrawler.new.find_available names, params[:tld]
   end
 
 end

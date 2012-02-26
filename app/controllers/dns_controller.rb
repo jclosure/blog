@@ -1,4 +1,5 @@
 require 'combinator'
+require 'dns_trawler'
 
 class DnsController < ApplicationController
 

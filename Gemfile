@@ -22,6 +22,10 @@ gem 'flickraw'
 gem 'omniauth'
 gem 'omniauth-twitter'
 
+group :development, :test do
+  gem "rspec-rails", "~> 2.0"
+end
+
 group :production do
   gem 'therubyracer-heroku', '0.8.1.pre3'
   #gem 'sqlite3-ruby', :require => 'sqlite3'

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<%= stylesheet_link_tag params[:controller] %>
+	<%= javascript_include_tag params[:controller] %>
+</head>
+
+<body id="container">
+	<h1 id="title">Title Here</h1>
+	<%=h yield %>
+</body>
+
+</html>

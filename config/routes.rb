@@ -2,6 +2,7 @@ Blog::Application.routes.draw do
   get "ref/index"
 
   get "marklet/index"
+  get "marklet/capture"
 
   get "home/index"
   get "home/bubblezoo"

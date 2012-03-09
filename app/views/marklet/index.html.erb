@@ -1,7 +1,7 @@
 <h1>BookMarklet</h1>
 <p>UI Test Harness</p>
 		<div id="markletContainer">
-			<a href="javascript:(function(){if(window.myBookmarklet!==undefined){myBookmarklet();}else{document.body.appendChild(document.createElement('script')).src='<%= @url_base %>/javascripts/uberframe.js?';}})();">Capture Text</a>
+			<a href="javascript:(function(){document.home='<%= @url_base %>'; if(window.myBookmarklet!==undefined){myBookmarklet();}else{document.body.appendChild(document.createElement('script')).src='<%= @url_base %>/javascripts/uberframe.js?';}})();">Capture Text</a>
 		</div>
 
 <br />

@@ -44,10 +44,13 @@
 		function receiver(e) {
 			if (e.origin == parent_url) {
 				parentWindow = e.source;
-				alert(e.data);
-				parentWindow.postMessage('message', e.origin);
+				debugger;
+				var target = $('#uberText');
+				target.text(e.data);
+				//relies on knowing id of target dom elem
 			}
 		}
+		
 </script>
 
 	<div class="capture-ui rounded-box">

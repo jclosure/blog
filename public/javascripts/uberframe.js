@@ -9,16 +9,16 @@ function initUberFrame(text) {
 	// //postMessage here
 	// try
 	// 	{
-		window.addEventListener('message', receiver, false);
-		var my_url = document.location.protocol+"//"+document.location.host;
-		function receiver(e) {
-			if (e.origin == my_url) {
-				frameWindow = e.source;
-				alert(e.data);
-				frame.get(0).contentWindow.postMessage('message', '*');
-			}
-		}
-		frame.get(0).contentWindow.postMessage('message', '*');
+		// window.addEventListener('message', receiver, false);
+		// 		var my_url = document.location.protocol+"//"+document.location.host;
+		// 		function receiver(e) {
+		// 			if (e.origin == my_url) {
+		// 				frameWindow = e.source;
+		// 				alert(e.data);
+		// 				frame.get(0).contentWindow.postMessage('message', '*');
+		// 			}
+		// 		}
+		frame.get(0).contentWindow.postMessage(text, '*');
 	// }
 	// 	catch(err)
 	// 	{
@@ -26,9 +26,7 @@ function initUberFrame(text) {
 	// 	}
 	//debugger;
 
-	// frameWindow = frame.get(0).contentWindow;
-	// 	var b = $(frameWindow.document.body);
-	// 	b.find('#uberText').text(text); //relies on knowing id of target dom elem
+
 		
 	frame.slideDown(500);
 }

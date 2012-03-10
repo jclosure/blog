@@ -7,22 +7,25 @@ function initUberFrame(text) {
 	text = decodeURIComponent(text);
 	
 	// //postMessage here
-	// 	try
-	// 	  {
-	// 	  	window.addEventListener('message', receiver, false);
-	// 		var my_url = document.location.protocol+"//"+document.location.host;
-	// 		function receiver(e) {
-	// 			if (e.origin == my_url) {
-	// 				frameWindow = e.source;
-	// 			}
-	// 		}
-	// 		frame.get(0).contentWindow.postMessage('message', '*');
-	// 	  }
+	// try
+	// 	{
+		window.addEventListener('message', receiver, false);
+		var my_url = document.location.protocol+"//"+document.location.host;
+		function receiver(e) {
+			if (e.origin == my_url) {
+				frameWindow = e.source;
+				alert(e.data);
+				frame.get(0).contentWindow.postMessage('message', '*');
+			}
+		}
+		frame.get(0).contentWindow.postMessage('message', '*');
+	// }
 	// 	catch(err)
-	// 	  {
-	// 	  	frameWindow = frame.get(0).contentWindow;
-	// 	  }
-	
+	// 	{
+	// 		frameWindow = frame.get(0).contentWindow;
+	// 	}
+	debugger;
+
 	frameWindow = frame.get(0).contentWindow;
 	var b = $(frameWindow.document.body);
 	b.find('#uberText').text(text); //relies on knowing id of target dom elem

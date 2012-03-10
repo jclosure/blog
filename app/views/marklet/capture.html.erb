@@ -34,17 +34,20 @@
 
 <script type="text/javascript">
 
-	// var parent_url = decodeURIComponent( document.location.hash.replace( /^#/, '' ) );
-	// 	
-	// 	var parentWindow = null;	
-	// 
-	// 	window.addEventListener('message', receiver, false);
-	// 	function receiver(e) {
-	// 		if (e.origin == parent_url) {
-	// 			parentWindow = e.source;
-	// 			parentWindow.postMessage('message', e.origin);
-	// 		}
-	// 	}
+	var parent_url = decodeURIComponent( document.location.hash.replace( /^#/, '' ) );
+			
+		var parentWindow = null;	
+	
+		
+	
+		window.addEventListener('message', receiver, false);
+		function receiver(e) {
+			if (e.origin == parent_url) {
+				parentWindow = e.source;
+				alert(e.data);
+				parentWindow.postMessage('message', e.origin);
+			}
+		}
 </script>
 
 	<div class="capture-ui rounded-box">

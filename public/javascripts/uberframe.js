@@ -24,12 +24,12 @@ function initUberFrame(text) {
 	// 	{
 	// 		frameWindow = frame.get(0).contentWindow;
 	// 	}
-	debugger;
+	//debugger;
 
-	frameWindow = frame.get(0).contentWindow;
-	var b = $(frameWindow.document.body);
-	b.find('#uberText').text(text); //relies on knowing id of target dom elem
-	
+	// frameWindow = frame.get(0).contentWindow;
+	// 	var b = $(frameWindow.document.body);
+	// 	b.find('#uberText').text(text); //relies on knowing id of target dom elem
+		
 	frame.slideDown(500);
 }
 

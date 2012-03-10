@@ -6,20 +6,26 @@ function initUberFrame(text) {
 	var frame = $('#uberframe iframe');
 	text = decodeURIComponent(text);
 	
-	//postMessage here
-	window.addEventListener('message', receiver, false);
-	var my_url = document.location.protocol+"//"+document.location.host;
-	function receiver(e) {
-		if (e.origin == my_url) {
-			frameWindow = e.source;
-			var b = $(frameWindow.document.body);
-			b.find('#uberText').text(text); //relies on knowing id of target dom elem	
-		}
-	}
-	frame.get(0).contentWindow.postMessage('message', '*');
+	// //postMessage here
+	// 	try
+	// 	  {
+	// 	  	window.addEventListener('message', receiver, false);
+	// 		var my_url = document.location.protocol+"//"+document.location.host;
+	// 		function receiver(e) {
+	// 			if (e.origin == my_url) {
+	// 				frameWindow = e.source;
+	// 			}
+	// 		}
+	// 		frame.get(0).contentWindow.postMessage('message', '*');
+	// 	  }
+	// 	catch(err)
+	// 	  {
+	// 	  	frameWindow = frame.get(0).contentWindow;
+	// 	  }
 	
-	
-	
+	frameWindow = frame.get(0).contentWindow;
+	var b = $(frameWindow.document.body);
+	b.find('#uberText').text(text); //relies on knowing id of target dom elem
 	
 	frame.slideDown(500);
 }

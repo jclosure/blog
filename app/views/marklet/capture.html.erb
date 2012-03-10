@@ -31,14 +31,26 @@
 	}
 </style>
 
-<script>
-	function save() { alert('saved'); }
+
+<script type="text/javascript">
+
+	var parent_url = decodeURIComponent( document.location.hash.replace( /^#/, '' ) );
+	
+	var parentWindow = null;	
+
+	window.addEventListener('message', receiver, false);
+	function receiver(e) {
+		if (e.origin == parent_url) {
+			parentWindow = e.source;
+			parentWindow.postMessage('message', e.origin);
+		}
+	}
 </script>
 
 	<div class="capture-ui rounded-box">
 		<div class="capture-container rounded-box">
 			<h2>Here is your text:</h2>
-			<p><%= @text %></p>
+			<p id="uberText"><%= @text %></p>
 		</div>
 		<table>
 			<tr>

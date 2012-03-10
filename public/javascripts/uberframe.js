@@ -1,5 +1,29 @@
 // javascript:(function(){if(window.myBookmarklet !== undefined){myBookmarklet();}else{document.body.appendChild(document.createElement('script')).src='http://tommy.com:8888/bookmarklet.js?'+new Date().getTime();}})();
 
+var frameWindow = null;
+
+function initUberFrame(text) {
+	var frame = $('#uberframe iframe');
+	text = decodeURIComponent(text);
+	
+	//postMessage here
+	window.addEventListener('message', receiver, false);
+	var my_url = document.location.protocol+"//"+document.location.host;
+	function receiver(e) {
+		if (e.origin == my_url) {
+			frameWindow = e.source;
+			var b = $(frameWindow.document.body);
+			b.find('#uberText').text(text); //relies on knowing id of target dom elem	
+		}
+	}
+	frame.get(0).contentWindow.postMessage('message', '*');
+	
+	
+	
+	
+	frame.slideDown(500);
+}
+
 (function(){
 
 	// the minimum version of jQuery we want
@@ -13,15 +37,32 @@
 		script.onload = script.onreadystatechange = function(){
 			if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
 				done = true;
-				initMyBookmarklet();
+				loadScripts();
 			}
 		};
 		document.getElementsByTagName("head")[0].appendChild(script);
 	} else {
-		initMyBookmarklet();
+		loadScripts();
 	}
 	
+	
+	function loadScripts() {
+		var done = false;
+		var script = document.createElement("script");
+		script.src = "/javascripts/postMessage.js";
+		script.onload = script.onreadystatechange = function(){
+			if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
+				done = true;
+				initMyBookmarklet();
+			}
+		};
+		document.getElementsByTagName("head")[0].appendChild(script);
+	}
+	
+	
 	function initMyBookmarklet() {
+		
+		
 		(window.myBookmarklet = function() {
 			function getSelText() {
 				var s = '';
@@ -49,6 +90,9 @@
 			if ($("#uberframe").length == 0) {
 				var s = "";
 				s = getSelText();
+				
+				s = encodeURIComponent(s);
+			
 				if (s == "") {
 					var s = prompt("What do you need to remember?");
 				}
@@ -58,7 +102,7 @@
 						<div id='uberframe_veil' style=''>\
 							<p>Loading...</p>\
 						</div>\
-						<iframe src='"+document.home+"/marklet/capture?&text="+s+"&source="+document.location+"' onload=\"$('#uberframe iframe').slideDown(500);\">Enable iFrames.</iframe>\
+						<iframe src='"+document.home+"/marklet/capture?source="+encodeURIComponent(document.location)+"#"+encodeURIComponent(document.location.protocol+"//"+document.location.host)+"' onload=\"window.initUberFrame('"+s+"')\">Enable iFrames.</iframe>\
 						<style type='text/css'>\
 							#uberframe_veil { display: none; position: fixed; width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(255,255,255,.25); cursor: pointer; z-index: 900; }\
 							#uberframe_veil p { color: black; font: normal normal bold 20px/20px Helvetica, sans-serif; position: absolute; top: 50%; left: 50%; width: 10em; margin: -10px auto 0 -5em; text-align: center; }\

@@ -37,31 +37,18 @@ function initUberFrame(text) {
 		script.onload = script.onreadystatechange = function(){
 			if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
 				done = true;
-				loadScripts();
-			}
-		};
-		document.getElementsByTagName("head")[0].appendChild(script);
-	} else {
-		loadScripts();
-	}
-	
-	
-	function loadScripts() {
-		var done = false;
-		var script = document.createElement("script");
-		script.src = "/javascripts/postMessage.js";
-		script.onload = script.onreadystatechange = function(){
-			if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
-				done = true;
 				initMyBookmarklet();
 			}
 		};
 		document.getElementsByTagName("head")[0].appendChild(script);
+	} else {
+		initMyBookmarklet();
 	}
 	
 	
+	
+	
 	function initMyBookmarklet() {
-		
 		
 		(window.myBookmarklet = function() {
 			function getSelText() {
@@ -74,16 +61,6 @@ function initUberFrame(text) {
 					s = document.selection.createRange().text;
 				}
 				return s;
-			}
-			
-
-			function guid()
-			{
-				var S4 = function()
-				{
-					return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-				}
-				return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 			}
 			
 			
@@ -125,3 +102,12 @@ function initUberFrame(text) {
 	}
 
 })();
+
+function guid()
+{
+	var S4 = function()
+	{
+		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	}
+	return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+}

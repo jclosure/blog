@@ -54,5 +54,22 @@ module Blog
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # JSONP setup
+    # http://blog.carbonfive.com/2012/02/27/supporting-cross-domain-ajax-in-rails-using-jsonp-and-cors/
+    config.middleware.use Rack::JSONP
+    
+    # CORS setup 
+    # https://github.com/cyu/rack-cors
+    # http://blog.carbonfive.com/2012/02/27/supporting-cross-domain-ajax-in-rails-using-jsonp-and-cors/
+    config.middleware.use Rack::Cors do
+          allow do
+            origins '*'
+            resource '/*',
+              :headers => :any, 
+              :methods => [:get, :post, :put, :delete]
+          end
+        end
+    
   end
 end

@@ -5,6 +5,11 @@ gem 'rails', '3.2.1'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
+
+# http://blog.carbonfive.com/2012/02/27/supporting-cross-domain-ajax-in-rails-using-jsonp-and-cors/
+gem 'rack-jsonp-middleware', :require => 'rack/jsonp'
+gem 'rack-cors', :require => 'rack/cors'
+
 #gem 'mysql2'
 gem 'sqlite3'
 

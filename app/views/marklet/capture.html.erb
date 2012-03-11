@@ -33,24 +33,16 @@
 
 
 <script type="text/javascript">
-
-	var parent_url = decodeURIComponent( document.location.hash.replace( /^#/, '' ) );
-			
-		var parentWindow = null;	
-	
-		
-	
-		window.addEventListener('message', receiver, false);
-		function receiver(e) {
-			if (e.origin == parent_url) {
-				parentWindow = e.source;
-				debugger;
-				var target = $('#uberText');
-				target.text(e.data);
-				//relies on knowing id of target dom elem
-			}
+	var parent_url = decodeURIComponent(document.location.hash.replace(/^#/, ''));
+	window.addEventListener('message', receiver, false);
+	function receiver(e)
+	{
+		if (e.origin == parent_url)
+		{
+			var target = $('#uberText');
+			target.text(e.data);
 		}
-		
+	}
 </script>
 
 	<div class="capture-ui rounded-box">

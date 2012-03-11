@@ -5,29 +5,7 @@ var frameWindow = null;
 function initUberFrame(text) {
 	var frame = $('#uberframe iframe');
 	text = decodeURIComponent(text);
-	
-	// //postMessage here
-	// try
-	// 	{
-		// window.addEventListener('message', receiver, false);
-		// 		var my_url = document.location.protocol+"//"+document.location.host;
-		// 		function receiver(e) {
-		// 			if (e.origin == my_url) {
-		// 				frameWindow = e.source;
-		// 				alert(e.data);
-		// 				frame.get(0).contentWindow.postMessage('message', '*');
-		// 			}
-		// 		}
-		frame.get(0).contentWindow.postMessage(text, '*');
-	// }
-	// 	catch(err)
-	// 	{
-	// 		frameWindow = frame.get(0).contentWindow;
-	// 	}
-	//debugger;
-
-
-		
+	frame.get(0).contentWindow.postMessage(text, '*');	
 	frame.slideDown(500);
 }
 

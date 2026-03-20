@@ -6,6 +6,7 @@
   </head>
   <body>
     {% include header.html %}
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">🌓 Theme</button>
 
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
@@ -18,7 +19,25 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
     <script>
+      (function () {
+        const key = "theme";
+        const stored = localStorage.getItem(key);
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.setAttribute("data-theme", stored);
+        }
+      })();
+
       document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("theme-toggle");
+        if (btn) {
+          btn.addEventListener("click", function () {
+            const current = document.documentElement.getAttribute("data-theme");
+            const next = current === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", next);
+            localStorage.setItem("theme", next);
+          });
+        }
+
         if (typeof renderMathInElement === "function") {
           renderMathInElement(document.body, {
             delimiters: [

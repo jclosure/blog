@@ -1,0 +1,9 @@
+title: Joel's Blog
+description: Notes, builds, and experiments.
+url: "https://jclosure.github.io"
+baseurl: 
+theme: minima
+markdown: kramdown
+permalink: /:categories/:year/:month/:day/:title/
+plugins:
+  - jekyll-feed

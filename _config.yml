@@ -7,3 +7,10 @@ markdown: kramdown
 permalink: /:categories/:year/:month/:day/:title/
 plugins:
   - jekyll-feed
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: default

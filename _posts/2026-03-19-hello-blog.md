@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 title: "Hello, blog"
 date: 2026-03-19 22:30:00 -0500
 categories: updates

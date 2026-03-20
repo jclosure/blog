@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 
-Welcome. This site is powered by GitHub Pages + Jekyll + Markdown.
+Welcome.  I build software, systems, and experiments in public.
 
 ## Posts
 

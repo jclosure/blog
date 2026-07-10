@@ -74,7 +74,7 @@ assertEquals("SUCCESS", result.status());
 <p>The test context can import the production route while replacing only the collaborators that should not be real during the test run.</p>
 <h3>Example application structure</h3>
 <p>The sample project integrates customer and order XML payloads and maps them into model classes generated from an XSD.</p>
-<p><img decoding="async" src="/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/xsd.png" alt="XSD schema used to generate model classes" /></p>
+<p><img decoding="async" src="/blog/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/xsd.png" alt="XSD schema used to generate model classes" /></p>
 <p>The XML schema defines the data contract used throughout the integration flow.</p>
 <p>A maintainable integration project usually separates code by responsibility:</p>
 <ul>
@@ -84,9 +84,9 @@ assertEquals("SUCCESS", result.status());
 <li><strong>Routes</strong> express orchestration: input, processing steps, error policy, and output.</li>
 </ul>
 <p>Tests should mirror this structure. That symmetry makes ownership obvious and keeps route tests from becoming the only place where behavior is verified.</p>
-<p><img decoding="async" src="/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/project-structure2.png" alt="Project structure organized by domain role" /></p>
+<p><img decoding="async" src="/blog/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/project-structure2.png" alt="Project structure organized by domain role" /></p>
 <p>Production code and test code should follow the same responsibility boundaries.</p>
-<p><img decoding="async" src="/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/xml_imports.png" alt="Spring context files composed as bounded contexts" /></p>
+<p><img decoding="async" src="/blog/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/xml_imports.png" alt="Spring context files composed as bounded contexts" /></p>
 <p>Spring context files can be organized by bounded context so tests import only what they need.</p>
 <h3>Test transformations with plain unit tests</h3>
 <p>Start with the parts that do not require Camel at all. XML deserialization, JSON mapping, enrichment, validation, idempotency key generation, and status mapping should have ordinary unit tests.</p>
@@ -254,7 +254,7 @@ assertMockEndpointsSatisfied();
 ~~~
 
 <p>Good assertions cover the contract, not incidental internals. Assert the body, headers, message count, destination, and error outcome. Avoid asserting every private implementation step unless the step is part of the contract.</p>
-<p><img decoding="async" src="/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/expectation_not_met_features2.png" alt="Example Camel test assertion failure output" /></p>
+<p><img decoding="async" src="/blog/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/expectation_not_met_features2.png" alt="Example Camel test assertion failure output" /></p>
 <p>Expectation-driven failures are precise, which reduces debugging time.</p>
 <h3>Mock HTTP and vendor endpoints deliberately</h3>
 <p>Not every dependency is a Camel endpoint. Many routes call HTTP services, vendor APIs, identity providers, object stores, or internal microservices. Those dependencies need their own replacement strategy.</p>

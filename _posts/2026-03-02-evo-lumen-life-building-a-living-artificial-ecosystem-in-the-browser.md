@@ -23,7 +23,7 @@ original_url: "https://joelholder.com/2026/03/02/evo-lumen-life-building-a-livin
 
 
 
-<figure class="wp-block-image size-large"><img data-recalc-dims="1" decoding="async" src="/assets/wp/evo-lumen-life-building-a-living-artificial-ecosystem-in-the-browser/evo-overview-v2.png" alt="Evo Lumen Life ecosystem overview"/></figure>
+<figure class="wp-block-image size-large"><img data-recalc-dims="1" decoding="async" src="/blog/assets/wp/evo-lumen-life-building-a-living-artificial-ecosystem-in-the-browser/evo-overview-v2.png" alt="Evo Lumen Life ecosystem overview"/></figure>
 
 
 
@@ -75,7 +75,7 @@ original_url: "https://joelholder.com/2026/03/02/evo-lumen-life-building-a-livin
 
 
 
-<figure class="wp-block-image size-large"><img data-recalc-dims="1" decoding="async" src="/assets/wp/evo-lumen-life-building-a-living-artificial-ecosystem-in-the-browser/evo-champion-view-v2.png" alt="Champion-focused view in Evo Lumen Life"/></figure>
+<figure class="wp-block-image size-large"><img data-recalc-dims="1" decoding="async" src="/blog/assets/wp/evo-lumen-life-building-a-living-artificial-ecosystem-in-the-browser/evo-champion-view-v2.png" alt="Champion-focused view in Evo Lumen Life"/></figure>
 
 
 

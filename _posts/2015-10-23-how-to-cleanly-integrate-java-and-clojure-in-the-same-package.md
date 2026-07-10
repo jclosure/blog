@@ -7,7 +7,7 @@ tags: ["clojure", "emacs", "java", "org-mode"]
 wordpress_id: 1004
 original_url: "https://joelholder.com/2015/10/23/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/"
 ---
-<figure class="wp-block-image size-full"><a href="/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-emacs-my-app.png"><img data-recalc-dims="1" loading="lazy" decoding="async" width="1920" height="1040" data-attachment-id="1016" data-permalink="https://joelholder.com/2015/10/23/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-emacs-my-app-png/" data-orig-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2015/10/wpid-emacs-my-app.png?fit=1920%2C1040&amp;ssl=1" data-orig-size="1920,1040" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="wpid-emacs-my-app.png" data-image-description="" data-image-caption="" data-large-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2015/10/wpid-emacs-my-app.png?fit=1024%2C555&amp;ssl=1" src="/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-emacs-my-app-2.png" alt="" class="wp-image-1016"/></a></figure>
+<figure class="wp-block-image size-full"><a href="/blog/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-emacs-my-app.png"><img data-recalc-dims="1" loading="lazy" decoding="async" width="1920" height="1040" data-attachment-id="1016" data-permalink="https://joelholder.com/2015/10/23/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-emacs-my-app-png/" data-orig-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2015/10/wpid-emacs-my-app.png?fit=1920%2C1040&amp;ssl=1" data-orig-size="1920,1040" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="wpid-emacs-my-app.png" data-image-description="" data-image-caption="" data-large-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2015/10/wpid-emacs-my-app.png?fit=1024%2C555&amp;ssl=1" src="/blog/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-emacs-my-app-2.png" alt="" class="wp-image-1016"/></a></figure>
 
 
 
@@ -716,7 +716,7 @@ Java main called clojure function with args:
 
 
 <div class="figure">
-<figure><img data-recalc-dims="1" decoding="async" src="/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-run.png" alt="run.png"></figure><p></p>
+<figure><img data-recalc-dims="1" decoding="async" src="/blog/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-run.png" alt="run.png"></figure><p></p>
 </div>
 
 
@@ -754,7 +754,7 @@ Java main called clojure function with args:
 <h3 id="orgheadline39">PNG</h3>
 <div id="text-orgheadline39" class="outline-text-3">
 <div class="figure">
-<figure><img data-recalc-dims="1" decoding="async" src="/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-incanter-xy-line.png" alt="incanter-xy-line.png"></figure><p></p>
+<figure><img data-recalc-dims="1" decoding="async" src="/blog/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-incanter-xy-line.png" alt="incanter-xy-line.png"></figure><p></p>
 </div>
 </div>
 </div>
@@ -764,7 +764,7 @@ Java main called clojure function with args:
 <div id="outline-container-orgheadline40" class="outline-3">
 <h3 id="orgheadline40">PDF</h3>
 <div id="text-orgheadline40" class="outline-text-3">
-<p><a href="/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-incanter-xy-line.pdf">img/incanter-xy-line.pdf</a></p>
+<p><a href="/blog/assets/wp/how-to-cleanly-integrate-java-and-clojure-in-the-same-package/wpid-incanter-xy-line.pdf">img/incanter-xy-line.pdf</a></p>
 </div>
 </div>
 

@@ -21,7 +21,7 @@ permalink: /projects/
     <strong>Evo Lumen Life</strong>
     <span>A browser ecosystem experiment with agents, energy, and evolving behavior.</span>
   </a>
-  <a class="feature-card" href="{{ '/blog/2019/12/16/wrapping-c-apis-in-python/' | relative_url }}">
+  <a class="feature-card" href="{{ '/2019/12/16/wrapping-c-apis-in-python/' | relative_url }}">
     <span class="feature-kicker">Interop</span>
     <strong>Native Boundaries</strong>
     <span>Notes on Python, C, C++, and the boundary where orchestration meets speed.</span>

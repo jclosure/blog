@@ -7,80 +7,75 @@ tags: []
 wordpress_id: 99
 original_url: "https://joelholder.com/2011/03/14/ruby-aop-in-12-lines-of-code/"
 ---
-<style>
-.entry-content pre,
-.entry-content code {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-.entry-content table,
-.entry-content img,
-.entry-content iframe {
-  max-width: 100%;
-}
-.entry-content {
-  overflow-wrap: anywhere;
-}
-</style>
-
 
 First, we shim the Ruby Object class with a profiling aspect, in this case an additional method called profile that will wrap any existing method with timing code that we tell it to.
 
 Lets put this in a file called: <strong>aop_extension.rb</strong>.
-<pre><strong><span style="text-decoration:underline;"><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">c</span></span></strong><strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">lass</span></strong><span style="font-family:'Courier New';color:black;font-size:10pt;"> <span style="background:silver;">Object</span></span>
 
-<strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">  def</span></strong><span style="font-family:'Courier New';color:black;font-size:10pt;"> <span style="background:silver;">Object</span>.profile symbol</span>
+~~~ ruby
+class Object
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">    _symbol = (</span><span style="font-family:'Courier New';color:#2a00ff;font-size:10pt;">"rprof_"</span><span style="font-family:'Courier New';color:black;font-size:10pt;"> + symbol.to_s).to_sym</span>
+  def Object.profile symbol
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">    alias_method _symbol, symbol</span>
+    _symbol = ("rprof_" + symbol.to_s).to_sym
 
-<span style="font-family:'Courier New';font-size:10pt;">    <span style="color:#3f7f5f;"># Define the new wrapper method </span></span>
+    alias_method _symbol, symbol
 
-<strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">    self</span></strong><span style="font-family:'Courier New';color:black;font-size:10pt;">.send(</span><strong><span style="font-family:'Courier New';color:#ff4040;font-size:10pt;">:define_method</span></strong><span style="font-family:'Courier New';color:black;font-size:10pt;">, symbol.to_s) { |*args|</span>
+    # Define the new wrapper method
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">      start_time = Time.now</span>
+    self.send(:define_method, symbol.to_s) { |*args|
 
-<strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">      self</span></strong><span style="font-family:'Courier New';color:black;font-size:10pt;">.send(_symbol, *args)</span>
+      start_time = Time.now
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">      puts (Time.now - start_time).to_s +</span><span style="font-family:'Courier New';color:#2a00ff;font-size:10pt;"> " have elapsed"</span>
+      self.send(_symbol, *args)
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">    }</span>
+      puts (Time.now - start_time).to_s + " have elapsed"
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">    puts</span><span style="font-family:'Courier New';color:#2a00ff;font-size:10pt;"> "The new method "</span><span style="font-family:'Courier New';color:black;font-size:10pt;"> + _symbol.to_s +</span><span style="font-family:'Courier New';color:#2a00ff;font-size:10pt;"> " has been created for method "</span><span style="font-family:'Courier New';color:black;font-size:10pt;"> + symbol.to_s</span>
+    }
 
-<strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">  end</span></strong>
+    puts "The new method " + _symbol.to_s + " has been created for method " + symbol.to_s
 
-<strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">en</span></strong><span style="font-family:'Courier New';color:black;font-size:10pt;">d</span></pre>
+  end
+
+end
+~~~
+
 Now lets define a class that we can use as a test subject.  Create a file called <strong>greeter.rb</strong>.  Add the following:
-<pre> 
 
-<span style="font-family:'Courier New';background:silver;color:black;font-size:10pt;">require</span><span style="font-family:'Courier New';color:#2a00ff;font-size:10pt;"> "./aop_extension.rb"</span>
+~~~ ruby
 
-<span style="font-family:'Courier New';font-size:10pt;"> </span>
 
-<strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">class</span></strong><span style="font-family:'Courier New';color:black;font-size:10pt;"> Greeter</span>
+require "./aop_extension.rb"
 
-<strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">   def</span></strong><span style="font-family:'Courier New';color:black;font-size:10pt;"> hello</span>
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">    puts</span><span style="font-family:'Courier New';color:#2a00ff;font-size:10pt;"> "hello"</span>
 
-<strong><span style="font-family:'Courier New';color:#a4357a;font-size:10pt;">  end</span></strong>
+class Greeter
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">  profile</span><strong><span style="font-family:'Courier New';color:#ff4040;font-size:10pt;"> :hello</span></strong>
+   def hello
 
-<strong><span style="line-height:115%;font-family:'Courier New';color:#a4357a;font-size:10pt;">en</span></strong><span style="line-height:115%;font-family:'Courier New';color:black;font-size:10pt;">d</span></pre>
+    puts "hello"
+
+  end
+
+  profile :hello
+
+end
+~~~
+
 Notice that in the constructor code we tell the inherited profile method to go after the “hello” method.  This creates a proxy method that will run the targeted method on behalf of callers.
 
 Now lets see this thing in action.  For this we’ll create a file called <strong>main.rb</strong>.  Add the following:
-<pre><span style="font-family:'Courier New';background:silver;color:black;font-size:10pt;">require</span><span style="font-family:'Courier New';color:#2a00ff;font-size:10pt;"> "./greeter.rb"</span>
 
-<span style="font-family:'Courier New';font-size:10pt;"> </span>
+~~~ ruby
+require "./greeter.rb"
 
-<span style="font-family:'Courier New';color:black;font-size:10pt;">t = Greeter.new</span>
 
-<span style="line-height:115%;font-family:'Courier New';color:black;font-size:10pt;">t.hello</span></pre>
+
+t = Greeter.new
+
+t.hello
+~~~
+
 Finally, after all this extra heavy lifting we can see the goodness shining through in the output:
 
 <strong><span style="color:#0000ff;">$ ruby main.rb</span>

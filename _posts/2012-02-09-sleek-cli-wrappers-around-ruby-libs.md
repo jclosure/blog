@@ -9,24 +9,28 @@ original_url: "https://joelholder.com/2012/02/09/sleek-cli-wrappers-around-ruby-
 ---
 <p>When using Ruby&#8217;s splat operator for method invocation, eg. my_method(*my_array), it takes the array and blows it out into the parameters required to fill the method&#8217;s signature.  This makes it super easy to call methods from classes via the command line, by simply passing the arguments (ARGV) to a Ruby command line app and then directly down into a Ruby class API.  The key to my approach is to do this in a very DRY way with as little code as possible.  Here&#8217;s how I do it.</p>
 <p>First we&#8217;ll create a file called seeker.rb with a class a API that looks like this:</p>
-<pre class="brush: ruby; title: ; notranslate" title="">
+
+~~~ ruby
 class Seeker
   def work_file(infile, outfile, suffix, delimeter)
-    p &quot;parameter 1: infile = #{infile}&quot;
-    p &quot;parameter 2: outfile = #{outfile}&quot;
-    p &quot;parameter 3: suffix = #{suffix}&quot;
-    p &quot;parameter 4: delimeter = #{delimeter}&quot;
+    p "parameter 1: infile = #{infile}"
+    p "parameter 2: outfile = #{outfile}"
+    p "parameter 3: suffix = #{suffix}"
+    p "parameter 4: delimeter = #{delimeter}"
     #do important stuff, etc..
   end
 end
-</pre>
+~~~
+
 <p>Now, we can create a generic wrapper script to drive it like this by doing the following. Create a file called just seeker.  Make sure to chmod +x seeker.  Add the following text:</p>
-<pre class="brush: ruby; title: ; notranslate" title="">
+
+~~~ ruby
 #!/usr/bin/env ruby
 
-require File.expand_path(&#039;seeker.rb&#039;, __FILE__)
+require File.expand_path('seeker.rb', __FILE__)
 Seeker.new.send(ARGV.shift.to_sym, *ARGV)
-</pre>
+~~~
+
 <p>With this generic message passing script in place, we can call the API like this:</p>
 <p><code>$./seeker work_file foo.txt bar.txt .com ,</code></p>
 <p>Running this command, we get the following output:</p>

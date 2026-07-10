@@ -56,13 +56,38 @@ original_url: "https://joelholder.com/2014/10/08/integrating-jboss-fuse-esb-with
 
 
 <div class="wp-block-code">
-	<div class="cm-editor">
-		<div class="cm-scroller">
-			
-<pre>
-<code class="language-xml"><div class="cm-line"><span class="tok-meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></div><div class="cm-line"><span class="tok-punctuation">&lt;</span><span class="tok-typeName">blueprint</span> <span class="tok-propertyName">xmlns</span><span class="tok-operator">=</span><span class="tok-string">&quot;http://www.osgi.org/xmlns/blueprint/v1.0.0&quot;</span></div><div class="cm-line">           <span class="tok-propertyName">xmlns:cm</span><span class="tok-operator">=</span><span class="tok-string">&quot;http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0&quot;</span></div><div class="cm-line">           <span class="tok-propertyName">xmlns:jaas</span><span class="tok-operator">=</span><span class="tok-string">&quot;http://karaf.apache.org/xmlns/jaas/v1.0.0&quot;</span><span class="tok-punctuation">&gt;</span></div><div class="cm-line"></div><div class="cm-line">  <span class="tok-punctuation">&lt;</span><span class="tok-typeName">jaas:config</span> <span class="tok-propertyName">name</span><span class="tok-operator">=</span><span class="tok-string">&quot;karaf&quot;</span> <span class="tok-propertyName">rank</span><span class="tok-operator">=</span><span class="tok-string">&quot;9&quot;</span><span class="tok-punctuation">&gt;</span></div><div class="cm-line">    <span class="tok-punctuation">&lt;</span><span class="tok-typeName">jaas:module</span> <span class="tok-propertyName">className</span><span class="tok-operator">=</span><span class="tok-string">&quot;org.apache.karaf.jaas.modules.ldap.LDAPLoginModule&quot;</span></div><div class="cm-line">                 <span class="tok-propertyName">flags</span><span class="tok-operator">=</span><span class="tok-string">&quot;required&quot;</span><span class="tok-punctuation">&gt;</span></div><div class="cm-line">      initialContextFactory = com.sun.jndi.ldap.LdapCtxFactory</div><div class="cm-line">      connection.username = my_service_account</div><div class="cm-line">      connection.password = *********</div><div class="cm-line">      connection.url = ldap://domaincontroller.fqdn.local:389</div><div class="cm-line">      user.filter = (samAccountName=%u)</div><div class="cm-line">      user.base.dn = dc=fqdn,dc=local</div><div class="cm-line">      user.search.subtree = true</div><div class="cm-line">      role.name.attribute = cn</div><div class="cm-line">      role.filter = (member=%dn,dc=fqdn,dc=local)</div><div class="cm-line">      role.base.dn = ou=users,dc=fqdn,dc=local</div><div class="cm-line">      role.search.subtree = true</div><div class="cm-line">      authentication = simple</div><div class="cm-line">      debug=true</div><div class="cm-line">    <span class="tok-punctuation">&lt;/</span><span class="tok-typeName">jaas:module</span><span class="tok-punctuation">&gt;</span></div><div class="cm-line">  <span class="tok-punctuation">&lt;/</span><span class="tok-typeName">jaas:config</span><span class="tok-punctuation">&gt;</span></div><div class="cm-line"><span class="tok-punctuation">&lt;/</span><span class="tok-typeName">blueprint</span><span class="tok-punctuation">&gt;</span></div></code></pre>
-		</div>
-	</div>
+    <div class="cm-editor">
+        <div class="cm-scroller">
+
+
+~~~ xml
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+           xmlns:jaas="http://karaf.apache.org/xmlns/jaas/v1.0.0">
+
+  <jaas:config name="karaf" rank="9">
+    <jaas:module className="org.apache.karaf.jaas.modules.ldap.LDAPLoginModule"
+                 flags="required">
+      initialContextFactory = com.sun.jndi.ldap.LdapCtxFactory
+      connection.username = my_service_account
+      connection.password = *********
+      connection.url = ldap://domaincontroller.fqdn.local:389
+      user.filter = (samAccountName=%u)
+      user.base.dn = dc=fqdn,dc=local
+      user.search.subtree = true
+      role.name.attribute = cn
+      role.filter = (member=%dn,dc=fqdn,dc=local)
+      role.base.dn = ou=users,dc=fqdn,dc=local
+      role.search.subtree = true
+      authentication = simple
+      debug=true
+    </jaas:module>
+  </jaas:config>
+</blueprint>
+~~~
+
+    </div>
 </div>
 
 
@@ -82,13 +107,17 @@ original_url: "https://joelholder.com/2014/10/08/integrating-jboss-fuse-esb-with
 
 
 <div class="wp-block-code">
-	<div class="cm-editor">
-		<div class="cm-scroller">
-			
-<pre>
-<code><div class="cm-line">user.filter = (&amp; </div><div class="cm-line">  (samAccountName=%u)(memberof=cn=ESB\ Users,cn=users,dc=fqdn,dc=local)</div><div class="cm-line">)</div></code></pre>
-		</div>
-	</div>
+    <div class="cm-editor">
+        <div class="cm-scroller">
+
+
+~~~ java
+user.filter = (&
+  (samAccountName=%u)(memberof=cn=ESB\ Users,cn=users,dc=fqdn,dc=local)
+)
+~~~
+
+    </div>
 </div>
 
 
@@ -128,13 +157,15 @@ original_url: "https://joelholder.com/2014/10/08/integrating-jboss-fuse-esb-with
 
 
 <div class="wp-block-code">
-	<div class="cm-editor">
-		<div class="cm-scroller">
-			
-<pre>
-<code><div class="cm-line">karaf.admin.role=&quot;ESB Administrators&quot;</div></code></pre>
-		</div>
-	</div>
+    <div class="cm-editor">
+        <div class="cm-scroller">
+
+
+~~~ java
+karaf.admin.role="ESB Administrators"
+~~~
+
+    </div>
 </div>
 
 

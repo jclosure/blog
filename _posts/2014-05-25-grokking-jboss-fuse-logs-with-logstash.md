@@ -12,7 +12,8 @@ original_url: "https://joelholder.com/2014/05/25/grokking-jboss-fuse-logs-with-l
 <p>If you are not familiar with the ELK Stack, please read up on it <a href="http://www.elasticsearch.org/overview/">here</a>.</p>
 <p>In this scenario, we are going to use Logstash as our log parser and collector agent. Elasticsearch (ES) will provide the storage and RESTful search interface. And, Kibana will be our UI over the data in ES.</p>
 <p>First we need to get the data. In our case the target we want to analyze in the JBoss Fuse log file. Since, my $FUSE_HOME is /opt/jboss-fuse, my log file will be at /opt/jboss-fuse/data/log/fuse.log.</p>
-<pre class="brush: plain; title: ; notranslate" title="">
+
+~~~ text
 2014-05-25 21:11:48,677 | INFO  | .167:49697@61616 | LoggingBrokerPlugin              | 132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379 | Adding destination: Topic:ActiveMQ.Advisory.Connection
 2014-05-25 21:11:48,743 | INFO  | .167:49697@61616 | LoggingBrokerPlugin              | 132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379 | Adding Consumer: ConsumerInfo {commandId = 2, responseRequired = true, consumerId = ID:ESBHOST-50593-635366336896487074-1:56:-1:1, destination = ActiveMQ.Advisory.TempQueue,ActiveMQ.Advisory.TempTopic, prefetchSize = 1000, maximumPendingMessageLimit = 0, browser = false, dispatchAsync = false, selector = null, clientId = null, subscriptionName = null, noLocal = true, exclusive = false, retroactive = false, priority = 0, brokerPath = null, optimizedAcknowledge = false, noRangeAcks = false, additionalPredicate = null}
 2014-05-25 21:11:48,804 | INFO  | .167:49697@61616 | LoggingBrokerPlugin              | 132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379 | Adding Session: SessionInfo {commandId = 3, responseRequired = false, sessionId = ID:ESBHOST-50593-635366336896487074-1:56:1}
@@ -24,58 +25,63 @@ original_url: "https://joelholder.com/2014/05/25/grokking-jboss-fuse-logs-with-l
 2014-05-25 21:11:48,884 | INFO  | .167:49697@61616 | LoggingBrokerPlugin              | 132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379 | Removing Consumer: ConsumerInfo {commandId = 2, responseRequired = true, consumerId = ID:ESBHOST-50593-635366336896487074-1:56:-1:1, destination = ActiveMQ.Advisory.TempQueue,ActiveMQ.Advisory.TempTopic, prefetchSize = 1000, maximumPendingMessageLimit = 0, browser = false, dispatchAsync = false, selector = null, clientId = null, subscriptionName = null, noLocal = true, exclusive = false, retroactive = false, priority = 0, brokerPath = null, optimizedAcknowledge = false, noRangeAcks = false, additionalPredicate = null}
 2014-05-25 21:11:48,885 | INFO  | .167:49697@61616 | LoggingBrokerPlugin              | 132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379 | Removing Session: SessionInfo {commandId = 0, responseRequired = false, sessionId = ID:ESBHOST-50593-635366336896487074-1:56:-1}
 2014-05-25 21:11:48,885 | INFO  | .167:49697@61616 | LoggingBrokerPlugin              | 132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379 | Removing Connection: ConnectionInfo {commandId = 1, responseRequired = true, connectionId = ID:ESBHOST-50593-635366336896487074-1:56, clientId = ID:ESBHOST-50593-635366336896487074-55:0, clientIp = tcp://10.224.14.167:49697, userName = testuser, password = *****, brokerPath = null, brokerMasterConnector = false, manageable = false, clientMaster = false, faultTolerant = false, failoverReconnect = false}
-</pre>
+~~~
+
 <p>Note that the format is pipe delimited.</p>
 <p>This comes from the log4j layout ConversionPattern setup in $FUSE_HOME/etc/org.ops4j.pax.logging.cfg.</p>
 <p>Here is mine:</p>
-<pre class="brush: plain; title: ; notranslate" title="">
+
+~~~ text
 log4j.appender.out.layout.ConversionPattern=%d{ISO8601} | %-5.5p | %-16.16t | %-32.32c{1} | %X{bundle.id} - %X{bundle.name} - %X{bundle.version} | %m%n
-</pre>
+~~~
+
 <p>Note that it creates 6 fields, delimited by pipes.</p>
 <p>To parse this file we&#8217;ll need to configure Logstash and tell it how to interpret it.</p>
 <p>Logstash is configured with a config file. It can be started on the command line from the logstash directory with the config file like this:</p>
 <p>bin/logstash agent -f logstash.config</p>
 <p>I have set my logstash.config up to parse this format with a grok section in the filter definition. <a href="https://github.com/elasticsearch/logstash/blob/master/patterns/grok-patterns">Grok</a> is a high-level expression syntax for matching and tokenizing text. It extends from regular expressions, so it inherits the power of regex with the convenience of having higher-level semantic constructs like %{LOGLEVEL:****} and %{GREEDYDATA:****}, etc.</p>
 <p>Here is my logstash.config:</p>
-<pre class="brush: ruby; title: ; notranslate" title="">
+
+~~~ ruby
 input {
   file {
-    type =&gt; &quot;esb&quot;
-    path =&gt; &#x5B;&quot;/opt/jboss-fuse/data/log/fuse.log&quot;]
-    sincedb_path =&gt; &quot;/opt/elk/logstash/sync_db/jboss-fuse&quot;
+    type => "esb"
+    path => ["/opt/jboss-fuse/data/log/fuse.log"]
+    sincedb_path => "/opt/elk/logstash/sync_db/jboss-fuse"
   }
 }
 
 filter {
-  if &#x5B;type] == &quot;esb&quot; {
-    grok {      
-      match =&gt; { 
-        message =&gt; &quot;%{TIMESTAMP_ISO8601:logdate}%{SPACE}\|%{SPACE}%{LOGLEVEL:level}%{SPACE}\|%{SPACE}%{DATA:thread}%{SPACE}\|%{SPACE}%{DATA:category}%{SPACE}\|%{SPACE}%{DATA:bundle}%{SPACE}\|%{SPACE}%{GREEDYDATA:messagetext}&quot;
+  if [type] == "esb" {
+    grok {
+      match => {
+        message => "%{TIMESTAMP_ISO8601:logdate}%{SPACE}\|%{SPACE}%{LOGLEVEL:level}%{SPACE}\|%{SPACE}%{DATA:thread}%{SPACE}\|%{SPACE}%{DATA:category}%{SPACE}\|%{SPACE}%{DATA:bundle}%{SPACE}\|%{SPACE}%{GREEDYDATA:messagetext}"
       }
-      add_tag =&gt; &#x5B;&quot;env_dev&quot;] 
+      add_tag => ["env_dev"]
     }
-    if &quot;_grokparsefailure&quot; in &#x5B;tags] {
+    if "_grokparsefailure" in [tags] {
       multiline {
-        pattern =&gt; &quot;.*&quot;
-        what =&gt; &quot;previous&quot;
-        add_tag =&gt; &quot;notgrok&quot;
+        pattern => ".*"
+        what => "previous"
+        add_tag => "notgrok"
       }
-    }  
+    }
     date {
-       match =&gt; &#x5B;&quot;logdate&quot;, &quot;yyyy-MM-dd HH:mm:ss,SSS&quot;]
+       match => ["logdate", "yyyy-MM-dd HH:mm:ss,SSS"]
     }
   }
 }
 
 output {
   elasticsearch {
-    host =&gt; &quot;elasticsearch.mydomain.com&quot;
+    host => "elasticsearch.mydomain.com"
   }
   stdout {
-    codec =&gt; rubydebug
+    codec => rubydebug
   }
 }
-</pre>
+~~~
+
 <p>This configuration will cause logstash to read in the file. Logstash tails the file while running and tokenizes each new log entry into the fields specified in the match => string, as shown. The fields then are:</p>
 <ul>
 <li>logdate</li>
@@ -86,25 +92,27 @@ output {
 <li>messagetext</li>
 </ul>
 <p>Logstash creates a data structure for each log entry, with the populated fields specified in the grok filter&#8217;s match pattern.</p>
-<pre class="brush: jscript; title: ; notranslate" title="">
+
+~~~ javascript
 {
-        &quot;message&quot; =&gt; &quot;2014-05-25 22:08:04,950 | INFO  | 4.167:8174@61616 | LoggingBrokerPlugin              | 132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379 | Sending message: ActiveMQTextMessage {commandId = 5, responseRequired = true, messageId = ID:MYCONSUMERHOST-50593-635366336896487074-1:57:1:2:1, originalDestination = null, originalTransactionId = null, producerId = ID:MYCONSUMERHOST-50593-635366336896487074-1:57:1:2, destination = queue://test.dotnet.testharness, transactionId = null, expiration = 0, timestamp = 1401070084863, arrival = 0, brokerInTime = 0, brokerOutTime = 0, correlationId = 0defa0b0-75de-4d51-a127-9aa1e55fa9fc, replyTo = null, persistent = true, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = org.apache.activemq.util.ByteSequence@751107eb, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = false, readOnlyBody = false, droppable = false, jmsXGroupFirstForConsumer = false, text = Hello World I am an ActiveMQ Message...}&quot;,
-       &quot;@version&quot; =&gt; &quot;1&quot;,
-     &quot;@timestamp&quot; =&gt; &quot;2014-05-26T02:08:04.950Z&quot;,
-           &quot;type&quot; =&gt; &quot;esb&quot;,
-           &quot;host&quot; =&gt; &quot;esbhost.domain.com&quot;,
-           &quot;path&quot; =&gt; &quot;/opt/jboss-fuse/data/log/fuse.log&quot;,
-        &quot;logdate&quot; =&gt; &quot;2014-05-25 22:08:04,950&quot;,
-          &quot;level&quot; =&gt; &quot;INFO&quot;,
-         &quot;thread&quot; =&gt; &quot;4.167:8174@61616&quot;,
-       &quot;category&quot; =&gt; &quot;LoggingBrokerPlugin&quot;,
-         &quot;bundle&quot; =&gt; &quot;132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379&quot;,
-    &quot;messagetext&quot; =&gt; &quot;Sending message: ActiveMQTextMessage {commandId = 5, responseRequired = true, messageId = ID:MYCONSUMERHOST-50593-635366336896487074-1:57:1:2:1, originalDestination = null, originalTransactionId = null, producerId = ID:MYCONSUMERHOST-50593-635366336896487074-1:57:1:2, destination = queue://test.dotnet.testharness, transactionId = null, expiration = 0, timestamp = 1401070084863, arrival = 0, brokerInTime = 0, brokerOutTime = 0, correlationId = 0defa0b0-75de-4d51-a127-9aa1e55fa9fc, replyTo = null, persistent = true, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = org.apache.activemq.util.ByteSequence@751107eb, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = false, readOnlyBody = false, droppable = false, jmsXGroupFirstForConsumer = false, text = Hello World I am an ActiveMQ Message...}&quot;,
-           &quot;tags&quot; =&gt; &#x5B;
-        &#x5B;0] &quot;env_dev&quot;
+        "message" => "2014-05-25 22:08:04,950 | INFO  | 4.167:8174@61616 | LoggingBrokerPlugin              | 132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379 | Sending message: ActiveMQTextMessage {commandId = 5, responseRequired = true, messageId = ID:MYCONSUMERHOST-50593-635366336896487074-1:57:1:2:1, originalDestination = null, originalTransactionId = null, producerId = ID:MYCONSUMERHOST-50593-635366336896487074-1:57:1:2, destination = queue://test.dotnet.testharness, transactionId = null, expiration = 0, timestamp = 1401070084863, arrival = 0, brokerInTime = 0, brokerOutTime = 0, correlationId = 0defa0b0-75de-4d51-a127-9aa1e55fa9fc, replyTo = null, persistent = true, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = org.apache.activemq.util.ByteSequence@751107eb, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = false, readOnlyBody = false, droppable = false, jmsXGroupFirstForConsumer = false, text = Hello World I am an ActiveMQ Message...}",
+       "@version" => "1",
+     "@timestamp" => "2014-05-26T02:08:04.950Z",
+           "type" => "esb",
+           "host" => "esbhost.domain.com",
+           "path" => "/opt/jboss-fuse/data/log/fuse.log",
+        "logdate" => "2014-05-25 22:08:04,950",
+          "level" => "INFO",
+         "thread" => "4.167:8174@61616",
+       "category" => "LoggingBrokerPlugin",
+         "bundle" => "132 - org.apache.activemq.activemq-osgi - 5.9.0.redhat-610379",
+    "messagetext" => "Sending message: ActiveMQTextMessage {commandId = 5, responseRequired = true, messageId = ID:MYCONSUMERHOST-50593-635366336896487074-1:57:1:2:1, originalDestination = null, originalTransactionId = null, producerId = ID:MYCONSUMERHOST-50593-635366336896487074-1:57:1:2, destination = queue://test.dotnet.testharness, transactionId = null, expiration = 0, timestamp = 1401070084863, arrival = 0, brokerInTime = 0, brokerOutTime = 0, correlationId = 0defa0b0-75de-4d51-a127-9aa1e55fa9fc, replyTo = null, persistent = true, type = null, priority = 4, groupID = null, groupSequence = 0, targetConsumerId = null, compressed = false, userID = null, content = org.apache.activemq.util.ByteSequence@751107eb, marshalledProperties = null, dataStructure = null, redeliveryCounter = 0, size = 0, properties = null, readOnlyProperties = false, readOnlyBody = false, droppable = false, jmsXGroupFirstForConsumer = false, text = Hello World I am an ActiveMQ Message...}",
+           "tags" => [
+        [0] "env_dev"
     ]
 }
-</pre>
+~~~
+
 <p>These are automatically sent to Elasticsearch, which will be listening on a different host usually. You&#8217;ll set it up as the Aggregation hub for all your logstash agents. It exposes its api on tcp port 9292 and will accept input from the logstash agents via http requests to its port. Going into how to query Elasticsearch is beyond the scope of this post, but I will cover it in a subsequent article.</p>
 <p>Kibana is a JavaScript and HTML app only, it interfaces with Elasticsearch and provides a powerful analytics interface over the data in ES.</p>
 <p>Here is an example of mine watching sending message levels in JBoss Fuse&#8217;s ActiveMQ Broker.</p>

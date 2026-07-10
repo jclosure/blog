@@ -23,28 +23,30 @@ original_url: "https://joelholder.com/2014/01/02/how-to-make-parallax-animation-
 <p><figure id="attachment_426" aria-describedby="caption-attachment-426" style="width: 559px" class="wp-caption aligncenter"><a href="/blog/assets/wp/how-to-make-parallax-animation-effects-with-javascript/textures1.png"><img data-recalc-dims="1" loading="lazy" decoding="async" data-attachment-id="426" data-permalink="https://joelholder.com/2014/01/02/how-to-make-parallax-animation-effects-with-javascript/textures-2/" data-orig-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2014/01/textures1.png?fit=559%2C437&amp;ssl=1" data-orig-size="559,437" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="textures" data-image-description="" data-image-caption="&lt;p&gt;Textures Images To Be Used As Sprites&lt;/p&gt;
 " data-large-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2014/01/textures1.png?fit=559%2C437&amp;ssl=1" src="/blog/assets/wp/how-to-make-parallax-animation-effects-with-javascript/textures1-2.png" alt="Textures" width="559" height="437" class="size-full wp-image-426" /></a><figcaption id="caption-attachment-426" class="wp-caption-text">Texture Images To Be Used As Sprites</figcaption></figure></p>
 <p>First, we&#8217;ll make our markup. This is a minimal HTML file, with only a canvas element that will serve as our rendering stage for the scene.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;link rel=&#039;stylesheet&#039; type=&#039;text/css&#039; href=&#039;https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css&#039; /&gt;
-    &lt;link rel=&#039;stylesheet&#039; type=&#039;text/css&#039; href=&#039;style.css&#039; /&gt;
-  &lt;/head&gt;
-  &lt;body onload=&quot;init();&quot;&gt;
-  	&lt;script src=&quot;pixi.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;http://code.jquery.com/jquery-1.10.2.min.js&quot;&gt;&lt;/script&gt;
-	  &lt;script src=&quot;http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js&quot;&gt;&lt;/script&gt;
-    
-    &lt;script type=&#039;text/javascript&#039; src=&#039;script.js&#039;&gt;&lt;/script&gt;
 
-    &lt;div id=container; align=&quot;center&quot;&gt;
-      &lt;p id=&quot;caption&quot;&gt;
+~~~ xml
+<html>
+  <head>
+    <link rel='stylesheet' type='text/css' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css' />
+    <link rel='stylesheet' type='text/css' href='style.css' />
+  </head>
+  <body onload="init();">
+      <script src="pixi.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+
+    <script type='text/javascript' src='script.js'></script>
+
+    <div id=container; align="center">
+      <p id="caption">
         Its A Beautiful World
-      &lt;/p&gt;
-      &lt;canvas id=&quot;game-canvas&quot; width=&quot;1024&quot; height=&quot;512&quot;&gt;&lt;/canvas&gt;
-    &lt;/div&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
-</pre>
+      </p>
+      <canvas id="game-canvas" width="1024" height="512"></canvas>
+    </div>
+  </body>
+</html>
+~~~
+
 <p>Next, we&#8217;ll write the JavaScript to bring it to life.</p>
 <p>function init(){</p>
 <p>  var WIDTH = 1024;<br />

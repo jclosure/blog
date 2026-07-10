@@ -13,11 +13,13 @@ original_url: "https://joelholder.com/2014/05/02/accepting-invalid-ssl-certifica
 <li>In a seam of bootstrapping code, you&#8217;ll want to add a ServerCertificateValidationCallback to the WCF ServicePointManager</li>
 </ul>
 <p>Here&#8217;s a working example that accepts any SSL Certificate as valid:</p>
-<pre class="brush: csharp; title: ; notranslate" title="">
+
+~~~ csharp
 ServicePointManager.ServerCertificateValidationCallback =
-     (object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors errors) 
-          =&gt; true;
-</pre>
+     (object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors errors)
+          => true;
+~~~
+
 <p>With this patched strategy in place, your WCF client will now accept any SSL certificate its given. Note that, in the lambda body, you can put in your own logic to interrogate the parameters for what you consider to be acceptable:</p>
 <p>X509Certificate cert</p>
 <p>X509Chain chain</p>

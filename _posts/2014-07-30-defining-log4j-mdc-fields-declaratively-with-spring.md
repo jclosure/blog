@@ -14,12 +14,12 @@ original_url: "https://joelholder.com/2014/07/30/defining-log4j-mdc-fields-decla
 <p class="wp-block-paragraph">First in your Log4j configuration file, you need setup your ConversionPattern value to include a new ApplicationId field:</p>
 
 
-<pre class="brush: plain; title: ; notranslate" title="">
 
+~~~ text
 log4j.appender.out.layout.ConversionPattern=
  %X{ApplicationId} | %d{ISO8601} | %-5.5p | %-16.16t | %-32.32c{1} | %m%n
+~~~
 
-</pre>
 
 
 
@@ -30,13 +30,13 @@ log4j.appender.out.layout.ConversionPattern=
 <p class="wp-block-paragraph">You can set this value in your java code like this:</p>
 
 
-<pre class="brush: java; title: ; notranslate" title="">
 
+~~~ java
 private void setupLogging() {
-org.apache.log4j.MDC.put(&quot;ApplicationId&quot;, &quot;XZY321&quot;);
+org.apache.log4j.MDC.put("ApplicationId", "XZY321");
 }
+~~~
 
-</pre>
 
 
 
@@ -51,35 +51,35 @@ org.apache.log4j.MDC.put(&quot;ApplicationId&quot;, &quot;XZY321&quot;);
 <p class="wp-block-paragraph">Here&#8217;s how to run a static method using <a href="http://www.captaindebug.com/2011/03/using-methodinvokingfactorybean-to-call.html#.U9lJIPldX4E" title="spring methodinvokingfactory">Spring&#8217;s MethodInvokingFactoryBean</a> to add a MDC Property to log4j&#8217;s tracked fields:</p>
 
 
-<pre class="brush: xml; title: ; notranslate" title="">
 
-&lt;beans
-  xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-  xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans 
-  http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+~~~ xml
+<beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  &lt;bean
+  <bean
     class=
-    &quot;org.springframework.beans.factory.config.MethodInvokingFactoryBean&quot;
-    &gt;
-    &lt;property name=&quot;targetClass&quot;&gt;
-      &lt;value&gt;org.apache.log4j.MDC&lt;/value&gt;
-    &lt;/property&gt;
-    &lt;property name=&quot;targetMethod&quot;&gt;
-      &lt;value&gt;put&lt;/value&gt;
-    &lt;/property&gt;
-    &lt;property name=&quot;arguments&quot;&gt;
-      &lt;list&gt;
-        &lt;value&gt;ApplicationId&lt;/value&gt;
-        &lt;value&gt;ABC123&lt;/value&gt;
-      &lt;/list&gt;
-    &lt;/property&gt;
-  &lt;/bean&gt;
+    "org.springframework.beans.factory.config.MethodInvokingFactoryBean"
+    >
+    <property name="targetClass">
+      <value>org.apache.log4j.MDC</value>
+    </property>
+    <property name="targetMethod">
+      <value>put</value>
+    </property>
+    <property name="arguments">
+      <list>
+        <value>ApplicationId</value>
+        <value>ABC123</value>
+      </list>
+    </property>
+  </bean>
 
-&lt;/beans&gt;
+</beans>
+~~~
 
-</pre>
 
 
 

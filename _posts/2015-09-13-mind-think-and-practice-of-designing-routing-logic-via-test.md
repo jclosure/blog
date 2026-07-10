@@ -34,7 +34,8 @@ original_url: "https://joelholder.com/2015/09/13/mind-think-and-practice-of-desi
 <h3>Separate orchestration from transformation</h3>
 <p>Routes should orchestrate. They should decide where messages come from, what processors run, where the result goes, and how errors are handled. They should not hide complex parsing, validation, enrichment, or business rules directly inside route definitions.</p>
 <p>A small processor or service is easy to test in isolation:</p>
-<pre class="brush: java; title: ; notranslate" title="">
+
+~~~ java
 XmlProcessingService xmlProcessingService =
     new XmlProcessingService();
 
@@ -42,8 +43,9 @@ ProcessingResult result =
     xmlProcessingService.processTransaction(sampleXml);
 
 assertTrue(result.isAccepted());
-assertEquals(&quot;SUCCESS&quot;, result.status());
-</pre>
+assertEquals("SUCCESS", result.status());
+~~~
+
 <p>That style of test gives precise feedback when the transformation is wrong. The route test can then focus on whether the processor is called at the right point and whether the resulting exchange is sent to the correct endpoint.</p>
 <h3>Use dependency injection to control lifecycles</h3>
 <p>Object lifecycle matters in integration tests because routes often hold references to processors, clients, connection factories, serializers, and retry policies. If those objects are created implicitly, the test has fewer ways to replace them.</p>
@@ -53,20 +55,22 @@ assertEquals(&quot;SUCCESS&quot;, result.status());
 <li><strong>Scoped objects</strong> live inside a request, job, test context, or other bounded lifetime.</li>
 </ul>
 <p>In Spring, keeping processors and clients as managed beans gives tests an obvious replacement point:</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;beans
-    xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;
+
+~~~ xml
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
         http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    &lt;bean
-        id=&quot;xmlProcessingService&quot;
-        class=&quot;com.mycompany.integration.project.services.XmlProcessingService&quot; /&gt;
+    <bean
+        id="xmlProcessingService"
+        class="com.mycompany.integration.project.services.XmlProcessingService" />
 
-&lt;/beans&gt;
-</pre>
+</beans>
+~~~
+
 <p>The test context can import the production route while replacing only the collaborators that should not be real during the test run.</p>
 <h3>Example application structure</h3>
 <p>The sample project integrates customer and order XML payloads and maps them into model classes generated from an XSD.</p>
@@ -86,7 +90,8 @@ assertEquals(&quot;SUCCESS&quot;, result.status());
 <p>Spring context files can be organized by bounded context so tests import only what they need.</p>
 <h3>Test transformations with plain unit tests</h3>
 <p>Start with the parts that do not require Camel at all. XML deserialization, JSON mapping, enrichment, validation, idempotency key generation, and status mapping should have ordinary unit tests.</p>
-<pre class="brush: java; title: ; notranslate" title="">
+
+~~~ java
 package com.mycompany.integration.project.tests.utils;
 
 import org.junit.Test;
@@ -100,7 +105,7 @@ import static org.junit.Assert.assertNotNull;
 public class ModelBuilderTests {
 
     private final String xmlFilePath =
-        &quot;src/exemplar/CustomersOrders-v.1.0.0.xml&quot;;
+        "src/exemplar/CustomersOrders-v.1.0.0.xml";
 
     @Test
     public void deserializes_customer_order_payload() throws Exception {
@@ -112,11 +117,13 @@ public class ModelBuilderTests {
         assertNotNull(payload);
     }
 }
-</pre>
+~~~
+
 <p>These tests are cheap and specific. They should fail because transformation behavior changed, not because a broker is down or a port is already in use.</p>
 <h3>Test domain services with a narrow Spring context</h3>
 <p>When a service depends on Spring-managed collaborators, load the smallest context that gives the service its real dependencies. Keep the context narrow enough that the test still explains what behavior it owns.</p>
-<pre class="brush: java; title: ; notranslate" title="">
+
+~~~ java
 package com.mycompany.integration.project.tests.services;
 
 import org.junit.Test;
@@ -134,13 +141,13 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-    &quot;classpath:META-INF/spring/domain.xml&quot;
+    "classpath:META-INF/spring/domain.xml"
 })
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class XmlProcessingServiceTests {
 
     private final String xmlFilePath =
-        &quot;src/exemplar/CustomersOrders-v.1.0.0.xml&quot;;
+        "src/exemplar/CustomersOrders-v.1.0.0.xml";
 
     @Autowired
     private XmlProcessingService xmlProcessingService;
@@ -159,86 +166,93 @@ public class XmlProcessingServiceTests {
         assertTrue(result);
     }
 }
-</pre>
+~~~
+
 <p>This level verifies the Spring composition and the service behavior without making a route test responsible for every detail.</p>
 <h3>Test routes by replacing infrastructure</h3>
 <p>For a route test, the route is the system under test. The test should usually replace external infrastructure while preserving the route logic itself. In Camel, that often means importing the production route and swapping real endpoints for mock or direct endpoints.</p>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;beans
-    xmlns=&quot;http://www.springframework.org/schema/beans&quot;
-    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-    xsi:schemaLocation=&quot;
+
+~~~ xml
+<beans
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://camel.apache.org/schema/spring
-        http://camel.apache.org/schema/spring/camel-spring.xsd&quot;&gt;
+        http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-    &lt;import resource=&quot;classpath:META-INF/spring/camel-context.xml&quot; /&gt;
+    <import resource="classpath:META-INF/spring/camel-context.xml" />
 
-    &lt;bean
-        id=&quot;mockAllEndpoints&quot;
-        class=&quot;org.apache.camel.impl.InterceptSendToMockEndpointStrategy&quot; /&gt;
+    <bean
+        id="mockAllEndpoints"
+        class="org.apache.camel.impl.InterceptSendToMockEndpointStrategy" />
 
-    &lt;bean
-        id=&quot;activemq&quot;
-        class=&quot;org.apache.camel.component.direct.DirectComponent&quot; /&gt;
+    <bean
+        id="activemq"
+        class="org.apache.camel.component.direct.DirectComponent" />
 
-&lt;/beans&gt;
-</pre>
+</beans>
+~~~
+
 <p>That test context gives the route a real Camel runtime but avoids the cost and nondeterminism of a live broker. The result is still an integration test, but it is an integration test at the route boundary rather than at the entire environment boundary.</p>
 <h3>Example route under test</h3>
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;camelContext
-    id=&quot;customers_and_orders_processing&quot;
-    xmlns=&quot;http://camel.apache.org/schema/spring&quot;&gt;
 
-    &lt;route id=&quot;process_messages_as_models&quot;&gt;
-        &lt;from uri=&quot;file:src/data1&quot; /&gt;
-        &lt;process
-            ref=&quot;customersOrdersModelProcessor&quot;
-            id=&quot;process_as_model&quot; /&gt;
-        &lt;to uri=&quot;file:target/output1&quot; /&gt;
-    &lt;/route&gt;
+~~~ xml
+<camelContext
+    id="customers_and_orders_processing"
+    xmlns="http://camel.apache.org/schema/spring">
 
-    &lt;route id=&quot;process_messages_as_xml&quot;&gt;
-        &lt;from uri=&quot;file:src/data2&quot; /&gt;
-        &lt;process
-            ref=&quot;customersOrdersXmlDocumentProcessor&quot;
-            id=&quot;process_as_xml&quot; /&gt;
-        &lt;to uri=&quot;file:target/output2&quot; /&gt;
-    &lt;/route&gt;
+    <route id="process_messages_as_models">
+        <from uri="file:src/data1" />
+        <process
+            ref="customersOrdersModelProcessor"
+            id="process_as_model" />
+        <to uri="file:target/output1" />
+    </route>
 
-    &lt;route id=&quot;process_http_messages_as_xml&quot;&gt;
-        &lt;from
-            uri=&quot;jetty:http://0.0.0.0:8888/myapp/myservice/?sessionSupport=true&quot; /&gt;
-        &lt;process
-            ref=&quot;customersOrdersXmlDocumentProcessor&quot;
-            id=&quot;process_http_input_as_xml&quot; /&gt;
-        &lt;to uri=&quot;file:target/output3&quot; /&gt;
-        &lt;transform&gt;
-            &lt;simple&gt;OK&lt;/simple&gt;
-        &lt;/transform&gt;
-    &lt;/route&gt;
+    <route id="process_messages_as_xml">
+        <from uri="file:src/data2" />
+        <process
+            ref="customersOrdersXmlDocumentProcessor"
+            id="process_as_xml" />
+        <to uri="file:target/output2" />
+    </route>
 
-&lt;/camelContext&gt;
-</pre>
+    <route id="process_http_messages_as_xml">
+        <from
+            uri="jetty:http://0.0.0.0:8888/myapp/myservice/?sessionSupport=true" />
+        <process
+            ref="customersOrdersXmlDocumentProcessor"
+            id="process_http_input_as_xml" />
+        <to uri="file:target/output3" />
+        <transform>
+            <simple>OK</simple>
+        </transform>
+    </route>
+
+</camelContext>
+~~~
+
 <p>Route IDs should describe behavior, not implementation trivia. A route named <code>process_http_messages_as_xml</code> is easier to connect to a test failure than a route named <code>route3</code>. A useful convention is to align route IDs with test names or with the business behavior asserted by the test.</p>
 <h3>Mock endpoints, not the route</h3>
 <p>The most useful route tests keep the route real and mock the edges. In Camel, endpoint interception creates a predictable mock endpoint for each endpoint URI:</p>
 <p><code>file:target/output1</code> becomes <code>mock:file:target/output1</code></p>
 <p>The test can then assert what the route emitted:</p>
-<pre class="brush: java; title: ; notranslate" title="">
+
+~~~ java
 MockEndpoint output =
-    getMockEndpoint(&quot;mock:file:target/output1&quot;);
+    getMockEndpoint("mock:file:target/output1");
 
 output.expectedMessageCount(1);
 output.expectedBodiesReceived(expectedPayload);
-output.expectedHeaderReceived(&quot;status&quot;, &quot;SUCCESS&quot;);
+output.expectedHeaderReceived("status", "SUCCESS");
 
-template.sendBody(&quot;direct:start&quot;, inputPayload);
+template.sendBody("direct:start", inputPayload);
 
 assertMockEndpointsSatisfied();
-</pre>
+~~~
+
 <p>Good assertions cover the contract, not incidental internals. Assert the body, headers, message count, destination, and error outcome. Avoid asserting every private implementation step unless the step is part of the contract.</p>
 <p><img decoding="async" src="/blog/assets/wp/mind-think-and-practice-of-designing-routing-logic-via-test/expectation_not_met_features2.png" alt="Example Camel test assertion failure output" /></p>
 <p>Expectation-driven failures are precise, which reduces debugging time.</p>
@@ -251,18 +265,20 @@ assertMockEndpointsSatisfied();
 <li><strong>Use a small number of live environment tests</strong> to verify credentials, DNS, TLS, IAM, broker topics, queues, and deployment wiring.</li>
 </ul>
 <p>A local HTTP mock lets a test exercise real failure behavior without depending on the real service:</p>
-<pre class="brush: java; title: ; notranslate" title="">
-mockServer.stubFor(post(urlEqualTo(&quot;/orders&quot;))
-    .withHeader(&quot;Content-Type&quot;, containing(&quot;application/json&quot;))
+
+~~~ java
+mockServer.stubFor(post(urlEqualTo("/orders"))
+    .withHeader("Content-Type", containing("application/json"))
     .willReturn(aResponse()
         .withStatus(202)
-        .withHeader(&quot;Content-Type&quot;, &quot;application/json&quot;)
-        .withBody(&quot;{\&quot;status\&quot;:\&quot;accepted\&quot;}&quot;)));
+        .withHeader("Content-Type", "application/json")
+        .withBody("{\"status\":\"accepted\"}")));
 
-template.sendBody(&quot;direct:submitOrder&quot;, orderJson);
+template.sendBody("direct:submitOrder", orderJson);
 
-mockServer.verify(postRequestedFor(urlEqualTo(&quot;/orders&quot;)));
-</pre>
+mockServer.verify(postRequestedFor(urlEqualTo("/orders")));
+~~~
+
 <p>This kind of test is especially valuable for retries, timeout handling, idempotency keys, authentication headers, and non-200 responses. Those are exactly the integration behaviors that tend to break late if they are only tested manually.</p>
 <h3>Test the error paths as first-class behavior</h3>
 <p>Happy-path route tests are necessary but insufficient. Integration code spends much of its life dealing with imperfect collaborators. Tests should cover the behavior you expect when dependencies fail.</p>

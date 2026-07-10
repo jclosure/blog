@@ -7,24 +7,6 @@ tags: []
 wordpress_id: 1100
 original_url: "https://joelholder.com/2016/06/19/eventbusbridges-for-great-good/"
 ---
-<style>
-.entry-content pre,
-.entry-content code {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-.entry-content table,
-.entry-content img,
-.entry-content iframe {
-  max-width: 100%;
-}
-.entry-content {
-  overflow-wrap: anywhere;
-}
-</style>
-
-
 
 <p class="wp-block-paragraph">The <a href="http://sockjs.org">SockJS protocol</a> provides a fast and reliable mechanism for providing duplex communication via Websockets.  Vertx has a particularly nice implementation of this in the form of <a href="http://vertx.io/docs/vertx-web/java/#_handling_event_bus_bridge_events">EventBusBridges</a>, which make it easy to create secure communication pipelines between an HttpServer Verticle and a variety of polyglot SockJS clients via Websockets or fallback transports.  Surprisingly, a Java-based EventBusBridgeClient is not among the ootb facilities, even though Java is the main story on the server.  Here I will show you how easy to create your own and a few of the awesome things you can do with it.</p>
 
@@ -34,13 +16,44 @@ original_url: "https://joelholder.com/2016/06/19/eventbusbridges-for-great-good/
 
 
 <div class="wp-block-code">
-	<div class="cm-editor">
-		<div class="cm-scroller">
-			
-<pre>
-<code class="language-java"><div class="cm-line"><span class="tok-typeName">Router</span> <span class="tok-variableName tok-definition">router</span> <span class="tok-operator">=</span> <span class="tok-variableName">Router</span><span class="tok-operator">.</span><span class="tok-variableName">router</span><span class="tok-punctuation">(</span><span class="tok-variableName">vertx</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// Allow all addresses to flow in and out on the bridge</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-typeName">BridgeOptions</span> <span class="tok-variableName tok-definition">options</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-typeName">BridgeOptions</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span></div><div class="cm-line">  <span class="tok-operator">.</span><span class="tok-variableName">addInboundPermitted</span><span class="tok-punctuation">(</span><span class="tok-keyword">new</span> <span class="tok-typeName">PermittedOptions</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">setAddressRegex</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;.+&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span></div><div class="cm-line">  <span class="tok-operator">.</span><span class="tok-variableName">addOutboundPermitted</span><span class="tok-punctuation">(</span><span class="tok-keyword">new</span> <span class="tok-typeName">PermittedOptions</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">setAddressRegex</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;.+&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-variableName">router</span><span class="tok-operator">.</span><span class="tok-variableName">route</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;/eventbus/*&quot;</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">handler</span><span class="tok-punctuation">(</span></div><div class="cm-line">  <span class="tok-variableName">SockJSHandler</span><span class="tok-operator">.</span><span class="tok-variableName">create</span><span class="tok-punctuation">(</span><span class="tok-variableName">vertx</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">bridge</span><span class="tok-punctuation">(</span><span class="tok-variableName">options</span><span class="tok-punctuation">)</span></div><div class="cm-line"><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// Setup a body handler</span></div><div class="cm-line"><span class="tok-variableName">router</span><span class="tok-operator">.</span><span class="tok-variableName">route</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">handler</span><span class="tok-punctuation">(</span><span class="tok-variableName">BodyHandler</span><span class="tok-operator">.</span><span class="tok-variableName">create</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-typeName">HttpServer</span> <span class="tok-variableName tok-definition">httpServer</span> <span class="tok-operator">=</span> <span class="tok-variableName">vertx</span><span class="tok-operator">.</span><span class="tok-variableName">createHttpServer</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"><span class="tok-variableName">httpServer</span><span class="tok-operator">.</span><span class="tok-variableName">requestHandler</span><span class="tok-punctuation">(</span><span class="tok-variableName">router</span>::<span class="tok-variableName">accept</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">listen</span><span class="tok-punctuation">(</span><span class="tok-number">8080</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// do server wiring</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// Publish a message to &quot;someaddress&quot; on interval</span></div><div class="cm-line"><span class="tok-variableName">vertx</span><span class="tok-operator">.</span><span class="tok-variableName">setPeriodic</span><span class="tok-punctuation">(</span><span class="tok-number">5000</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">t</span> -&gt; <span class="tok-punctuation">{</span></div><div class="cm-line">  <span class="tok-typeName">JsonObject</span> <span class="tok-variableName tok-definition">msg</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-typeName">JsonObject</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">put</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;packet&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;stuff&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line">  <span class="tok-variableName">vertx</span><span class="tok-operator">.</span><span class="tok-variableName">eventBus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">publish</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;someaddress&quot;</span><span class="tok-punctuation">,</span> <span class="tok-variableName">msg</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// Consume messages the &quot;importantstuff&quot; address</span></div><div class="cm-line"><span class="tok-variableName">vertx</span><span class="tok-operator">.</span><span class="tok-variableName">eventBus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">consumer</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;importantstuff&quot;</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">msg</span> -&gt; <span class="tok-punctuation">{</span></div><div class="cm-line">  <span class="tok-variableName">logger</span><span class="tok-operator">.</span><span class="tok-variableName">warn</span><span class="tok-punctuation">(</span><span class="tok-variableName">msg</span><span class="tok-operator">.</span><span class="tok-variableName">body</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div></code></pre>
-		</div>
-	</div>
+    <div class="cm-editor">
+        <div class="cm-scroller">
+
+
+~~~ java
+Router router = Router.router(vertx);
+
+// Allow all addresses to flow in and out on the bridge
+
+BridgeOptions options = new BridgeOptions()
+  .addInboundPermitted(new PermittedOptions().setAddressRegex(".+"))
+  .addOutboundPermitted(new PermittedOptions().setAddressRegex(".+"));
+
+router.route("/eventbus/*").handler(
+  SockJSHandler.create(vertx).bridge(options)
+);
+
+// Setup a body handler
+router.route().handler(BodyHandler.create());
+
+HttpServer httpServer = vertx.createHttpServer();
+httpServer.requestHandler(router::accept).listen(8080);
+
+// do server wiring
+
+// Publish a message to "someaddress" on interval
+vertx.setPeriodic(5000, t -> {
+  JsonObject msg = new JsonObject().put("packet", "stuff");
+  vertx.eventBus().publish("someaddress", msg);
+});
+
+// Consume messages the "importantstuff" address
+vertx.eventBus().consumer("importantstuff", msg -> {
+  logger.warn(msg.body());
+});
+~~~
+
+    </div>
 </div>
 
 
@@ -52,13 +65,56 @@ original_url: "https://joelholder.com/2016/06/19/eventbusbridges-for-great-good/
 
 
 <div class="wp-block-code">
-	<div class="cm-editor">
-		<div class="cm-scroller">
-			
-<pre>
-<code class="language-java"><div class="cm-line"><span class="tok-keyword">private</span> <span class="tok-keyword">static</span> <span class="tok-keyword">final</span> <span class="tok-typeName">String</span> <span class="tok-variableName tok-definition">pingMessage</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-keyword">static</span> <span class="tok-punctuation">{</span></div><div class="cm-line">  <span class="tok-typeName">JsonObject</span> <span class="tok-variableName tok-definition">json</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-typeName">JsonObject</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line">  <span class="tok-variableName">json</span><span class="tok-operator">.</span><span class="tok-variableName">put</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;type&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;ping&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line">  <span class="tok-variableName">pingMessage</span> <span class="tok-operator">=</span> <span class="tok-variableName">json</span><span class="tok-operator">.</span><span class="tok-variableName">encode</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"><span class="tok-punctuation">}</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-typeName">HttpClient</span> <span class="tok-variableName tok-definition">client</span> <span class="tok-operator">=</span> <span class="tok-variableName">vertx</span><span class="tok-operator">.</span><span class="tok-variableName">createHttpClient</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// We use raw websocket transport</span></div><div class="cm-line"><span class="tok-variableName">client</span><span class="tok-operator">.</span><span class="tok-variableName">websocket</span><span class="tok-punctuation">(</span><span class="tok-variableName">port</span><span class="tok-punctuation">,</span> <span class="tok-variableName">host</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;/eventbus/websocket&quot;</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">websocket</span> -&gt; <span class="tok-punctuation">{</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// Register</span></div><div class="cm-line"><span class="tok-typeName">JsonObject</span> <span class="tok-variableName tok-definition">msg</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-typeName">JsonObject</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">put</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;type&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;register&quot;</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">put</span><span class="tok-punctuation">(</span></div><div class="cm-line">  <span class="tok-string">&quot;address&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;someaddress&quot;</span></div><div class="cm-line"><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"><span class="tok-variableName">websocket</span><span class="tok-operator">.</span><span class="tok-variableName">writeFinalTextFrame</span><span class="tok-punctuation">(</span><span class="tok-variableName">msg</span><span class="tok-operator">.</span><span class="tok-variableName">encode</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// Setup pinging for keepalive</span></div><div class="cm-line"><span class="tok-variableName">pingTimerId</span> <span class="tok-operator">=</span> <span class="tok-variableName">Vertx</span><span class="tok-operator">.</span><span class="tok-variableName">currentContext</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">owner</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">setPeriodic</span><span class="tok-punctuation">(</span></div><div class="cm-line">  <span class="tok-number">5000</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">event</span> -&gt; <span class="tok-punctuation">{</span></div><div class="cm-line">    <span class="tok-variableName">websocket</span><span class="tok-operator">.</span><span class="tok-variableName">writeFinalTextFrame</span><span class="tok-punctuation">(</span><span class="tok-variableName">pingMessage</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line">  <span class="tok-punctuation">}</span></div><div class="cm-line"><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// Send to the server</span></div><div class="cm-line"><span class="tok-variableName">msg</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-typeName">JsonObject</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">put</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;type&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;send&quot;</span><span class="tok-punctuation">)</span></div><div class="cm-line"><span class="tok-operator">.</span><span class="tok-variableName">put</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;address&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;importantstuff&quot;</span><span class="tok-punctuation">)</span></div><div class="cm-line"><span class="tok-operator">.</span><span class="tok-variableName">put</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;body&quot;</span><span class="tok-punctuation">,</span> <span class="tok-keyword">new</span> <span class="tok-typeName">JsonObject</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-variableName">put</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;foo&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;bar&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"><span class="tok-variableName">websocket</span><span class="tok-operator">.</span><span class="tok-variableName">writeFinalTextFrame</span><span class="tok-punctuation">(</span><span class="tok-variableName">msg</span><span class="tok-operator">.</span><span class="tok-variableName">encode</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line"><span class="tok-comment">// Receive from the server</span></div><div class="cm-line"><span class="tok-variableName">websocket</span><span class="tok-operator">.</span><span class="tok-variableName">handler</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">buffer</span> -&gt; <span class="tok-punctuation">{</span></div><div class="cm-line">  <span class="tok-typeName">JsonObject</span> <span class="tok-variableName tok-definition">received</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-typeName">JsonObject</span><span class="tok-punctuation">(</span><span class="tok-variableName">buffer</span><span class="tok-operator">.</span><span class="tok-variableName">toString</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div><div class="cm-line">  <span class="tok-variableName">logger</span><span class="tok-operator">.</span><span class="tok-variableName">info</span><span class="tok-punctuation">(</span></div><div class="cm-line">    <span class="tok-string">&quot;received message on address: &quot;</span> <span class="tok-operator">+</span> <span class="tok-variableName">received</span><span class="tok-operator">.</span><span class="tok-variableName">getString</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;address&quot;</span><span class="tok-punctuation">)</span></div><div class="cm-line">  <span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line">  <span class="tok-variableName">logger</span><span class="tok-operator">.</span><span class="tok-variableName">info</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;message body: &quot;</span> <span class="tok-operator">+</span> <span class="tok-variableName">received</span><span class="tok-operator">.</span><span class="tok-variableName">getString</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;body&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line">  <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">;</span></div><div class="cm-line"></div></code></pre>
-		</div>
-	</div>
+    <div class="cm-editor">
+        <div class="cm-scroller">
+
+
+~~~ java
+private static final String pingMessage;
+
+static {
+  JsonObject json = new JsonObject();
+  json.put("type", "ping");
+  pingMessage = json.encode();
+}
+
+HttpClient client = vertx.createHttpClient();
+
+// We use raw websocket transport
+client.websocket(port, host, "/eventbus/websocket", websocket -> {
+
+// Register
+JsonObject msg = new JsonObject().put("type", "register").put(
+  "address", "someaddress"
+);
+websocket.writeFinalTextFrame(msg.encode());
+
+// Setup pinging for keepalive
+pingTimerId = Vertx.currentContext().owner().setPeriodic(
+  5000, event -> {
+    websocket.writeFinalTextFrame(pingMessage);
+  }
+);
+
+// Send to the server
+msg = new JsonObject().put("type", "send")
+.put("address", "importantstuff")
+.put("body", new JsonObject().put("foo", "bar"));
+websocket.writeFinalTextFrame(msg.encode());
+
+// Receive from the server
+websocket.handler(buffer -> {
+  JsonObject received = new JsonObject(buffer.toString());
+
+  logger.info(
+    "received message on address: " + received.getString("address")
+  );
+  logger.info("message body: " + received.getString("body"));
+  });
+});
+~~~
+
+    </div>
 </div>
 
 
@@ -70,13 +126,19 @@ original_url: "https://joelholder.com/2016/06/19/eventbusbridges-for-great-good/
 
 
 <div class="wp-block-code">
-	<div class="cm-editor">
-		<div class="cm-scroller">
-			
-<pre>
-<code class="language-javascript"><div class="cm-line"><span class="tok-punctuation">{</span></div><div class="cm-line"><span class="tok-string">&quot;type&quot;</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;send&quot;</span><span class="tok-operator">|</span><span class="tok-string">&quot;publish&quot;</span><span class="tok-operator">|</span><span class="tok-string">&quot;receive&quot;</span><span class="tok-operator">|</span><span class="tok-string">&quot;register&quot;</span><span class="tok-operator">|</span><span class="tok-string">&quot;unregister&quot;</span><span class="tok-punctuation">,</span></div><div class="cm-line"><span class="tok-string">&quot;address&quot;</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;mailbox123&quot;</span></div><div class="cm-line"><span class="tok-string">&quot;body&quot;</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;the body of the message&quot;</span></div><div class="cm-line"><span class="tok-punctuation">}</span></div><div class="cm-line"></div></code></pre>
-		</div>
-	</div>
+    <div class="cm-editor">
+        <div class="cm-scroller">
+
+
+~~~ javascript
+{
+"type": "send"|"publish"|"receive"|"register"|"unregister",
+"address": "mailbox123"
+"body": "the body of the message"
+}
+~~~
+
+    </div>
 </div>
 
 

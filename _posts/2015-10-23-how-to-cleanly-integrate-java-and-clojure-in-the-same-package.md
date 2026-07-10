@@ -42,7 +42,8 @@ original_url: "https://joelholder.com/2015/10/23/how-to-cleanly-integrate-java-a
 </div></div></div></div>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 
 cd my-app
@@ -50,12 +51,16 @@ cd my-app
 mvn package
 
 java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
-</pre>
+~~~
 
 
 
-<pre class="wp-block-preformatted">Hello World
-</pre>
+
+
+~~~ java
+Hello World
+~~~
+
 
 
 
@@ -66,30 +71,34 @@ java -cp target/my-app-1.0-SNAPSHOT.jar com.mycompany.app.App
 </div></div>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 mkdir -p src/main/clojure/com/mycompany/app
 
 touch src/main/clojure/com/mycompany/app/core.clj
-</pre>
+~~~
+
 
 
 
 <p class="wp-block-paragraph">Give it some goodness…</p>
 
 
-<pre class="brush: clojure; title: ; notranslate" title="">
+
+~~~ clojure
 (ns com.mycompany.app.core
 (:gen-class)
 (:use (incanter core stats charts)))
 
-(defn -main &#x5B;&amp; args]
-(println &quot;Hello Clojure!&quot;)
-(println &quot;Java main called clojure function with args: &quot;
-(apply str (interpose &quot; &quot; args))))
+(defn -main [& args]
+(println "Hello Clojure!")
+(println "Java main called clojure function with args: "
+(apply str (interpose " " args))))
 
-(defn run &#x5B;]
+(defn run []
 (view (histogram (sample-normal 1000))))
-</pre>
+~~~
+
 
 
 
@@ -103,41 +112,43 @@ touch src/main/clojure/com/mycompany/app/core.clj
 </div></div>
 
 
-<pre class="brush: xml; title: ; notranslate" title="">
-&lt;dependencies&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;org.clojure&lt;/groupId&gt;
-&lt;artifactId&gt;clojure&lt;/artifactId&gt;
-&lt;version&gt;1.7.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;org.clojure&lt;/groupId&gt;
-&lt;artifactId&gt;clojure-contrib&lt;/artifactId&gt;
-&lt;version&gt;1.2.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;incanter&lt;/groupId&gt;
-&lt;artifactId&gt;incanter&lt;/artifactId&gt;
-&lt;version&gt;1.9.0&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;org.clojure&lt;/groupId&gt;
-&lt;artifactId&gt;tools.nrepl&lt;/artifactId&gt;
-&lt;version&gt;0.2.10&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;!-- pick your poison swank or cider. just make sure the version of nRepl matches. --&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;cider&lt;/groupId&gt;
-&lt;artifactId&gt;cider-nrepl&lt;/artifactId&gt;
-&lt;version&gt;0.10.0-SNAPSHOT&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-&lt;groupId&gt;swank-clojure&lt;/groupId&gt;
-&lt;artifactId&gt;swank-clojure&lt;/artifactId&gt;
-&lt;version&gt;1.4.3&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;/dependencies&gt;
-</pre>
+
+~~~ xml
+<dependencies>
+<dependency>
+<groupId>org.clojure</groupId>
+<artifactId>clojure</artifactId>
+<version>1.7.0</version>
+</dependency>
+<dependency>
+<groupId>org.clojure</groupId>
+<artifactId>clojure-contrib</artifactId>
+<version>1.2.0</version>
+</dependency>
+<dependency>
+<groupId>incanter</groupId>
+<artifactId>incanter</artifactId>
+<version>1.9.0</version>
+</dependency>
+<dependency>
+<groupId>org.clojure</groupId>
+<artifactId>tools.nrepl</artifactId>
+<version>0.2.10</version>
+</dependency>
+<!-- pick your poison swank or cider. just make sure the version of nRepl matches. -->
+<dependency>
+<groupId>cider</groupId>
+<artifactId>cider-nrepl</artifactId>
+<version>0.10.0-SNAPSHOT</version>
+</dependency>
+<dependency>
+<groupId>swank-clojure</groupId>
+<artifactId>swank-clojure</artifactId>
+<version>1.4.3</version>
+</dependency>
+</dependencies>
+~~~
+
 
 
 
@@ -148,10 +159,11 @@ touch src/main/clojure/com/mycompany/app/core.clj
 </div></div>
 
 
-<pre class="brush: java; title: ; notranslate" title="">
+
+~~~ java
 package com.mycompany.app;
 
-// for clojure&#039;s api
+// for clojure's api
 import clojure.lang.IFn;
 import clojure.java.api.Clojure;
 
@@ -160,20 +172,20 @@ import clojure.lang.RT;
 
 public class App
 {
-public static void main( String&#x5B;] args )
+public static void main( String[] args )
 {
 
-System.out.println(&quot;Hello Java!&quot; );
+System.out.println("Hello Java!" );
 
 try {
 
 // running my clojure code
-RT.loadResourceScript(&quot;com/mycompany/app/core.clj&quot;);
-IFn main = RT.var(&quot;com.mycompany.app.core&quot;, &quot;main&quot;);
+RT.loadResourceScript("com/mycompany/app/core.clj");
+IFn main = RT.var("com.mycompany.app.core", "main");
 main.invoke(args);
 
 // running the clojure api
-IFn plus = Clojure.var(&quot;clojure.core&quot;, &quot;+&quot;);
+IFn plus = Clojure.var("clojure.core", "+");
 System.out.println(plus.invoke(1, 2).toString());
 
 } catch(Exception e) {
@@ -182,7 +194,8 @@ e.printStackTrace();
 
 }
 }
-</pre>
+~~~
+
 
 
 
@@ -199,36 +212,38 @@ e.printStackTrace();
 </div></li></ul></div>
 
 
-<pre class="brush: xml; title: ; notranslate" title="">
-  &lt;plugin&gt;
-    &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt;
-&lt;configuration&gt;
-&lt;descriptorRefs&gt;
-&lt;descriptorRef&gt;jar-with-dependencies&lt;/descriptorRef&gt;
-&lt;/descriptorRefs&gt;
-&lt;archive&gt;
-&lt;manifest&gt;
 
-&lt;!-- use clojure main --&gt;
-&lt;!-- &lt;mainClass&gt;com.mycompany.app.core&lt;/mainClass&gt; --&gt;
+~~~ xml
+  <plugin>
+    <artifactId>maven-assembly-plugin</artifactId>
+<configuration>
+<descriptorRefs>
+<descriptorRef>jar-with-dependencies</descriptorRef>
+</descriptorRefs>
+<archive>
+<manifest>
 
-&lt;!-- use java main --&gt;
-&lt;mainClass&gt;com.mycompany.app.App&lt;/mainClass&gt;
+<!-- use clojure main -->
+<!-- <mainClass>com.mycompany.app.core</mainClass> -->
 
-&lt;/manifest&gt;
-&lt;/archive&gt;
-&lt;/configuration&gt;
-&lt;executions&gt;
-&lt;execution&gt;
-&lt;id&gt;make-assembly&lt;/id&gt;
-        &lt;phase&gt;package&lt;/phase&gt;
-        &lt;goals&gt;
-&lt;goal&gt;single&lt;/goal&gt;
-&lt;/goals&gt;
-&lt;/execution&gt;
-&lt;/executions&gt;
-  &lt;/plugin&gt;
-</pre>
+<!-- use java main -->
+<mainClass>com.mycompany.app.App</mainClass>
+
+</manifest>
+</archive>
+</configuration>
+<executions>
+<execution>
+<id>make-assembly</id>
+        <phase>package</phase>
+        <goals>
+<goal>single</goal>
+</goals>
+</execution>
+</executions>
+  </plugin>
+~~~
+
 
 
 
@@ -239,32 +254,34 @@ e.printStackTrace();
 </div></li>
 
 
-<pre class="brush: xml; title: ; notranslate" title="">
-  &lt;plugin&gt;
-    &lt;groupId&gt;com.theoryinpractise&lt;/groupId&gt;
-&lt;artifactId&gt;clojure-maven-plugin&lt;/artifactId&gt;
-&lt;version&gt;1.7.1&lt;/version&gt;
-&lt;configuration&gt;
-&lt;mainClass&gt;com.mycompany.app.core&lt;/mainClass&gt;
-&lt;/configuration&gt;
-&lt;executions&gt;
-&lt;execution&gt;
-&lt;id&gt;compile-clojure&lt;/id&gt;
-        &lt;phase&gt;compile&lt;/phase&gt;
-        &lt;goals&gt;
-&lt;goal&gt;compile&lt;/goal&gt;
-&lt;/goals&gt;
-&lt;/execution&gt;
-&lt;execution&gt;
-&lt;id&gt;test-clojure&lt;/id&gt;
-        &lt;phase&gt;test&lt;/phase&gt;
-        &lt;goals&gt;
-&lt;goal&gt;test&lt;/goal&gt;
-&lt;/goals&gt;
-&lt;/execution&gt;
-&lt;/executions&gt;
-  &lt;/plugin&gt;
-</pre>
+
+~~~ xml
+  <plugin>
+    <groupId>com.theoryinpractise</groupId>
+<artifactId>clojure-maven-plugin</artifactId>
+<version>1.7.1</version>
+<configuration>
+<mainClass>com.mycompany.app.core</mainClass>
+</configuration>
+<executions>
+<execution>
+<id>compile-clojure</id>
+        <phase>compile</phase>
+        <goals>
+<goal>compile</goal>
+</goals>
+</execution>
+<execution>
+<id>test-clojure</id>
+        <phase>test</phase>
+        <goals>
+<goal>test</goal>
+</goals>
+</execution>
+</executions>
+  </plugin>
+~~~
+
 
 
 
@@ -275,16 +292,18 @@ e.printStackTrace();
 </div></li>
 
 
-<pre class="brush: xml; title: ; notranslate" title="">
-  &lt;plugin&gt;
-    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-&lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
-&lt;version&gt;3.3&lt;/version&gt;
-&lt;configuration&gt;&lt;source&gt;1.8&lt;/source&gt;
-&lt;target&gt;1.8&lt;/target&gt;
-&lt;/configuration&gt;
-  &lt;/plugin&gt;
-</pre>
+
+~~~ xml
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-compiler-plugin</artifactId>
+<version>3.3</version>
+<configuration><source>1.8</source>
+<target>1.8</target>
+</configuration>
+  </plugin>
+~~~
+
 
 
 
@@ -295,23 +314,25 @@ e.printStackTrace();
 </div></li>
 
 
-<pre class="brush: xml; title: ; notranslate" title="">
-  &lt;plugin&gt;
-    &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
-&lt;artifactId&gt;exec-maven-plugin&lt;/artifactId&gt;
-&lt;version&gt;1.4.0&lt;/version&gt;
-&lt;executions&gt;
-&lt;execution&gt;
-&lt;goals&gt;
-&lt;goal&gt;exec&lt;/goal&gt;
-&lt;/goals&gt;
-&lt;/execution&gt;
-&lt;/executions&gt;
-&lt;configuration&gt;
-&lt;mainClass&gt;com.mycompany.app.App&lt;/mainClass&gt;
-&lt;/configuration&gt;
-  &lt;/plugin&gt;
-</pre>
+
+~~~ xml
+  <plugin>
+    <groupId>org.codehaus.mojo</groupId>
+<artifactId>exec-maven-plugin</artifactId>
+<version>1.4.0</version>
+<executions>
+<execution>
+<goals>
+<goal>exec</goal>
+</goals>
+</execution>
+</executions>
+<configuration>
+<mainClass>com.mycompany.app.App</mainClass>
+</configuration>
+  </plugin>
+~~~
+
 
 
 
@@ -321,26 +342,28 @@ e.printStackTrace();
 </div></li>
 
 
-<pre class="brush: xml; title: ; notranslate" title="">
-  &lt;plugin&gt;
-    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
-&lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt;
-&lt;version&gt;2.6&lt;/version&gt;
-&lt;configuration&gt;
-&lt;archive&gt;
-&lt;manifest&gt;
 
-&lt;!-- use clojure main --&gt;
-&lt;!-- &lt;mainClass&gt;com.mycompany.app.core&lt;/mainClass&gt; --&gt;
+~~~ xml
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-jar-plugin</artifactId>
+<version>2.6</version>
+<configuration>
+<archive>
+<manifest>
 
-&lt;!-- use java main --&gt;
-&lt;!-- &lt;mainClass&gt;com.mycompany.app.App&lt;/mainClass&gt; --&gt;
+<!-- use clojure main -->
+<!-- <mainClass>com.mycompany.app.core</mainClass> -->
 
-&lt;/manifest&gt;
-&lt;/archive&gt;
-&lt;/configuration&gt;
-  &lt;/plugin&gt;
-</pre>
+<!-- use java main -->
+<!-- <mainClass>com.mycompany.app.App</mainClass> -->
+
+</manifest>
+</archive>
+</configuration>
+  </plugin>
+~~~
+
 
 
 
@@ -353,9 +376,11 @@ e.printStackTrace();
 </div></li></ul></div>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 mvn package
-</pre>
+~~~
+
 
 
 
@@ -368,9 +393,11 @@ mvn package
 </ul>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 java -cp target/my-app-1.0-SNAPSHOT-jar-with-dependencies.jar com.mycompany.app.App
-</pre>
+~~~
+
 
 
 
@@ -379,9 +406,11 @@ java -cp target/my-app-1.0-SNAPSHOT-jar-with-dependencies.jar com.mycompany.app.
 </div></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 java -cp target/my-app-1.0-SNAPSHOT-jar-with-dependencies.jar com.mycompany.app.core
-</pre>
+~~~
+
 
 
 
@@ -390,9 +419,11 @@ java -cp target/my-app-1.0-SNAPSHOT-jar-with-dependencies.jar com.mycompany.app.
 </div></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 java -jar target/my-app-1.0-SNAPSHOT-jar-with-dependencies.jar
-</pre>
+~~~
+
 
 
 
@@ -403,9 +434,11 @@ java -jar target/my-app-1.0-SNAPSHOT-jar-with-dependencies.jar
 </div></li></ul></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 mvn exec:java
-</pre>
+~~~
+
 
 
 
@@ -416,9 +449,11 @@ mvn exec:java
 </div></li></ul></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
-mvn exec:java -Dexec.mainClass=&quot;com.mycompany.app.App&quot;
-</pre>
+
+~~~ bash
+mvn exec:java -Dexec.mainClass="com.mycompany.app.App"
+~~~
+
 
 
 
@@ -427,9 +462,11 @@ mvn exec:java -Dexec.mainClass=&quot;com.mycompany.app.App&quot;
 </div></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
-mvn exec:java -Dexec.mainClass=&quot;com.mycompany.app.core&quot;
-</pre>
+
+~~~ bash
+mvn exec:java -Dexec.mainClass="com.mycompany.app.core"
+~~~
+
 
 
 
@@ -438,9 +475,11 @@ mvn exec:java -Dexec.mainClass=&quot;com.mycompany.app.core&quot;
 </div></li>
 
 
-<pre class="brush: plain; title: ; notranslate" title="">
--Dexec.args=&quot;foo&quot;
-</pre>
+
+~~~ text
+-Dexec.args="foo"
+~~~
+
 
 
 
@@ -451,9 +490,11 @@ mvn exec:java -Dexec.mainClass=&quot;com.mycompany.app.core&quot;
 </div></li></ul></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 mvn clojure:run
-</pre>
+~~~
+
 
 
 
@@ -465,26 +506,30 @@ mvn clojure:run
 </div></li></ul></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 mkdir src/test/clojure/com/mycompany/app
 
 touch src/test/clojure/com/mycompany/app/core_test.clj
-</pre>
+~~~
+
 
 
 
 <p class="wp-block-paragraph">Add the following content:</p>
 
 
-<pre class="brush: clojure; title: ; notranslate" title="">
+
+~~~ clojure
 (ns com.mycompany.app.core-test
-(:require &#x5B;clojure.test :refer :all]
-&#x5B;com.mycompany.app.core :refer :all]))
+(:require [clojure.test :refer :all]
+[com.mycompany.app.core :refer :all]))
 
 (deftest a-test
-(testing &quot;Rigourous Test :-)&quot;
+(testing "Rigourous Test :-)"
 (is (= 0 0))))
-</pre>
+~~~
+
 
 
 
@@ -493,18 +538,22 @@ touch src/test/clojure/com/mycompany/app/core_test.clj
 </div></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 mvn clojure:test
-</pre>
+~~~
+
 
 
 
 <p class="wp-block-paragraph">Or</p>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 mvn clojure:test-with-junit
-</pre>
+~~~
+
 
 
 
@@ -514,7 +563,8 @@ mvn clojure:test-with-junit
 </div></li>
 
 
-<pre class="brush: plain; title: ; notranslate" title="">
+
+~~~ text
 mvn ...
 
 clojure:add-source
@@ -530,7 +580,8 @@ clojure:nailgun
 clojure:gendoc
 clojure:autodoc
 clojure:marginalia
-</pre>
+~~~
+
 
 
 
@@ -554,30 +605,34 @@ clojure:marginalia
 </div></li></ul></div>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 touch project.clj
-</pre>
+~~~
+
 
 
 
 <p class="wp-block-paragraph">Add this content</p>
 
 
-<pre class="brush: clojure; title: ; notranslate" title="">
-(defproject my-sandbox &quot;1.0-SNAPSHOT&quot;
-:description &quot;My Encanter Project&quot;
-:url &quot;http://joelholder.com&quot;
-:license {:name &quot;Eclipse Public License&quot;
-:url &quot;http://www.eclipse.org/legal/epl-v10.html&quot;}
-:dependencies &#x5B;&#x5B;org.clojure/clojure &quot;1.7.0&quot;]
-&#x5B;incanter &quot;1.9.0&quot;]]
+
+~~~ clojure
+(defproject my-sandbox "1.0-SNAPSHOT"
+:description "My Encanter Project"
+:url "http://joelholder.com"
+:license {:name "Eclipse Public License"
+:url "http://www.eclipse.org/legal/epl-v10.html"}
+:dependencies [[org.clojure/clojure "1.7.0"]
+[incanter "1.9.0"]]
 :main com.mycompany.app.core
-:source-paths &#x5B;&quot;src/main/clojure&quot;]
-:java-source-paths &#x5B;&quot;src/main/java&quot;]
-:test-paths &#x5B;&quot;src/test/clojure&quot;]
-:resource-paths &#x5B;&quot;resources&quot;]
+:source-paths ["src/main/clojure"]
+:java-source-paths ["src/main/java"]
+:test-paths ["src/test/clojure"]
+:resource-paths ["resources"]
 :aot :all)
-</pre>
+~~~
+
 
 
 
@@ -594,9 +649,11 @@ touch project.clj
 </div></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 lein run
-</pre>
+~~~
+
 
 
 
@@ -605,9 +662,11 @@ lein run
 </div></li>
 
 
-<pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 lein test
-</pre>
+~~~
+
 
 
 
@@ -622,25 +681,33 @@ lein test
 <h3 id="orgheadline37">Clojure code</h3>
 <div id="text-orgheadline37" class="outline-text-3">
 <p>The Clojure code block</p>
-<pre class="example">#+begin_src clojure :tangle ./src/main/clojure/com/mycompany/app/core.clj :results output 
+
+~~~ java
+#+begin_src clojure :tangle ./src/main/clojure/com/mycompany/app/core.clj :results output
   (-main)
   (run)
 #+end_src
-</pre>
+~~~
+
 <p>Blocks are run in org-mode with C-c C-c </p>
 </div></div></div>
 
 
-<pre class="brush: clojure; title: ; notranslate" title="">
+
+~~~ clojure
 (-main)
 (run)
-</pre>
+~~~
 
 
 
-<pre class="wp-block-preformatted">Hello Clojure!
+
+
+~~~ java
+Hello Clojure!
 Java main called clojure function with args:
-</pre>
+~~~
+
 
 
 
@@ -668,16 +735,18 @@ Java main called clojure function with args:
 </div></div>
 
 
-<pre class="brush: clojure; title: ; notranslate" title="">
-(use &#039;(incanter core charts pdf))
+
+~~~ clojure
+(use '(incanter core charts pdf))
 ;;; Create the x and y data:
-(def x-data &#x5B;0.0 1.0 2.0 3.0 4.0 5.0])
-(def y-data &#x5B;2.3 9.0 2.6 3.1 8.1 4.5])
+(def x-data [0.0 1.0 2.0 3.0 4.0 5.0])
+(def y-data [2.3 9.0 2.6 3.1 8.1 4.5])
 (def xy-line (xy-plot x-data y-data))
 (view xy-line)
-(save-pdf xy-line &quot;img/incanter-xy-line.pdf&quot;)
-(save xy-line &quot;img/incanter-xy-line.png&quot;)
-</pre>
+(save-pdf xy-line "img/incanter-xy-line.pdf")
+(save xy-line "img/incanter-xy-line.png")
+~~~
+
 
 
 

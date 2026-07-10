@@ -7,24 +7,6 @@ tags: ["C#", "Interop", "Python", "Speed"]
 wordpress_id: 1124
 original_url: "https://joelholder.com/2019/12/16/wrapping-c-apis-in-python/"
 ---
-<style>
-.entry-content pre,
-.entry-content code {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-.entry-content table,
-.entry-content img,
-.entry-content iframe {
-  max-width: 100%;
-}
-.entry-content {
-  overflow-wrap: anywhere;
-}
-</style>
-
-
 
 <p class="wp-block-paragraph">Python is usually where I want to orchestrate work: load data, shape inputs, run experiments, and glue systems together. C and C++ are where I want hot loops, existing native libraries, SIMD-heavy routines, mature systems code, and APIs that already exist outside the Python ecosystem.</p>
 
@@ -49,9 +31,11 @@ original_url: "https://joelholder.com/2019/12/16/wrapping-c-apis-in-python/"
 <p class="wp-block-paragraph">Using <a href="https://github.com/simplegeo/libgeohash">libgeohash</a> as an example, a simple Linux build might look like this:</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: bash; title: ; notranslate" title="">
+
+~~~ bash
 gcc -O3 -fPIC -shared -o libgeohash.so geohash.c
-</pre></div>
+~~~
+
 
 
 <p class="wp-block-paragraph">On macOS that output would usually be a <code>.dylib</code>; on Windows, a <code>.dll</code>. The Python code should not assume the extension unless you control deployment.</p>
@@ -65,11 +49,12 @@ gcc -O3 -fPIC -shared -o libgeohash.so geohash.c
 <p class="wp-block-paragraph">The important part of <code>ctypes</code> is not the load call. It is declaring the ABI accurately. Without <code>argtypes</code> and <code>restype</code>, Python will guess, and those guesses are not a contract you want in production.</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+
+~~~ python
 from ctypes import CDLL, c_char_p, c_double, c_int
 from pathlib import Path
 
-lib = CDLL(str(Path(__file__).with_name(&quot;libgeohash.so&quot;)))
+lib = CDLL(str(Path(__file__).with_name("libgeohash.so")))
 
 def bind(name, restype, *argtypes):
     fn = getattr(lib, name)
@@ -78,7 +63,7 @@ def bind(name, restype, *argtypes):
     return fn
 
 geohash_encode = bind(
-    &quot;geohash_encode&quot;,
+    "geohash_encode",
     c_char_p,
     c_double,
     c_double,
@@ -86,9 +71,10 @@ geohash_encode = bind(
 )
 
 raw = geohash_encode(41.41845703125, 2.17529296875, 5)
-hash_value = raw.decode(&quot;ascii&quot;)
+hash_value = raw.decode("ascii")
 print(hash_value)  # sp3e9
-</pre></div>
+~~~
+
 
 
 <p class="wp-block-paragraph">That wrapper is intentionally boring. A Python call crosses into native code, the C function receives two doubles and an int, and the returned <code>char *</code> is exposed as bytes. The Python layer decodes it because the C ABI does not know about Python strings.</p>
@@ -102,33 +88,37 @@ print(hash_value)  # sp3e9
 <p class="wp-block-paragraph">For plain C structs, define a matching <code>ctypes.Structure</code>. The order and C types must match the header. If the C side has packing pragmas, bitfields, platform-dependent integer sizes, or nested ownership, slow down and verify layout with tests.</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: cpp; title: ; notranslate" title="">
+
+~~~ cpp
 typedef struct GeoBoxDimensionStruct {
     double height;
     double width;
 } GeoBoxDimension;
 
 extern GeoBoxDimension geohash_dimensions_for_precision(int precision);
-</pre></div>
+~~~
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+
+
+~~~ python
 from ctypes import Structure, c_double, c_int
 
 class GeoBoxDimension(Structure):
-    _fields_ = &#x5B;
-        (&quot;height&quot;, c_double),
-        (&quot;width&quot;, c_double),
+    _fields_ = [
+        ("height", c_double),
+        ("width", c_double),
     ]
 
 geohash_dimensions_for_precision = bind(
-    &quot;geohash_dimensions_for_precision&quot;,
+    "geohash_dimensions_for_precision",
     GeoBoxDimension,
     c_int,
 )
 
 dims = geohash_dimensions_for_precision(6)
 print(dims.height, dims.width)
-</pre></div>
+~~~
+
 
 
 <p class="wp-block-paragraph">This is a good shape for <code>ctypes</code>: value types cross the boundary, Python receives a small struct, and there is no lifecycle problem to solve.</p>
@@ -142,7 +132,8 @@ print(dims.height, dims.width)
 <p class="wp-block-paragraph">Many C APIs return status codes and write results through pointers. Model that directly. Do not pretend every C function is a Python function that returns one object.</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: cpp; title: ; notranslate" title="">
+
+~~~ cpp
 int geohash_decode_bbox(
     const char *hash,
     double *lat_min,
@@ -150,13 +141,15 @@ int geohash_decode_bbox(
     double *lng_min,
     double *lng_max
 );
-</pre></div>
+~~~
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+
+
+~~~ python
 from ctypes import POINTER, byref, c_char_p, c_double, c_int
 
 geohash_decode_bbox = bind(
-    &quot;geohash_decode_bbox&quot;,
+    "geohash_decode_bbox",
     c_int,
     c_char_p,
     POINTER(c_double),
@@ -172,17 +165,18 @@ def decode_bbox(hash_value: str):
     lng_max = c_double()
 
     rc = geohash_decode_bbox(
-        hash_value.encode(&quot;ascii&quot;),
+        hash_value.encode("ascii"),
         byref(lat_min),
         byref(lat_max),
         byref(lng_min),
         byref(lng_max),
     )
     if rc != 0:
-        raise ValueError(f&quot;geohash_decode_bbox failed: {rc}&quot;)
+        raise ValueError(f"geohash_decode_bbox failed: {rc}")
 
     return lat_min.value, lat_max.value, lng_min.value, lng_max.value
-</pre></div>
+~~~
+
 
 
 <p class="wp-block-paragraph">The wrapper converts the C style into a Python style at the edge: allocate output slots, call the native function, check the return code, and return a tuple. That keeps the rest of the Python application free of pointer management.</p>
@@ -196,16 +190,17 @@ def decode_bbox(hash_value: str):
 <p class="wp-block-paragraph"><code>ctypes</code> works best against a C ABI. Once the native side is C++, or once you want a polished Python module instead of a thin ABI wrapper, <a href="https://github.com/pybind/pybind11">pybind11</a> is usually cleaner. You write a small C++ binding layer, compile it as a Python extension, and expose Python-native functions/classes.</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: cpp; title: ; notranslate" title="">
+
+~~~ cpp
 // bindings.cpp
-#include &lt;pybind11/pybind11.h&gt;
-#include &lt;pybind11/stl.h&gt;
-#include &lt;stdexcept&gt;
-#include &lt;string&gt;
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include <stdexcept>
+#include <string>
 
 namespace py = pybind11;
 
-extern &quot;C&quot; char *geohash_encode(double lat, double lng, int precision);
+extern "C" char *geohash_encode(double lat, double lng, int precision);
 
 struct Box {
     double height;
@@ -220,64 +215,71 @@ Box dimensions_for_precision(int precision) {
 std::string encode(double lat, double lng, int precision) {
     char *raw = geohash_encode(lat, lng, precision);
     if (raw == nullptr) {
-        throw std::runtime_error(&quot;geohash_encode returned null&quot;);
+        throw std::runtime_error("geohash_encode returned null");
     }
     return std::string(raw);
 }
 
 PYBIND11_MODULE(geohash_native, m) {
-    m.doc() = &quot;Native geohash bindings&quot;;
+    m.doc() = "Native geohash bindings";
 
-    py::class_&lt;Box&gt;(m, &quot;Box&quot;)
-        .def_readonly(&quot;height&quot;, &amp;Box::height)
-        .def_readonly(&quot;width&quot;, &amp;Box::width);
+    py::class_<Box>(m, "Box")
+        .def_readonly("height", &Box::height)
+        .def_readonly("width", &Box::width);
 
-    m.def(&quot;encode&quot;, &amp;encode,
-        py::arg(&quot;lat&quot;),
-        py::arg(&quot;lng&quot;),
-        py::arg(&quot;precision&quot;) = 12);
+    m.def("encode", &encode,
+        py::arg("lat"),
+        py::arg("lng"),
+        py::arg("precision") = 12);
 
-    m.def(&quot;dimensions_for_precision&quot;, &amp;dimensions_for_precision);
+    m.def("dimensions_for_precision", &dimensions_for_precision);
 }
-</pre></div>
+~~~
+
 
 
 <p class="wp-block-paragraph">A minimal build using <code>setuptools</code> can stay small:</p>
 
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+
+~~~ python
 # setup.py
 from pybind11.setup_helpers import Pybind11Extension, build_ext
 from setuptools import setup
 
-ext_modules = &#x5B;
+ext_modules = [
     Pybind11Extension(
-        &quot;geohash_native&quot;,
-        &#x5B;&quot;bindings.cpp&quot;, &quot;geohash.c&quot;],
+        "geohash_native",
+        ["bindings.cpp", "geohash.c"],
         cxx_std=17,
     ),
 ]
 
 setup(
-    name=&quot;geohash_native&quot;,
+    name="geohash_native",
     ext_modules=ext_modules,
-    cmdclass={&quot;build_ext&quot;: build_ext},
+    cmdclass={"build_ext": build_ext},
 )
-</pre></div>
+~~~
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: bash; title: ; notranslate" title="">
+
+
+~~~ bash
 python -m pip install pybind11 setuptools wheel
 python -m pip install -e .
-</pre></div>
+~~~
 
-<div class="wp-block-syntaxhighlighter-code "><pre class="brush: python; title: ; notranslate" title="">
+
+
+~~~ python
 import geohash_native
 
 print(geohash_native.encode(41.41845703125, 2.17529296875, precision=5))
 
 box = geohash_native.dimensions_for_precision(6)
 print(box.height, box.width)
-</pre></div>
+~~~
+
 
 
 <p class="wp-block-paragraph">The tradeoff is build complexity. With <code>ctypes</code>, Python loads an existing shared object. With <code>pybind11</code>, you ship a compiled Python extension for each supported Python/platform/architecture combination. The upside is a nicer API, better C++ interop, and fewer pointer-shaped details leaking into application code.</p>

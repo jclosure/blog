@@ -16,7 +16,7 @@ original_url: "https://joelholder.com/2008/12/02/simple-random-password-generato
 <p>{ </p>
 <p></font><font color="#0000ff" size="2"><font color="#0000ff" size="2">    string</font></font><font size="2"> letters = </font><font color="#a31515" size="2"><font color="#a31515" size="2">&#8220;0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&#8221;</font></font><font size="2">; </p>
 <p></font><font color="#0000ff" size="2"><font color="#0000ff" size="2">    var</font></font><font size="2"> chars = </font><font color="#0000ff" size="2"><font color="#0000ff" size="2">new</font></font><font size="2"> </font><font color="#0000ff" size="2"><font color="#0000ff" size="2">char</font></font><font size="2">[length]; </p>
-<p></font><font color="#0000ff" size="2"><font color="#0000ff" size="2">    for</font></font><font size="2"> (</font><font color="#0000ff" size="2"><font color="#0000ff" size="2">int</font></font><font size="2"> i = 0; i < length; i++) 
+<p></font><font color="#0000ff" size="2"><font color="#0000ff" size="2">    for</font></font><font size="2"> (</font><font color="#0000ff" size="2"><font color="#0000ff" size="2">int</font></font><font size="2"> i = 0; i < length; i++)
 
 
 <p>        chars[i] = letters[randomizer.Next(0, letters.Length)]; </p>

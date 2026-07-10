@@ -1,10 +1,10 @@
 title: Joel Holder's - Loose Leaf Experiments
 description: Notes, builds, and experiments.
-url: "https://jclosure.github.io"
-baseurl: "/blog"
+url: "https://joelholder.com"
+baseurl: ""
 theme: jekyll-theme-hacker
 markdown: kramdown
-permalink: /:categories/:year/:month/:day/:title/
+permalink: /blog/:year/:month/:day/:title/
 plugins:
   - jekyll-feed
 

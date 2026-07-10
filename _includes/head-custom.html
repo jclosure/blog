@@ -18,3 +18,197 @@
     }
   });
 </script>
+<style>
+  :root {
+    --page-bg: #101418;
+    --panel-bg: #171d22;
+    --panel-border: #35424b;
+    --accent: #5fd38d;
+    --accent-2: #f2b84b;
+    --muted: #9caab4;
+    --text: #f2f5f3;
+  }
+
+  body {
+    background: var(--page-bg);
+    color: var(--text);
+  }
+
+  header h1::after {
+    content: " / software, systems, experiments";
+    display: block;
+    color: var(--muted);
+    font-size: 0.42em;
+    font-weight: 400;
+    margin-top: 0.35rem;
+  }
+
+  .site-hero {
+    min-height: min(72vh, 760px);
+    display: grid;
+    align-items: end;
+    position: relative;
+    overflow: hidden;
+    margin: -1.5rem -1rem 2rem;
+    padding: clamp(4rem, 9vw, 8rem) clamp(1rem, 5vw, 4rem) clamp(2rem, 6vw, 4rem);
+    border-bottom: 1px solid var(--panel-border);
+    background: #0b0f12;
+  }
+
+  .hero-media {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(90deg, rgba(10, 14, 17, 0.9), rgba(10, 14, 17, 0.56) 48%, rgba(10, 14, 17, 0.72)),
+      url("/assets/wp/automata-arcade-is-becoming-an-instrument/03-manifold-regions-curvature.gif");
+    background-size: cover;
+    background-position: center;
+    filter: saturate(0.9) contrast(1.06);
+  }
+
+  .hero-copy {
+    position: relative;
+    max-width: 780px;
+  }
+
+  .eyebrow,
+  .feature-kicker {
+    color: var(--accent-2);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .site-hero h1 {
+    color: #ffffff;
+    font-size: clamp(3rem, 10vw, 7rem);
+    line-height: 0.95;
+    margin: 0.2rem 0 1rem;
+  }
+
+  .lede {
+    color: #dce6e1;
+    font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+    line-height: 1.55;
+    max-width: 680px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .button-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    background: rgba(20, 25, 29, 0.76);
+    color: var(--text);
+  }
+
+  .button-link.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #07100b;
+    font-weight: 700;
+  }
+
+  .section-band,
+  .archive-head {
+    margin: 2.2rem 0;
+  }
+
+  .section-heading h2,
+  .archive-head h1 {
+    margin-top: 0.25rem;
+  }
+
+  .post-river,
+  .archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 1.5rem;
+  }
+
+  .post-river li,
+  .archive-list li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(150, 170, 180, 0.18);
+  }
+
+  .archive-list li {
+    grid-template-columns: 7rem minmax(0, 1fr);
+  }
+
+  time {
+    color: var(--muted);
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .feature-card {
+    display: grid;
+    gap: 0.45rem;
+    min-height: 150px;
+    padding: 1rem;
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    background: var(--panel-bg);
+    color: var(--text);
+  }
+
+  .feature-card strong {
+    color: #ffffff;
+    font-size: 1.25rem;
+  }
+
+  .feature-card span:last-child {
+    color: #c5d0d5;
+  }
+
+  img,
+  iframe,
+  video {
+    max-width: 100%;
+  }
+
+  pre,
+  code {
+    overflow-x: auto;
+  }
+
+  @media (max-width: 640px) {
+    .site-hero {
+      min-height: 64vh;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+    }
+
+    .post-river li,
+    .archive-list li {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+
+    time {
+      white-space: normal;
+    }
+  }
+</style>

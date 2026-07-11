@@ -8,7 +8,7 @@ title: Joel Holder
   <div class="hero-copy">
     <p class="eyebrow">Portfolio and lab</p>
     <h1>Joel Holder</h1>
-    <p class="lede">Ideas, systems, and working experiments.</p>
+    <p class="lede">Ideas, research, and learning</p>
     <div class="hero-actions" aria-label="Primary sections">
       <a class="button-link primary" href="{{ '/blog/' | relative_url }}">Read the blog</a>
       <a class="button-link" href="{{ '/projects/' | relative_url }}">See projects</a>

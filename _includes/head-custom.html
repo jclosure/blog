@@ -34,6 +34,10 @@
     color: var(--text);
   }
 
+  body:has(.site-hero) > header {
+    display: none;
+  }
+
   header h1::after {
     content: " / software, systems, experiments";
     display: block;
@@ -44,13 +48,13 @@
   }
 
   .site-hero {
-    min-height: clamp(230px, 25vh, 290px);
+    min-height: clamp(347px, 38vh, 437px);
     display: grid;
-    align-items: end;
+    align-items: stretch;
     position: relative;
     overflow: hidden;
     margin: -1.5rem -1rem 2rem;
-    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 5vw, 4rem) clamp(1rem, 2.5vw, 1.75rem);
+    padding: clamp(0.9rem, 2vw, 1.5rem) clamp(1rem, 5vw, 4rem) clamp(1rem, 2.5vw, 1.75rem);
     border-bottom: 1px solid var(--panel-border);
     background: #0b0f12;
   }
@@ -68,7 +72,9 @@
 
   .hero-copy {
     position: relative;
-    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+    max-width: 620px;
   }
 
   .eyebrow,
@@ -84,7 +90,7 @@
     color: #ffffff;
     font-size: clamp(2.25rem, 5.6vw, 4.25rem);
     line-height: 0.95;
-    margin: 0.2rem 0 1rem;
+    margin: 0.1rem 0 0.65rem;
   }
 
   .lede {
@@ -98,7 +104,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 1.5rem;
+    margin-top: auto;
+    padding-top: 1rem;
   }
 
   .button-link {
@@ -196,10 +203,10 @@
 
   @media (max-width: 640px) {
     .site-hero {
-      min-height: 250px;
+      min-height: 376px;
       margin-left: -0.5rem;
       margin-right: -0.5rem;
-      padding-top: 1.75rem;
+      padding-top: 1.25rem;
     }
 
     .hero-media {

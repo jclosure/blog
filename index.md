@@ -6,24 +6,25 @@ title: Joel Holder
 <section class="site-hero">
   <div class="hero-media"></div>
   <div class="hero-copy">
+    <hr/>
     <nav class="hero-nav" aria-label="Main sections">
       <a href="{{ '/blog/' | relative_url }}">Writing</a>
       <a href="{{ '/projects/' | relative_url }}">Projects</a>
       <a href="{{ '/about/' | relative_url }}">About</a>
     </nav>
 
+  
     <div class="hero-statement">
       <p class="eyebrow">Portfolio and lab</p>
       <h1>Joel Holder</h1>
-      <p class="lede">Math, coding, philosophy, and other things that interest me.</p>
+      <p class="lede">Recreational Learning & Discovery</p>
     </div>
 
     <div class="hero-bottom">
       <div class="hero-focus" aria-label="Areas of focus">
-        <span>Proofs</span>
-        <span>Automata</span>
-        <span>AI from scratch</span>
-        <span>Systems</span>
+        <span>Geometry</span>
+        <span>Math</span>
+        <span>Artificial Intelligence</span>
       </div>
 
       <div class="hero-actions" aria-label="Primary sections">
@@ -35,7 +36,7 @@ title: Joel Holder
 </section>
 
 <section class="intro-band">
-  <p class="intro-lede">I write and build around the places where abstract ideas become working things: proofs, software, simulations, interfaces, and small instruments for thinking.</p>
+  <p class="intro-lede">This site is a rolling sample of my momentary interests. Here you'll find writings and examples of abstract ideas turned into working things: software, simulations, and small instruments for thinking.</p>
   <div class="intro-note">
     <span class="feature-kicker">Current direction</span>
     <strong>Learning in public, building with taste, and keeping the lab door open.</strong>

@@ -7,7 +7,7 @@ permalink: /blog/
 <section class="archive-head">
   <p class="eyebrow">Writing</p>
   <h1>Loose Leaf</h1>
-  <p>Notes, builds, experiments, and older archive posts brought forward from WordPress.</p>
+  <p>Articles</p>
 </section>
 
 <ol class="archive-list">

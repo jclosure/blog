@@ -6,9 +6,9 @@ title: Joel Holder
 <section class="site-hero">
   <div class="hero-media"></div>
   <div class="hero-copy">
-    <p class="eyebrow">Loose Leaf Experiments</p>
+    <p class="eyebrow">Portfolio and lab</p>
     <h1>Joel Holder</h1>
-    <p class="lede">Ideas, philosophical probes, and working implementations from the edge between software, systems, and strange little machines.</p>
+    <p class="lede">Ideas, systems, and working experiments.</p>
     <div class="hero-actions" aria-label="Primary sections">
       <a class="button-link primary" href="{{ '/blog/' | relative_url }}">Read the blog</a>
       <a class="button-link" href="{{ '/projects/' | relative_url }}">See projects</a>
@@ -18,8 +18,8 @@ title: Joel Holder
 
 <section class="section-band">
   <div class="section-heading">
-    <p class="eyebrow">Recent writing</p>
-    <h2>Fresh Leaves</h2>
+    <p class="eyebrow">Loose Leaf</p>
+    <h2>Recent writing</h2>
   </div>
 
   <ol class="post-river">
@@ -39,7 +39,7 @@ title: Joel Holder
 <section class="feature-grid" aria-label="Site sections">
   <a class="feature-card" href="{{ '/blog/' | relative_url }}">
     <span class="feature-kicker">Writing</span>
-    <strong>Blog</strong>
+    <strong>Loose Leaf</strong>
     <span>Technical notes, philosophy, experiments, and recovered posts from the old archive.</span>
   </a>
   <a class="feature-card" href="{{ '/projects/' | relative_url }}">

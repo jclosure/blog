@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Blog
+title: Loose Leaf
 permalink: /blog/
 ---
 
 <section class="archive-head">
-  <p class="eyebrow">Loose Leaf Experiments</p>
-  <h1>Blog</h1>
+  <p class="eyebrow">Writing</p>
+  <h1>Loose Leaf</h1>
   <p>Notes, builds, experiments, and older archive posts brought forward from WordPress.</p>
 </section>
 

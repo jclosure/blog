@@ -15,7 +15,7 @@ original_url: "https://joelholder.com/2026/03/07/automata-arcade-building-a-play
 
 
 
-<figure class="wp-block-image size-full"><img data-recalc-dims="1" decoding="async" src="/blog/assets/wp/automata-arcade-building-a-playable-lab-for-conways-game-of-life/hero.gif" alt="Automata Arcade hero animation"/></figure>
+<figure class="wp-block-image size-full"><img data-recalc-dims="1" decoding="async" src="/assets/wp/automata-arcade-building-a-playable-lab-for-conways-game-of-life/hero.gif" alt="Automata Arcade hero animation"/></figure>
 
 
 
@@ -120,7 +120,7 @@ original_url: "https://joelholder.com/2026/03/07/automata-arcade-building-a-play
 
 
 <figure class="wp-block-image alignwide size-large"><img data-recalc-dims="1" loading="lazy" decoding="async" width="960" height="540" data-attachment-id="1934" data-permalink="https://joelholder.com/2026/03/07/automata-arcade-building-a-playable-lab-for-conways-game-of-life/automata-arcade-demo/" data-orig-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2026/03/automata-arcade-demo.gif?fit=960%2C540&amp;ssl=1" data-orig-size="960,540" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;,&quot;alt&quot;:&quot;&quot;}" data-image-title="automata-arcade-demo" data-image-description="" data-image-caption="&lt;p&gt;Automata Arcade demo animation&lt;/p&gt;
-" data-large-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2026/03/automata-arcade-demo.gif?fit=960%2C540&amp;ssl=1" src="/blog/assets/wp/automata-arcade-building-a-playable-lab-for-conways-game-of-life/automata-arcade-demo.gif" alt="Automata Arcade demo animation" class="wp-image-1934"/><figcaption>Automata Arcade demo animation</figcaption></figure>
+" data-large-file="https://i0.wp.com/joelholder.com/wp-content/uploads/2026/03/automata-arcade-demo.gif?fit=960%2C540&amp;ssl=1" src="/assets/wp/automata-arcade-building-a-playable-lab-for-conways-game-of-life/automata-arcade-demo.gif" alt="Automata Arcade demo animation" class="wp-image-1934"/><figcaption>Automata Arcade demo animation</figcaption></figure>
 
 
 

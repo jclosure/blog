@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Blog
-permalink: /archive/
+permalink: /blog/
 ---
 
 <section class="archive-head">

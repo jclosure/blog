@@ -8,6 +8,8 @@ wordpress_id: 1124
 original_url: "https://joelholder.com/2019/12/16/wrapping-c-apis-in-python/"
 ---
 
+<figure class="wp-block-image size-full"><img decoding="async" src="/assets/wp/wrapping-c-apis-in-python/python-cpp-hero.jpg" alt="Line-art illustration of Python and C++ working together at a laptop"/></figure>
+
 <p class="wp-block-paragraph">Python is usually where I want to orchestrate work: load data, shape inputs, run experiments, and glue systems together. C and C++ are where I want hot loops, existing native libraries, SIMD-heavy routines, mature systems code, and APIs that already exist outside the Python ecosystem.</p>
 
 

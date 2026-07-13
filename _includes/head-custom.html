@@ -199,6 +199,145 @@
     font-weight: 700;
   }
 
+  .math-figure {
+    margin: 2rem auto;
+    text-align: center;
+  }
+
+  .math-figure img {
+    display: block;
+    width: min(100%, 920px);
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .math-figure figcaption {
+    margin-top: 0.65rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .proof-sequence {
+    display: grid;
+    gap: 0.45rem;
+    margin: 1.25rem 0 1.45rem;
+    padding: 0.15rem 0;
+  }
+
+  .proof-step {
+    display: grid;
+    grid-template-columns: minmax(8.5rem, 0.32fr) minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: center;
+    min-width: 0;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(150, 170, 180, 0.16);
+  }
+
+  .proof-step p {
+    margin: 0;
+  }
+
+  .proof-step strong {
+    color: var(--accent-2);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .proof-step .step-formula {
+    color: #8ee6c1;
+    text-align: center;
+    font-size: 1.06rem;
+    line-height: 1.45;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .running-dot-grid {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: center;
+    gap: 1.75rem;
+    align-items: start;
+    margin: 1.35rem 0 1.6rem;
+  }
+
+  .running-total-list,
+  .dot-triangle {
+    display: grid;
+    grid-template-rows: auto repeat(5, 1.75rem) auto;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .running-total-list > p:first-child {
+    margin: 0;
+    line-height: 1;
+  }
+
+  .running-total-list strong,
+  .dot-triangle strong {
+    display: block;
+    color: var(--accent-2);
+    font-size: 0.88rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .running-total-list .step-formula {
+    margin: 0;
+    text-align: left;
+  }
+
+  .dot-triangle {
+    color: #8ee6c1;
+    font-size: 1.1rem;
+    line-height: 1;
+    text-align: left;
+    word-spacing: 0.35rem;
+  }
+
+  .running-note,
+  .dot-note {
+    align-self: start;
+    margin-top: 0.4rem;
+    color: #c5d0d5;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    word-spacing: 0;
+  }
+
+  #main_content .katex-display {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.1rem;
+  }
+
+  #main_content .katex-display .katex {
+    color: #8ee6c1;
+  }
+
+  @media (max-width: 720px) {
+    .proof-sequence {
+      grid-template-columns: 1fr;
+    }
+
+    .proof-step {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+
+    .running-dot-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .running-total-list .step-formula {
+      text-align: center;
+    }
+  }
+
   .section-band,
   .archive-head,
   .intro-band {

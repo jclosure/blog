@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 360" role="img" aria-labelledby="title desc">
+  <title id="title">A triangular stack copied and flipped to make a rectangle</title>
+  <desc id="desc">A five-row triangular stack has 15 green blocks. A blue copied and flipped triangle completes a five by six rectangle with 30 blocks.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f2f5f3; }
+    .muted { fill: #aab7bd; }
+    .grid { stroke: #172026; stroke-width: 2; }
+    .tri { fill: #5fd38d; }
+    .copy { fill: #64c7d8; }
+    .outline { fill: none; stroke: #f2b84b; stroke-width: 4; }
+    .label { font-size: 20px; font-weight: 700; text-anchor: middle; }
+    .small { font-size: 16px; text-anchor: middle; }
+  </style>
+
+  <rect width="920" height="360" fill="#101418"/>
+
+  <!-- Left triangle -->
+  <g transform="translate(92 52)">
+    <!-- row 1 -->
+    <rect x="0" y="0" width="42" height="42" rx="4" class="tri grid"/>
+    <!-- row 2 -->
+    <rect x="0" y="46" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="46" width="42" height="42" rx="4" class="tri grid"/>
+    <!-- row 3 -->
+    <rect x="0" y="92" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="92" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="92" y="92" width="42" height="42" rx="4" class="tri grid"/>
+    <!-- row 4 -->
+    <rect x="0" y="138" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="138" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="92" y="138" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="138" y="138" width="42" height="42" rx="4" class="tri grid"/>
+    <!-- row 5 -->
+    <rect x="0" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="92" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="138" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="184" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <text x="112" y="266" class="label">T</text>
+    <text x="112" y="292" class="small muted">one triangle</text>
+  </g>
+
+  <!-- Arrow -->
+  <g transform="translate(360 148)">
+    <path d="M0 30 H84" stroke="#f2b84b" stroke-width="5" stroke-linecap="round"/>
+    <path d="M84 30 L64 16 M84 30 L64 44" stroke="#f2b84b" stroke-width="5" stroke-linecap="round"/>
+    <text x="42" y="-8" class="small muted">copy + flip</text>
+  </g>
+
+  <!-- Rectangle made of two triangles -->
+  <g transform="translate(525 52)">
+    <!-- 5 rows by 6 columns. Green where col <= row, blue otherwise. -->
+    <rect x="0" y="0" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="0" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="92" y="0" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="138" y="0" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="184" y="0" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="230" y="0" width="42" height="42" rx="4" class="copy grid"/>
+
+    <rect x="0" y="46" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="46" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="92" y="46" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="138" y="46" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="184" y="46" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="230" y="46" width="42" height="42" rx="4" class="copy grid"/>
+
+    <rect x="0" y="92" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="92" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="92" y="92" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="138" y="92" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="184" y="92" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="230" y="92" width="42" height="42" rx="4" class="copy grid"/>
+
+    <rect x="0" y="138" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="138" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="92" y="138" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="138" y="138" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="184" y="138" width="42" height="42" rx="4" class="copy grid"/>
+    <rect x="230" y="138" width="42" height="42" rx="4" class="copy grid"/>
+
+    <rect x="0" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="46" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="92" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="138" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="184" y="184" width="42" height="42" rx="4" class="tri grid"/>
+    <rect x="230" y="184" width="42" height="42" rx="4" class="copy grid"/>
+
+    <rect x="-4" y="-4" width="280" height="234" rx="8" class="outline"/>
+    <text x="136" y="266" class="label">2T</text>
+    <text x="136" y="292" class="small muted">one rectangle</text>
+  </g>
+</svg>

@@ -18,9 +18,9 @@ title: Joel Holder
       <h1>Joel Holder</h1>
       <p class="lede">Recreational Learning & Discovery</p>
       <div class="hero-focus" aria-label="Areas of focus">
-        <span>Geometry</span>
+        <!-- <span>Geometry</span>
         <span>Math</span>
-        <span>Artificial Intelligence</span>
+        <span>Artificial Intelligence</span> -->
       </div>
     </div>
 

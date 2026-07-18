@@ -7,66 +7,67 @@ tags: []
 wordpress_id: 4
 original_url: "https://joelholder.com/2010/03/11/implementing-missing_method-with-c-dynamic-part-1/"
 ---
-<div id="msgcns!3FC3980D58CF7EFB!516" class="bvMsg">
-<div>
-<p style="margin:0 0 10pt;"><font color="#000000" size="3" face="Calibri">One of the neat things about Ruby is its method_missing fallback capability.<span>  </span>Using the C# 4.0 DynamicObject, we’re also able to control dispatch at runtime.<span>  </span>I wanted to see how the method_missing idiom might work with a C# dynamic dispatcher, so I wrote up a small sample.</font></p>
-<p style="margin:0 0 10pt;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000">[</font><span style="color:#2b91af;">TestMethod</span><font color="#000000">]</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;">public</span><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font><span style="color:blue;">void</span><font color="#000000"> Can_Control_Dynamic_Dispatch()</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000">{</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;">dynamic</span><font color="#000000"> dispatcher1 = </font><span style="color:blue;">new</span><font color="#000000"> </font><span style="color:#2b91af;">ExpandableDispatcher</span><font color="#000000">();</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;">dynamic</span><font color="#000000"> dispatcher2 = </font><span style="color:blue;">new</span><font color="#000000"> </font><span style="color:#2b91af;">ExpandableDispatcher</span><font color="#000000">();</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"></font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>   </span><span> </span>dispatcher1.Methods[</font><span style="color:#a31515;">&#8220;method_missing&#8221;</span><font color="#000000">] = </font><span style="color:blue;">new</span><font color="#000000"> </font><span style="color:#2b91af;">Func</span><font color="#000000"><</font><span style="color:blue;">string</span><font color="#000000">, </font><span style="color:blue;">object</span><font color="#000000">>(param =></font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>    </span>{</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">        </font></span><span style="color:blue;">return</span><font color="#000000"> dispatcher2.RunMeta(param);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>    </span>});</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"></font></span> </p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;">    <font color="#000000">dispatcher2.Methods[</font><span style="color:#a31515;">&#8220;RunMeta&#8221;</span><font color="#000000">] = </font><span style="color:blue;">new</span><font color="#000000"> </font><span style="color:#2b91af;">Func</span><font color="#000000"><</font><span style="color:blue;">string</span><font color="#000000">, </font><span style="color:blue;">string</span><font color="#000000">>(param =></font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>    </span>{</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">        </font></span><span style="color:blue;">return</span><font color="#000000"> </font><span style="color:#a31515;">&#8220;Meta said &#8220;</span><font color="#000000"> + param;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>    </span>});</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;">var</span><font color="#000000"> response = dispatcher1.RunMeta(</font><span style="color:#a31515;">&#8220;I am a probe..&#8221;</span><font color="#000000">);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:#2b91af;">Assert</span><font color="#000000">.IsTrue(response == </font><span style="color:#a31515;">&#8220;Meta said I am a probe..&#8221;</span><font color="#000000">);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000">}</font></span></p>
-<p style="margin:0 0 10pt;"><font color="#000000" size="3" face="Calibri"> </font></p>
-<p style="margin:0 0 10pt;"><font color="#000000" size="3" face="Calibri">Note that an attempt to execute RunMeta is made on dispatcher1, but RunMeta is not defined on dispatcher1; its on dispatcher2.  The call gets routed by method_missing to dispatcher2 for execution.  In this simple case, the call is passed from a Delegate in dispatcher1 to one in dispatcher2 via a closure reference set in the calling code.  <span>  A more elaborate message passing implementation, however, will allow method_missing to forward the call to a ServiceLocator or back up the call stack until it finds a method with a matching name and signature.  </span></font></p>
-<p style="margin:0 0 10pt;"><font color="#000000" size="3" face="Calibri"><span></span></font> </p>
-<p style="margin:0 0 10pt;"><font color="#000000" size="3" face="Calibri"><span></span>Here’s the simplest implementation of ExpandableDispatcher.</font></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;">public</span><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font><span style="color:blue;">class</span><font color="#000000"> </font><span style="color:#2b91af;">ExpandableDispatcher</span><font color="#000000"> : </font><span style="color:#2b91af;">DynamicObject</span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000">{</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">       </font></span><span style="color:#2b91af;">IDictionary</span><font color="#000000"><</font><span style="color:blue;">string</span><font color="#000000">, </font><span style="color:blue;">object</span><font color="#000000">> _methods = </font><span style="color:blue;">new</span><font color="#000000"> </font><span style="color:#2b91af;">Dictionary</span><font color="#000000"><</font><span style="color:blue;">string</span><font color="#000000">, </font><span style="color:blue;">object</span><font color="#000000">>();</font></span></p>
-<p style="line-height:normal;margin:0 0 0 .5in;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;">public</span><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font><span style="color:#2b91af;">IDictionary</span><font color="#000000"> <</font><span style="color:blue;">string</span><font color="#000000">, </font><span style="color:blue;">object</span><font color="#000000">> Methods</font></span></p>
-<p style="line-height:normal;margin:0 0 0 .5in;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000">{</font></span></p>
-<p style="line-height:normal;margin:0 0 0 .5in;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;">get</span><font color="#000000"> { </font><span style="color:blue;">return</span><font color="#000000"> _methods; }</font></span></p>
-<p style="line-height:normal;margin:0 0 0 .5in;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;">set</span><font color="#000000"> { _methods = </font><span style="color:blue;">value</span><font color="#000000">; }</font></span></p>
-<p style="line-height:normal;margin:0 0 0 .5in;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000">}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">        </font></span><span style="color:blue;">public</span><font color="#000000"> </font><span style="color:blue;">override</span><font color="#000000"> </font><span style="color:blue;">bool</span><font color="#000000"> TryInvokeMember(</font><span style="color:#2b91af;">InvokeMemberBinder</span><font color="#000000"> binder, </font><span style="color:blue;">object</span><font color="#000000">[] args, </font><span style="color:blue;">out</span><font color="#000000"> </font><span style="color:blue;">object</span><font color="#000000"> result)</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span>{</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:blue;">if</span><font color="#000000"> (_methods.ContainsKey(binder.Name) &#038;&#038; (_methods[binder.Name] </font><span style="color:blue;">is</span><font color="#000000"> </font><span style="color:#2b91af;">Delegate</span><font color="#000000">)</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>{</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                </span>result = (_methods[binder.Name] </font><span style="color:blue;">as</span><font color="#000000"> </font><span style="color:#2b91af;">Delegate</span><font color="#000000">).DynamicInvoke(args);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">return</span><font color="#000000"> </font><span style="color:blue;">true</span><font color="#000000">;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:blue;">else</span><font color="#000000"> </font><span style="color:blue;">if</span><font color="#000000"> (_methods.ContainsKey(</font><span style="color:#a31515;">&#8220;method_missing&#8221;</span><font color="#000000">) &#038;&#038; _methods[</font><span style="color:#a31515;">&#8220;method_missing&#8221;</span><font color="#000000">] </font><span style="color:blue;">is</span><font color="#000000"> </font><span style="color:#2b91af;">Delegate</span><font color="#000000">)</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>{</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                </span>result = (_methods[</font><span style="color:#a31515;">&#8220;method_missing&#8221;</span><font color="#000000">] </font><span style="color:blue;">as</span><font color="#000000"> </font><span style="color:#2b91af;">Delegate</span><font color="#000000">).DynamicInvoke(args);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">return</span><font color="#000000"> </font><span style="color:blue;">true</span><font color="#000000">;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:blue;">else</span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>{</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">return</span><font color="#000000"> </font><span style="color:blue;">base</span><font color="#000000">.TryInvokeMember(binder, args, </font><span style="color:blue;">out</span><font color="#000000"> result);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000">}</font></span></p>
-<p style="margin:0 0 10pt;"><font color="#000000" size="3" face="Calibri"> </font></p>
-<p style="margin:0 0 10pt;"><font color="#000000" size="3" face="Calibri">As you can see, dynamic dispatch in C# 4.0 gives us the power to define method calling routes with an emphasis on runtime behavioral composition.<span>  </span>This enables a new family patterns in C# that leverage dynamic message routing using runtime assignment of Delegates to DynamicObject facades.<span>  </span>For more reading on this topic, see the follow up post, <a href="http://uberpwn.spaces.live.com/blog/cns!3FC3980D58CF7EFB!518.entry"><u><font color="#800080">Implementing method_missing with C# dynamic &#8211; Part 2</font></u></a>.</font></p>
-<p style="margin:0 0 10pt;"><font color="#000000" size="3" face="Calibri">Enjoy..</font></p>
-</div>
-</div>
+
+One of the neat things about Ruby is its method_missing fallback capability. Using the C# 4.0 DynamicObject, we're also able to control dispatch at runtime. I wanted to see how the method_missing idiom might work with a C# dynamic dispatcher, so I wrote up a small sample.
+
+```csharp
+[TestMethod]
+public void Can_Control_Dynamic_Dispatch()
+{
+    dynamic dispatcher1 = new ExpandableDispatcher();
+
+    dynamic dispatcher2 = new ExpandableDispatcher();
+
+    dispatcher1.Methods["method_missing"] = new Func<string, object>(param =>
+    {
+        return dispatcher2.RunMeta(param);
+    });
+
+    dispatcher2.Methods["RunMeta"] = new Func<string, string>(param =>
+    {
+        return "Meta said " + param;
+    });
+
+    var response = dispatcher1.RunMeta("I am a probe..");
+
+    Assert.IsTrue(response == "Meta said I am a probe..");
+}
+```
+
+Note that an attempt to execute RunMeta is made on dispatcher1, but RunMeta is not defined on dispatcher1; its on dispatcher2. The call gets routed by method_missing to dispatcher2 for execution. In this simple case, the call is passed from a Delegate in dispatcher1 to one in dispatcher2 via a closure reference set in the calling code. A more elaborate message passing implementation, however, will allow method_missing to forward the call to a ServiceLocator or back up the call stack until it finds a method with a matching name and signature.
+
+Here's the simplest implementation of ExpandableDispatcher.
+
+```csharp
+public class ExpandableDispatcher : DynamicObject
+{
+    IDictionary<string, object> _methods = new Dictionary<string, object>();
+    public IDictionary<string, object> Methods
+    {
+        get { return _methods; }
+        set { _methods = value; }
+    }
+
+    public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+    {
+        if (_methods.ContainsKey(binder.Name) && _methods[binder.Name] is Delegate)
+        {
+            result = (_methods[binder.Name] as Delegate).DynamicInvoke(args);
+            return true;
+        }
+        else if (_methods.ContainsKey("method_missing") && _methods["method_missing"] is Delegate)
+        {
+            result = (_methods["method_missing"] as Delegate).DynamicInvoke(args);
+            return true;
+        }
+        else
+        {
+            return base.TryInvokeMember(binder, args, out result);
+        }
+    }
+}
+```
+
+As you can see, dynamic dispatch in C# 4.0 gives us the power to define method calling routes with an emphasis on runtime behavioral composition. This enables a new family patterns in C# that leverage dynamic message routing using runtime assignment of Delegates to DynamicObject facades. For more reading on this topic, see the follow up post, [Implementing method_missing with C# dynamic – Part 2](http://uberpwn.spaces.live.com/blog/cns!3FC3980D58CF7EFB!518.entry).
+
+Enjoy..

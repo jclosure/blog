@@ -7,51 +7,54 @@ tags: []
 wordpress_id: 16
 original_url: "https://joelholder.com/2008/11/23/demonstration-of-dynamic-type-creation-and-resolution/"
 ---
-<div id="msgcns!3FC3980D58CF7EFB!231" class="bvMsg">
-<p style="line-height:normal;margin:0;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">This is a modified sample from the .NET Framework SDK.  Basically demonstrates how to programmatically drive the ILGenerator to emit code resulting in a method definition.  Note that it is wrapped in a programmatically created assembly that exists only in memory.  In the Main of this Application, the dynamic assembly is unwrapped and reflection is used to invoke the method that was generated.  </span></p>
-<p style="line-height:normal;margin:0;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">Instuctions: Create a new Console Application.  Replace the entire contents of Program.cs with the following.  Then run.</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">using</span><span style="font-size:10pt;color:black;font-family:Tahoma,sans-serif;"> System;</span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">using</span><span style="font-size:10pt;color:black;font-family:Tahoma,sans-serif;"> System.Reflection;</span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">using</span><span style="font-size:10pt;color:black;font-family:Tahoma,sans-serif;"> System.Reflection.Emit;</span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">using</span><span style="font-size:10pt;color:black;font-family:Tahoma,sans-serif;"> System.Threading;</span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">using</span><span style="font-size:10pt;color:black;font-family:Tahoma,sans-serif;"> System.Runtime.Remoting;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">class</span><span style="font-size:10pt;color:black;font-family:Tahoma,sans-serif;"> </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">App</span><span style="font-size:10pt;color:black;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:black;font-family:Tahoma,sans-serif;">{</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt .5in;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">static</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Assembly</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> TypeResolveHandler(</span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Object</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> sender, </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">ResolveEventArgs</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> e) </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt .5in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">{ </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Console</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.WriteLine(</span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;In TypeResolveHandler&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">AssemblyName</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> assemblyName = </span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">new</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">AssemblyName</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">(); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">assemblyName.Name = </span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;DynamicAssem&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">; </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:green;font-family:Tahoma,sans-serif;">// Create a new assembly with one module</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">AssemblyBuilder</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> newAssembly = </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Thread</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.GetDomain().DefineDynamicAssembly(assemblyName, </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">AssemblyBuilderAccess</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.Run); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">ModuleBuilder</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> newModule = newAssembly.DefineDynamicModule(</span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;DynamicModule&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:green;font-family:Tahoma,sans-serif;">// Define a public class named &#8220;ANonExistentType&#8221; in the assembly.</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">TypeBuilder</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> myType = newModule.DefineType(</span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;ANonExistentType&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">, </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">TypeAttributes</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.Public); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:green;font-family:Tahoma,sans-serif;">// Define a method on the type to call</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">MethodBuilder</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> simpleMethod = myType.DefineMethod(</span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;SimpleMethod&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">, </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">MethodAttributes</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.Public, </span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">null</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">, </span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">null</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">ILGenerator</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> il = simpleMethod.GetILGenerator(); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">il.EmitWriteLine(</span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;Method called in ANonExistentType&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">il.Emit(</span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">OpCodes</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.Ret); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:green;font-family:Tahoma,sans-serif;">// Bake the type</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">myType.CreateType(); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">return</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> newAssembly; </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt .5in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">} </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt .5in;"><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">static</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">void</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> Main() </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt .5in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">{ </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:green;font-family:Tahoma,sans-serif;">// Hook up the event handler</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Thread</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.GetDomain().AssemblyResolve +=</span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">new</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">ResolveEventHandler</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">(</span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">App</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.TypeResolveHandler); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:green;font-family:Tahoma,sans-serif;">// Find a type that should be in our assembly but isn&#8217;t</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">ObjectHandle</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> oh = </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Activator</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.CreateInstance(</span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;DynamicAssem&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">, </span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;ANonExistentType&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Type</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> mt = oh.Unwrap().GetType(); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:green;font-family:Tahoma,sans-serif;">// Construct an instance of a type</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Object</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> objInstance = </span><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Activator</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.CreateInstance(mt); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:green;font-family:Tahoma,sans-serif;">// Find a method in this type and call it on this object</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">MethodInfo</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;"> mi = mt.GetMethod(</span><span style="font-size:10pt;color:#a31515;font-family:Tahoma,sans-serif;">&#8220;SimpleMethod&#8221;</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">mi.Invoke(objInstance, </span><span style="font-size:10pt;color:blue;font-family:Tahoma,sans-serif;">null</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt 1in;"><span style="font-size:10pt;color:#2b91af;font-family:Tahoma,sans-serif;">Console</span><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">.ReadKey(); </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt .5in;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">} </span></p>
-<p style="line-height:normal;margin:0 0 16.2pt;"><span style="font-size:10pt;color:#444444;font-family:Tahoma,sans-serif;">}</span></div>
+
+This is a modified sample from the .NET Framework SDK. Basically demonstrates how to programmatically drive the ILGenerator to emit code resulting in a method definition. Note that it is wrapped in a programmatically created assembly that exists only in memory. In the Main of this Application, the dynamic assembly is unwrapped and reflection is used to invoke the method that was generated.
+
+Instuctions: Create a new Console Application. Replace the entire contents of Program.cs with the following. Then run.
+
+```csharp
+using System;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Threading;
+using System.Runtime.Remoting;
+
+class App
+{
+    static Assembly TypeResolveHandler(Object sender, ResolveEventArgs e)
+    {
+        Console.WriteLine("In TypeResolveHandler");
+        AssemblyName assemblyName = new AssemblyName();
+        assemblyName.Name = "DynamicAssem";
+        // Create a new assembly with one module
+        AssemblyBuilder newAssembly =
+        Thread.GetDomain().DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+        ModuleBuilder newModule = newAssembly.DefineDynamicModule("DynamicModule");
+        // Define a public class named "ANonExistentType" in the assembly.
+        TypeBuilder myType = newModule.DefineType("ANonExistentType", TypeAttributes.Public);
+        // Define a method on the type to call
+        MethodBuilder simpleMethod = myType.DefineMethod("SimpleMethod", MethodAttributes.Public, null, null);
+        ILGenerator il = simpleMethod.GetILGenerator();
+        il.EmitWriteLine("Method called in ANonExistentType");
+        il.Emit(OpCodes.Ret);
+        // Bake the type
+        myType.CreateType();
+        return newAssembly;
+    }
+
+    static void Main()
+    {
+        // Hook up the event handler
+        Thread.GetDomain().AssemblyResolve += new ResolveEventHandler(App.TypeResolveHandler);
+        // Find a type that should be in our assembly but isn't
+        ObjectHandle oh = Activator.CreateInstance("DynamicAssem", "ANonExistentType");
+        Type mt = oh.Unwrap().GetType();
+        // Construct an instance of a type
+        Object objInstance = Activator.CreateInstance(mt);
+        // Find a method in this type and call it on this object
+        MethodInfo mi = mt.GetMethod("SimpleMethod");
+        mi.Invoke(objInstance, null);
+        Console.ReadKey();
+    }
+}
+```

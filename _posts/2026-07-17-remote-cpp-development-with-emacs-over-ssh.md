@@ -35,4 +35,3 @@ You could be on a train with spotty wifi, or SSH'd into a machine on the other s
 This isn't a "prove yourself first" tool. It's a config — pre-built, documented, and free to just clone and point at your own project. The IDE part works immediately. Whatever else you want to do with the forty years of Emacs sitting underneath it is entirely optional, and entirely up to you, whenever you're ready for it.
 
 **Try it:** [github.com/jclosure/vscode-flavored-emacs-2026](https://github.com/jclosure/vscode-flavored-emacs-2026) — MIT licensed, no strings attached.
-</content>

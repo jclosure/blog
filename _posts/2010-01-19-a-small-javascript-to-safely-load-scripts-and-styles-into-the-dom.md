@@ -7,108 +7,103 @@ tags: []
 wordpress_id: 10
 original_url: "https://joelholder.com/2010/01/19/a-small-javascript-to-safely-load-scripts-and-styles-into-the-dom/"
 ---
-<div id="msgcns!3FC3980D58CF7EFB!515" class="bvMsg">
-<div>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"></span><font size="2" face="Consolas">Consider scenarios where you have pages composed of parts that are combined at runtime.  If the many authors of those parts have external script references sprinkeled throughout, there is the chance that author2 might over write author1&#8217;s reference of JQuery or some other script dependency.  The consequences of doing this are usually breakage.  I wrote this little script to allow all authors to call their scripts into page parts safely, ensuring that a script or stylesheet reference never overwrites another.  This script assumes that URI is sufficient to uniquely identify a script.  It does not attempt to deal with the situation where 2 developers might both load the same library from different URIs.</font></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"></span> </p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"><!</span><span style="font-family:Consolas;color:maroon;font-size:9.5pt;">DOCTYPE</span><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font><span style="color:red;">html</span><font color="#000000"> </font><span style="color:red;">PUBLIC</span><font color="#000000"> </font><span style="color:blue;">&#8220;-//W3C//DTD XHTML 1.0 Transitional//EN&#8221;</span><font color="#000000"> </font><span style="color:blue;">&#8220;<a href="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&#038;#8221" rel="nofollow">http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&#038;#8221</a>;></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"><</span><span style="font-family:Consolas;color:maroon;font-size:9.5pt;">html</span><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font><span style="color:red;">xmlns</span><span style="color:blue;">=&#8221;<a href="http://www.w3.org/1999/xhtml&#038;#8221" rel="nofollow">http://www.w3.org/1999/xhtml&#038;#8221</a>;></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"><</span><span style="font-family:Consolas;color:maroon;font-size:9.5pt;">head</span><span style="font-family:Consolas;color:blue;font-size:9.5pt;">></span><span style="font-family:Consolas;font-size:9.5pt;"></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;"><</span><span style="color:maroon;">title</span><span style="color:blue;">></</span><span style="color:maroon;">title</span><span style="color:blue;">></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;"><</span><span style="color:maroon;">script</span><font color="#000000"> </font><span style="color:red;">type</span><span style="color:blue;">=&#8221;text/javascript&#8221;></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">        </font></span><span style="color:darkgreen;">/**</span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>        </span>* Function object to carry DOM management behaviors</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>        </span>*/</span><span style="font-family:Consolas;font-size:9.5pt;"></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">        </font></span><span style="color:blue;">function</span><font color="#000000"> bootStrapper() {</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:blue;">var</span><font color="#000000"> head = document.getElementsByTagName(</font><span style="color:maroon;">&#8220;head&#8221;</span><font color="#000000">)[0];</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:darkgreen;">/**</span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* Loads an external javascript source by creating a <script> tag</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* and injecting it into the DOM.</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* @param {string} src Url of the content uri </span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>         </span><span>   </span>* @param {string} opt_id An optional id for the <script> tag</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>*/</span><span style="font-family:Consolas;font-size:9.5pt;"></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:blue;">this</span><font color="#000000">.addScriptReference = </font><span style="color:blue;">function</span><font color="#000000"> (url, opt_id) {</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">if</span><font color="#000000"> (!isLoaded(head, </font><span style="color:maroon;">'script'</span><font color="#000000">, </font><span style="color:maroon;">'src'</span><font color="#000000">, url)) {</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                    </font></span><span style="color:blue;">var</span><font color="#000000"> script = document.createElement(</font><span style="color:maroon;">'script'</span><font color="#000000">);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                    </font></span><span style="color:blue;">if</span><font color="#000000"> (opt_id)</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                        </span>script.id = opt_id;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                    </span>script.type = </font><span style="color:maroon;">'text/javascript'</span><font color="#000000">;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                    </span>script.src = url;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                    </span>head.appendChild(script);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>};</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"></font></span> </p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:darkgreen;">/**</span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* Loads an external style source by creating a <link> tag</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* and injecting it into the DOM.</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* @param {string} src Url of the content uri </span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* @param {string} opt_id An optional id for the <link> tag</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>*/</span><span style="font-family:Consolas;font-size:9.5pt;"></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:blue;">this</span><font color="#000000">.addStyleReference = </font><span style="color:blue;">function</span><font color="#000000"> (url, opt_id) {</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">if</span><font color="#000000"> (!isLoaded(head, </font><span style="color:maroon;">'link'</span><font color="#000000">, </font><span style="color:maroon;">'href'</span><font color="#000000">, url)) {</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                    </font></span><span style="color:blue;">var</span><font color="#000000"> style = document.createElement(</font><span style="color:maroon;">'link'</span><font color="#000000">);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                    </font></span><span style="color:blue;">if</span><font color="#000000"> (opt_id)</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                        </span>style.id = opt_id;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                    </span>style.href = url;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                    </span>style.rel = </font><span style="color:maroon;">"stylesheet"</span><font color="#000000">;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>  </span><span>                  </span>style.type = </font><span style="color:maroon;">"text/css"</span><font color="#000000">;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                    </span>head.appendChild(style);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>};</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:darkgreen;">/**</span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* Tests to see if tag with matching key and value properties is </span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* present in container</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* @param {DOM Node} container dom element to search</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* @param {string} name of the tag to be searched for</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* @param {string} name of the attribute of belonging to the tag</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>* @param {string} value of the attribute of belonging to the tag</span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:darkgreen;font-size:9.5pt;"><span>            </span>*/</span><span style="font-family:Consolas;font-size:9.5pt;"></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">            </font></span><span style="color:blue;">function</span><font color="#000000"> isLoaded(container, tagName, propKey, propValue) {</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">var</span><font color="#000000"> elems = container.getElementsByTagName(tagName);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">var</span><font color="#000000"> alreadyLoaded = </font><span style="color:blue;">false</span><font color="#000000">;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">for</span><font color="#000000"> (</font><span style="color:blue;">var</span><font color="#000000"> i = 0, elem; elem = elems[i]; i++) {</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                    </font></span><span style="color:blue;">if</span><font color="#000000"> (elem[propKey] == propValue) {</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                        </span>alreadyLoaded = </font><span style="color:blue;">true</span><font color="#000000">;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                        </font></span><span style="color:blue;">break</span><font color="#000000">;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                    </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>                </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">                </font></span><span style="color:blue;">return</span><font color="#000000"> alreadyLoaded;</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>            </span>};</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span>}</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;"></</span><span style="color:maroon;">script</span><span style="color:blue;">></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span style="color:blue;"></span></span> </p>
-<p><span style="font-family:Consolas;font-size:9.5pt;"><span style="color:blue;"></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;"><</span><span style="color:maroon;">script</span><font color="#000000"> </font><span style="color:red;">type</span><span style="color:blue;">="text/javascript"></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span style="color:blue;">        var<font color="#000000"> boot = </font><span style="color:blue;">new</span><font color="#000000"> bootStrapper();</font></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"></font></span> </p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">        </font></span><span style="color:darkgreen;">//redundant script</span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span>boot.addScriptReference(</font><span style="color:maroon;">'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'</span><font color="#000000">, </font><span style="color:maroon;">"jQuery1"</span><font color="#000000">);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span>boot.addScriptReference(</font><span style="color:maroon;">'http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'</span><font color="#000000">, </font><span style="color:maroon;">"jQuery2"</span><font color="#000000">);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span></font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">        </font></span><span style="color:darkgreen;">//redundant style</span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span>boot.addStyleReference(</font><span style="color:maroon;">'http://www.codeweblog.com/template/andy/css/style.css'</span><font color="#000000">, </font><span style="color:maroon;">"Style1"</span><font color="#000000">);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span>boot.addStyleReference(</font><span style="color:maroon;">'http://www.codeweblog.com/template/andy/css/style.css'</span><font color="#000000">, </font><span style="color:maroon;">"Style2"</span><font color="#000000">);</font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"><span>        </span></font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;"></</span><span style="color:maroon;">script</span><span style="color:blue;">></span></span></p>
-<p></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"></</span><span style="font-family:Consolas;color:maroon;font-size:9.5pt;">head</span><span style="font-family:Consolas;color:blue;font-size:9.5pt;">></span><span style="font-family:Consolas;font-size:9.5pt;"></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"><</span><span style="font-family:Consolas;color:maroon;font-size:9.5pt;">body</span><span style="font-family:Consolas;color:blue;font-size:9.5pt;">></span><span style="font-family:Consolas;font-size:9.5pt;"></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span><font color="#000000">    </font></span><span style="color:blue;"><</span><span style="color:maroon;">p</span><span style="color:blue;">>Example Usage...</span><span style="color:blue;"></</span><span style="color:maroon;">p</span><span style="color:blue;">></span></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><font color="#000000"> </font></span></p>
-<p style="line-height:normal;margin:0;">
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;"><span style="color:blue;"></span></span></p>
-<p><span style="font-family:Consolas;color:blue;font-size:9.5pt;"></</span><span style="font-family:Consolas;color:maroon;font-size:9.5pt;">body</span><span style="font-family:Consolas;color:blue;font-size:9.5pt;">></span><span style="font-family:Consolas;font-size:9.5pt;"></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"></</span><span style="font-family:Consolas;color:maroon;font-size:9.5pt;">html</span><span style="font-family:Consolas;color:blue;font-size:9.5pt;">></span></p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;color:blue;font-size:9.5pt;"></span> </p>
-<p style="line-height:normal;margin:0;"><span style="font-family:Consolas;font-size:9.5pt;">The result of the above usage is that only 1 instance of the Javascript and only 1 instance of the stylesheet is loaded.  </span></p>
-</div>
-</div>
+
+Consider scenarios where you have pages composed of parts that are combined at runtime. If the many authors of those parts have external script references sprinkeled throughout, there is the chance that author2 might over write author1's reference of JQuery or some other script dependency. The consequences of doing this are usually breakage. I wrote this little script to allow all authors to call their scripts into page parts safely, ensuring that a script or stylesheet reference never overwrites another. This script assumes that URI is sufficient to uniquely identify a script. It does not attempt to deal with the situation where 2 developers might both load the same library from different URIs.
+
+```html
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="text/javascript">
+
+        /**
+        * Function object to carry DOM management behaviors
+        */
+        function bootStrapper() {
+
+            var head = document.getElementsByTagName("head")[0];
+
+            /**
+            * Loads an external javascript source by creating a <script> tag
+            * and injecting it into the DOM.
+            * @param {string} src Url of the content uri
+            * @param {string} opt_id An optional id for the <script> tag
+            */
+            this.addScriptReference = function (url, opt_id) {
+                if (!isLoaded(head, 'script', 'src', url)) {
+                    var script = document.createElement('script');
+                    if (opt_id)
+                        script.id = opt_id;
+                    script.type = 'text/javascript';
+                    script.src = url;
+                    head.appendChild(script);
+                }
+            };
+
+            /**
+            * Loads an external style source by creating a <link> tag
+            * and injecting it into the DOM.
+            * @param {string} src Url of the content uri
+            * @param {string} opt_id An optional id for the <link> tag
+            */
+            this.addStyleReference = function (url, opt_id) {
+                if (!isLoaded(head, 'link', 'href', url)) {
+                    var style = document.createElement('link');
+                    if (opt_id)
+                        style.id = opt_id;
+                    style.href = url;
+                    style.rel = "stylesheet";
+                    style.type = "text/css";
+                    head.appendChild(style);
+                }
+            };
+
+            /**
+            * Tests to see if tag with matching key and value properties is
+            * present in container
+            * @param {DOM Node} container dom element to search
+            * @param {string} name of the tag to be searched for
+            * @param {string} name of the attribute of belonging to the tag
+            * @param {string} value of the attribute of belonging to the tag
+            */
+            function isLoaded(container, tagName, propKey, propValue) {
+                var elems = container.getElementsByTagName(tagName);
+
+                var alreadyLoaded = false;
+                for (var i = 0, elem; elem = elems[i]; i++) {
+                    if (elem[propKey] == propValue) {
+                        alreadyLoaded = true;
+                        break;
+                    }
+                }
+                return alreadyLoaded;
+            };
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        var boot = new bootStrapper();
+
+        //redundant script
+        boot.addScriptReference('http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js', "jQuery1");
+        boot.addScriptReference('http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js', "jQuery2");
+
+        //redundant style
+        boot.addStyleReference('http://www.codeweblog.com/template/andy/css/style.css', "Style1");
+        boot.addStyleReference('http://www.codeweblog.com/template/andy/css/style.css', "Style2");
+
+    </script>
+
+</head>
+<body>
+
+    <p>Example Usage...</p>
+
+</body>
+</html>
+```
+
+The result of the above usage is that only 1 instance of the Javascript and only 1 instance of the stylesheet is loaded.

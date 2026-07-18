@@ -7,14 +7,75 @@ tags: []
 wordpress_id: 70
 original_url: "https://joelholder.com/2011/03/12/my-c-observabledictionary/"
 ---
-<p><code><span style="color:blue;">using</span> System;<br /><span style="color:blue;">using</span> System.Collections.Generic;<br /><span style="color:blue;">using</span> System.Linq;<br /><span style="color:blue;">using</span> System.Text;<br /><span style="color:blue;">using</span> System.ComponentModel;<br /><span style="color:blue;">using</span> System.Collections.Specialized;</p>
-<p><span style="color:blue;">namespace</span> DynamicSpikes<br />{<br />    <span style="color:blue;">public</span> <span style="color:blue;">class</span> <span style="color:#2b91af;">ObservableDictionary</span><String, Object> : <span style="color:#2b91af;">Dictionary</span><<span style="color:blue;">string</span>, <span style="color:blue;">object</span>>, <span style="color:#2b91af;">INotifyPropertyChanged</span>, <span style="color:#2b91af;">INotifyCollectionChanged</span><br />    {</p>
-<p>        <span style="color:blue;">public</span> <span style="color:blue;">event</span> <span style="color:#2b91af;">PropertyChangedEventHandler</span> PropertyChanged = <span style="color:blue;">delegate</span> { };<br />        <span style="color:blue;">public</span> <span style="color:blue;">event</span> <span style="color:#2b91af;">NotifyCollectionChangedEventHandler</span> CollectionChanged = <span style="color:blue;">delegate</span> { };</p>
-<p>        <span style="color:blue;">private</span> <span style="color:blue;">void</span> OnCollectionChanged(<span style="color:blue;">object</span> sender, <span style="color:#2b91af;">NotifyCollectionChangedAction</span> action, <span style="color:blue;">object</span> value)<br />        {<br />            <span style="color:blue;">if</span> (CollectionChanged != <span style="color:blue;">null</span>)<br />            {<br />                CollectionChanged(sender, <span style="color:blue;">new</span> <span style="color:#2b91af;">NotifyCollectionChangedEventArgs</span>(action, value));<br />            }<br />        }</p>
-<p>        <span style="color:blue;">private</span> <span style="color:blue;">void</span> OnPropertyChanged(<span style="color:blue;">object</span> sender, <span style="color:blue;">string</span> propertyName)<br />        {<br />            <span style="color:blue;">if</span> (PropertyChanged != <span style="color:blue;">null</span>)<br />            {<br />                PropertyChanged(<span style="color:blue;">this</span>, <span style="color:blue;">new</span> <span style="color:#2b91af;">PropertyChangedEventArgs</span>(propertyName));<br />            }<br />        }</p>
-<p>        <span style="color:blue;">public</span> <span style="color:blue;">new</span> <span style="color:blue;">void</span> Add(<span style="color:blue;">string</span> key, <span style="color:blue;">object</span> value)<br />        {<br />            <span style="color:blue;">base</span>.Add(key, value);<br />            OnCollectionChanged(<span style="color:blue;">this</span>, <span style="color:#2b91af;">NotifyCollectionChangedAction</span>.Add, <span style="color:blue;">new</span> <span style="color:#2b91af;">KeyValuePair</span><<span style="color:blue;">string</span>, <span style="color:blue;">object</span>>(key, value));</p>
-<p>            <span style="color:green;">//OnPropertyChanged(this, "Values");</span><br />            <span style="color:green;">//OnPropertyChanged(this, "Keys");</span><br />            <span style="color:green;">//OnPropertyChanged(this, "Count");</span><br />        }</p>
-<p>        <span style="color:blue;">public</span> <span style="color:blue;">new</span> <span style="color:blue;">bool</span> Remove(<span style="color:blue;">string</span> key)<br />        {<br />            <span style="color:blue;">var</span> kvp = <span style="color:blue;">base</span>[key];<br />            <span style="color:blue;">var</span> result = <span style="color:blue;">base</span>.Remove(key);<br />            <span style="color:blue;">if</span> (result)<br />            {<br />                OnCollectionChanged(<span style="color:blue;">this</span>, <span style="color:#2b91af;">NotifyCollectionChangedAction</span>.Remove, kvp);</p>
-<p>                <span style="color:green;">//OnPropertyChanged(this, "Values");</span><br />                <span style="color:green;">//OnPropertyChanged(this, "Keys");</span><br />                <span style="color:green;">//OnPropertyChanged(this, "Count");</span><br />            }<br />            <span style="color:blue;">return</span> result;<br />        }</p>
-<p>        <span style="color:blue;">public</span> <span style="color:blue;">new</span> <span style="color:blue;">object</span> <span style="color:blue;">this</span>[<span style="color:blue;">string</span> key]<br />        {<br />            <span style="color:blue;">get</span><br />            {<br />                <span style="color:blue;">return</span> <span style="color:blue;">base</span>[key];<br />            }<br />            <span style="color:blue;">set</span><br />            {<br />                <span style="color:blue;">base</span>[key] = <span style="color:blue;">value</span>;<br />                PropertyChanged(<span style="color:blue;">this</span>, <span style="color:blue;">new</span> <span style="color:#2b91af;">PropertyChangedEventArgs</span>(key)); <br />            }<br />        }<br />    }</p>
-<p>}<br /></code></p>
+
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.ComponentModel;
+using System.Collections.Specialized;
+
+namespace DynamicSpikes
+{
+    public class ObservableDictionary<String, Object> : Dictionary<string, object>, INotifyPropertyChanged, INotifyCollectionChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public event NotifyCollectionChangedEventHandler CollectionChanged = delegate { };
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedAction action, object value)
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(sender, new NotifyCollectionChangedEventArgs(action, value));
+            }
+        }
+
+        private void OnPropertyChanged(object sender, string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public new void Add(string key, object value)
+        {
+            base.Add(key, value);
+            OnCollectionChanged(this, NotifyCollectionChangedAction.Add, new KeyValuePair<string, object>(key, value));
+
+            //OnPropertyChanged(this, "Values");
+            //OnPropertyChanged(this, "Keys");
+            //OnPropertyChanged(this, "Count");
+        }
+
+        public new bool Remove(string key)
+        {
+            var kvp = base[key];
+            var result = base.Remove(key);
+            if (result)
+            {
+                OnCollectionChanged(this, NotifyCollectionChangedAction.Remove, kvp);
+
+                //OnPropertyChanged(this, "Values");
+                //OnPropertyChanged(this, "Keys");
+                //OnPropertyChanged(this, "Count");
+            }
+            return result;
+        }
+
+        public new object this[string key]
+        {
+            get
+            {
+                return base[key];
+            }
+            set
+            {
+                base[key] = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(key));
+            }
+        }
+    }
+}
+```

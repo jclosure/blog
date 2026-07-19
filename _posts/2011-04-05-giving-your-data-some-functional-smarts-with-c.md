@@ -12,10 +12,10 @@ Today a colleague and I were going through some code.  I have recently been try
 
 Here’s what I came up with:
 
-~~~ text
+~~~ csharp
 public static class IntExtensions
 {
-    public static void Times(this int count, Actionint> action)
+    public static void Times(this int count, Action<int> action)
     {
         for (var i = 0; i
         {
@@ -30,7 +30,7 @@ public static class IntExtensions
 
 </div>
 
-~~~ text
+~~~ csharp
 [TestMethod]
 public void SampleRepository_Can_Create_New()
 {

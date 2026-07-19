@@ -16,7 +16,7 @@ To demonstrate this in action, I created a small class called Flickr.  It inher
 
 Each call you see in this TestMethod is actually to a method that does not exist in the definition of the Flickr class.
 
-~~~ text
+~~~ csharp
 [TestMethod]
 public void Testing_Flickr()
 {
@@ -32,7 +32,7 @@ public void Testing_Flickr()
 
 Each of these calls succeeds, and returns a response from Flickr’s service.  Note a few things about this code.  Flickr’s API has methods that look like this flickr.people.findByUsername and flickr.urls.getUserPhotos.  Notice the similarity above.  What I’ve done is replaced the dots with underscores, in order to make the functions legal C# method names.  As you’ll see below, we reformat the method name before attempting to call it on the remote Flickr service.  Additionally, note that we are using named parameters above in order to pass in both parameter name and parameter value to our ghost methods.  This allows us to pass any number of key-value paired parameters to any method name we want.  Here is the implementation of the Flickr class.
 
-~~~ text
+~~~ csharp
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +46,7 @@ public class Flickr : DynamicObject
     {
         dynamic request;
 
-        request = new Funcobject>(() =>
+        request = new Func<object>(() =>
         {
             //format methodname
             var remoteMethodName = binder.Name.Replace('_', '.');

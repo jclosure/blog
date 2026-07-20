@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The Deep Meaning of Zero"
+title: "Looking Deeper at the Meaning of Zero"
 date: 2026-07-19 14:00:00 -0500
 categories: [math]
 tags: ["first principles", "zero", "proofs", "number line", "inverses"]

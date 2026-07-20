@@ -8,7 +8,7 @@ tags: ["first principles", "zero", "proofs", "number line", "inverses"]
 
 Every number is defined by where it sits in the continuum relative to one fixed point. That point is zero.  It can be thought of the beginning of addition.  
 
-Zero is the additive the *Unit*, giving us back the identity of a thing when we add it to that thing.
+Zero is the additive *Unit*, giving us back the identity of a thing when we add it to that thing.
 
 It turns out to have two descriptions that are really the same fact:
 

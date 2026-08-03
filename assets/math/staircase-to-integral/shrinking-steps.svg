@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 818 278" role="img" aria-labelledby="title desc">
+  <title id="title">Three staircases over the same diagonal line with shrinking step size</title>
+  <desc id="desc">Three panels show the diagonal line from zero to four with staircases of step size one, one half, and one quarter. As the step shrinks, the amber leftover area shrinks in proportion, from two, to one, to one half, hugging the line more closely each time.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f2f5f3; }
+    .muted { fill: #aab7bd; }
+    .label { font-size: 17px; font-weight: 700; }
+    .small { font-size: 15px; font-weight: 700; }
+    .bar { fill: none; stroke: #5fd38d; stroke-width: 2; }
+    .under { fill: rgba(100, 199, 216, 0.34); }
+    .sliver { fill: #f2b84b; opacity: 0.95; }
+    .diag { stroke: #64c7d8; stroke-width: 3; stroke-linecap: round; }
+  </style>
+  <rect width="818" height="278" fill="#101418"/>
+  <g transform="translate(26 218)">
+    <path class="under" d="M 0.0 0.0 L 168.0 -168.0 L 168.0 0.0 Z"/>
+    <path class="sliver" d="M 0.00 -0.00 L 0.00 -42.00 L 42.00 -42.00 Z"/>
+    <path class="sliver" d="M 42.00 -42.00 L 42.00 -84.00 L 84.00 -84.00 Z"/>
+    <path class="sliver" d="M 84.00 -84.00 L 84.00 -126.00 L 126.00 -126.00 Z"/>
+    <path class="sliver" d="M 126.00 -126.00 L 126.00 -168.00 L 168.00 -168.00 Z"/>
+    <rect x="0.00" y="-42.00" width="42.00" height="42.00" class="bar"/>
+    <rect x="42.00" y="-84.00" width="42.00" height="84.00" class="bar"/>
+    <rect x="84.00" y="-126.00" width="42.00" height="126.00" class="bar"/>
+    <rect x="126.00" y="-168.00" width="42.00" height="168.00" class="bar"/>
+    <line x1="0.0" y1="0.0" x2="168.0" y2="-168.0" class="diag"/>
+    <line x1="0.0" y1="0.0" x2="168.0" y2="0.0" stroke="#3a4650" stroke-width="1.5"/>
+    <line x1="0.0" y1="0.0" x2="0.0" y2="-168.0" stroke="#3a4650" stroke-width="1.5"/>
+    <text x="84.0" y="34" class="label" text-anchor="middle">step = 1</text>
+    <text x="84.0" y="-182.0" class="small" text-anchor="middle" fill="#f2b84b">leftover = 2</text>
+  </g>
+  <g transform="translate(260 218)">
+    <path class="under" d="M 0.0 0.0 L 168.0 -168.0 L 168.0 0.0 Z"/>
+    <path class="sliver" d="M 0.00 -0.00 L 0.00 -21.00 L 21.00 -21.00 Z"/>
+    <path class="sliver" d="M 21.00 -21.00 L 21.00 -42.00 L 42.00 -42.00 Z"/>
+    <path class="sliver" d="M 42.00 -42.00 L 42.00 -63.00 L 63.00 -63.00 Z"/>
+    <path class="sliver" d="M 63.00 -63.00 L 63.00 -84.00 L 84.00 -84.00 Z"/>
+    <path class="sliver" d="M 84.00 -84.00 L 84.00 -105.00 L 105.00 -105.00 Z"/>
+    <path class="sliver" d="M 105.00 -105.00 L 105.00 -126.00 L 126.00 -126.00 Z"/>
+    <path class="sliver" d="M 126.00 -126.00 L 126.00 -147.00 L 147.00 -147.00 Z"/>
+    <path class="sliver" d="M 147.00 -147.00 L 147.00 -168.00 L 168.00 -168.00 Z"/>
+    <path d="M 0.00 0.00 L 0.00 -21.00 L 21.00 -21.00 L 21.00 -42.00 L 42.00 -42.00 L 42.00 -63.00 L 63.00 -63.00 L 63.00 -84.00 L 84.00 -84.00 L 84.00 -105.00 L 105.00 -105.00 L 105.00 -126.00 L 126.00 -126.00 L 126.00 -147.00 L 147.00 -147.00 L 147.00 -168.00 L 168.00 -168.00" fill="none" stroke="#5fd38d" stroke-width="2"/>
+    <line x1="0.0" y1="0.0" x2="168.0" y2="-168.0" class="diag"/>
+    <line x1="0.0" y1="0.0" x2="168.0" y2="0.0" stroke="#3a4650" stroke-width="1.5"/>
+    <line x1="0.0" y1="0.0" x2="0.0" y2="-168.0" stroke="#3a4650" stroke-width="1.5"/>
+    <text x="84.0" y="34" class="label" text-anchor="middle">step = 0.5</text>
+    <text x="84.0" y="-182.0" class="small" text-anchor="middle" fill="#f2b84b">leftover = 1</text>
+  </g>
+  <g transform="translate(494 218)">
+    <path class="under" d="M 0.0 0.0 L 168.0 -168.0 L 168.0 0.0 Z"/>
+    <path class="sliver" d="M 0.00 -0.00 L 0.00 -10.50 L 10.50 -10.50 Z"/>
+    <path class="sliver" d="M 10.50 -10.50 L 10.50 -21.00 L 21.00 -21.00 Z"/>
+    <path class="sliver" d="M 21.00 -21.00 L 21.00 -31.50 L 31.50 -31.50 Z"/>
+    <path class="sliver" d="M 31.50 -31.50 L 31.50 -42.00 L 42.00 -42.00 Z"/>
+    <path class="sliver" d="M 42.00 -42.00 L 42.00 -52.50 L 52.50 -52.50 Z"/>
+    <path class="sliver" d="M 52.50 -52.50 L 52.50 -63.00 L 63.00 -63.00 Z"/>
+    <path class="sliver" d="M 63.00 -63.00 L 63.00 -73.50 L 73.50 -73.50 Z"/>
+    <path class="sliver" d="M 73.50 -73.50 L 73.50 -84.00 L 84.00 -84.00 Z"/>
+    <path class="sliver" d="M 84.00 -84.00 L 84.00 -94.50 L 94.50 -94.50 Z"/>
+    <path class="sliver" d="M 94.50 -94.50 L 94.50 -105.00 L 105.00 -105.00 Z"/>
+    <path class="sliver" d="M 105.00 -105.00 L 105.00 -115.50 L 115.50 -115.50 Z"/>
+    <path class="sliver" d="M 115.50 -115.50 L 115.50 -126.00 L 126.00 -126.00 Z"/>
+    <path class="sliver" d="M 126.00 -126.00 L 126.00 -136.50 L 136.50 -136.50 Z"/>
+    <path class="sliver" d="M 136.50 -136.50 L 136.50 -147.00 L 147.00 -147.00 Z"/>
+    <path class="sliver" d="M 147.00 -147.00 L 147.00 -157.50 L 157.50 -157.50 Z"/>
+    <path class="sliver" d="M 157.50 -157.50 L 157.50 -168.00 L 168.00 -168.00 Z"/>
+    <path d="M 0.00 0.00 L 0.00 -10.50 L 10.50 -10.50 L 10.50 -21.00 L 21.00 -21.00 L 21.00 -31.50 L 31.50 -31.50 L 31.50 -42.00 L 42.00 -42.00 L 42.00 -52.50 L 52.50 -52.50 L 52.50 -63.00 L 63.00 -63.00 L 63.00 -73.50 L 73.50 -73.50 L 73.50 -84.00 L 84.00 -84.00 L 84.00 -94.50 L 94.50 -94.50 L 94.50 -105.00 L 105.00 -105.00 L 105.00 -115.50 L 115.50 -115.50 L 115.50 -126.00 L 126.00 -126.00 L 126.00 -136.50 L 136.50 -136.50 L 136.50 -147.00 L 147.00 -147.00 L 147.00 -157.50 L 157.50 -157.50 L 157.50 -168.00 L 168.00 -168.00" fill="none" stroke="#5fd38d" stroke-width="1.6"/>
+    <line x1="0.0" y1="0.0" x2="168.0" y2="-168.0" class="diag"/>
+    <line x1="0.0" y1="0.0" x2="168.0" y2="0.0" stroke="#3a4650" stroke-width="1.5"/>
+    <line x1="0.0" y1="0.0" x2="0.0" y2="-168.0" stroke="#3a4650" stroke-width="1.5"/>
+    <text x="84.0" y="34" class="label" text-anchor="middle">step = 0.25</text>
+    <text x="84.0" y="-182.0" class="small" text-anchor="middle" fill="#f2b84b">leftover = 0.5</text>
+  </g>
+  <g transform="translate(728 124.0)">
+    <path d="M0 0 H60" stroke="#9caab4" stroke-width="3" stroke-linecap="round"/>
+    <path d="M60 0 L44 -10 M60 0 L44 10" stroke="#9caab4" stroke-width="3" stroke-linecap="round"/>
+    <text x="30" y="-14" class="small muted" text-anchor="middle">h &#8594; 0</text>
+  </g>
+</svg>

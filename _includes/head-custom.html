@@ -18,6 +18,137 @@
     }
   });
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var canvas = document.getElementById("hero-geometry");
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext("2d");
+
+    // Regular n-simplex: reduce the (n+1) standard basis vectors of R^(n+1),
+    // mean-centered, onto an orthonormal basis of the n-dim subspace they span.
+    function simplexVertices(n) {
+      var m = n + 1;
+      var pts = [];
+      for (var i = 0; i < m; i++) {
+        var v = [];
+        for (var k = 0; k < m; k++) v.push(k === i ? 1 - 1 / m : -1 / m);
+        pts.push(v);
+      }
+      var basis = [];
+      for (var i = 1; i < m; i++) {
+        var v = pts[i].map(function (x, k) { return x - pts[0][k]; });
+        for (var b = 0; b < basis.length; b++) {
+          var dot = 0;
+          for (var k = 0; k < v.length; k++) dot += v[k] * basis[b][k];
+          v = v.map(function (x, k) { return x - dot * basis[b][k]; });
+        }
+        var norm = Math.sqrt(v.reduce(function (s, x) { return s + x * x; }, 0));
+        v = v.map(function (x) { return x / norm; });
+        basis.push(v);
+      }
+      return pts.map(function (p) {
+        return basis.map(function (b) {
+          return p.reduce(function (s, x, k) { return s + x * b[k]; }, 0);
+        });
+      });
+    }
+
+    var verts4 = simplexVertices(4).map(function (v) { return v.map(function (x) { return x * 1.7; }); });
+    var edges = [];
+    for (var i = 0; i < verts4.length; i++) {
+      for (var j = i + 1; j < verts4.length; j++) edges.push([i, j]);
+    }
+
+    var colors = [
+      getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#5fd38d",
+      getComputedStyle(document.documentElement).getPropertyValue("--accent-2").trim() || "#f2b84b",
+      getComputedStyle(document.documentElement).getPropertyValue("--accent-3").trim() || "#64c7d8"
+    ];
+
+    function rotatePlane(v, i, j, angle) {
+      var c = Math.cos(angle), s = Math.sin(angle);
+      var r = v.slice();
+      r[i] = v[i] * c - v[j] * s;
+      r[j] = v[i] * s + v[j] * c;
+      return r;
+    }
+
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w, h;
+
+    function resize() {
+      var rect = canvas.parentElement.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    function project(v) {
+      var d4 = 3.4;
+      var f1 = 1 / (d4 - v[3]);
+      var x = v[0] * f1, y = v[1] * f1, z = v[2] * f1;
+      var d3 = 3.0;
+      var f2 = 1 / (d3 - z);
+      return { x: x * f2, y: y * f2, depth: v[3] };
+    }
+
+    function draw(t) {
+      var a = t * 0.00013;
+      var b = t * 0.00009;
+      var rotated = verts4.map(function (v) {
+        v = rotatePlane(v, 0, 1, a);
+        v = rotatePlane(v, 2, 3, b);
+        v = rotatePlane(v, 0, 2, b * 0.6);
+        return v;
+      });
+      var projected = rotated.map(project);
+
+      ctx.clearRect(0, 0, w, h);
+      var narrow = w < 640;
+      var scale = Math.min(w, h) * (narrow ? 1.4 : 3.4);
+      var cx = narrow ? w * 0.8 : w * 0.68;
+      var cy = narrow ? h * 0.15 : h * 0.5;
+      var alphaMul = narrow ? 0.8 : 1;
+
+      edges.forEach(function (e, idx) {
+        var p0 = projected[e[0]], p1 = projected[e[1]];
+        var depth = (p0.depth + p1.depth) / 2;
+        var alpha = (0.4 + (depth + 1.5) / 3 * 0.4) * alphaMul;
+        ctx.strokeStyle = colors[idx % 3];
+        ctx.globalAlpha = Math.max(0.3, Math.min(0.85, alpha));
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(cx + p0.x * scale, cy + p0.y * scale);
+        ctx.lineTo(cx + p1.x * scale, cy + p1.y * scale);
+        ctx.stroke();
+      });
+
+      projected.forEach(function (p) {
+        var alpha = (0.55 + (p.depth + 1.5) / 3 * 0.4) * alphaMul;
+        ctx.globalAlpha = Math.max(0.4, Math.min(0.95, alpha));
+        ctx.fillStyle = "#f2f5f3";
+        ctx.beginPath();
+        ctx.arc(cx + p.x * scale, cy + p.y * scale, 2.8, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    if (reduceMotion) {
+      draw(24000);
+    } else {
+      requestAnimationFrame(function loop(t) {
+        draw(t);
+        requestAnimationFrame(loop);
+      });
+    }
+  });
+</script>
 <style>
   :root {
     --page-bg: #101418;
@@ -76,12 +207,24 @@
   .hero-media {
     position: absolute;
     inset: 0;
-    background-image:
-      linear-gradient(90deg, rgba(10, 14, 17, 0.82), rgba(10, 14, 17, 0.42) 46%, rgba(10, 14, 17, 0.62)),
-      url("{{ '/assets/hero/joel-holder-hero-v3.png' | relative_url }}");
-    background-size: cover;
-    background-position: 58% 60%;
-    filter: saturate(0.9) contrast(1.06);
+    background: #0b0f12;
+    overflow: hidden;
+  }
+
+  .hero-media canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10, 14, 17, 0.88), rgba(10, 14, 17, 0.3) 48%, rgba(10, 14, 17, 0.4));
+    pointer-events: none;
   }
 
   .hero-copy {
@@ -533,10 +676,6 @@
 
     .hero-nav {
       margin-bottom: 1rem;
-    }
-
-    .hero-media {
-      background-position: 58% 58%;
     }
 
     .hero-focus {

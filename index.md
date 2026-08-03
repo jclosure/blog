@@ -4,7 +4,7 @@ title: Joel Holder
 ---
 
 <section class="site-hero">
-  <div class="hero-media"></div>
+  <div class="hero-media"><canvas id="hero-geometry" aria-hidden="true"></canvas></div>
   <div class="hero-copy">
     <hr/>
     <nav class="hero-nav" aria-label="Main sections">

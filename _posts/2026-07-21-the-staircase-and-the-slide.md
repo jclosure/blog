@@ -4,6 +4,11 @@ title: "The Staircase and the Slide"
 date: 2026-07-21 00:10:00 -0500
 categories: [math]
 tags: ["calculus", "limits", "triangular numbers", "first principles", "integration"]
+image:
+  path: /assets/hero/the-staircase-and-the-slide.png
+  width: 1200
+  height: 630
+  alt: "A coarse staircase and a finer staircase both hugging the same rising diagonal line, with amber overshoot slivers shrinking as the steps get finer"
 ---
 
 <style>

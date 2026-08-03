@@ -1,0 +1,22 @@
+---
+layout: default
+---
+
+<small>{{ page.date | date: "%-d %B %Y" }}</small>
+<h1>{{ page.title }}</h1>
+
+{% if page.image %}
+  {% assign hero_path = page.image.path | default: page.image %}
+  {% assign hero_alt = page.image.alt | default: page.title %}
+  <figure class="post-hero">
+    <img src="{{ hero_path | relative_url }}" alt="{{ hero_alt }}" width="{{ page.image.width | default: 1200 }}" height="{{ page.image.height | default: 630 }}">
+  </figure>
+{% endif %}
+
+<p class="view">by {{ page.author | default: site.author }}</p>
+
+{{content}}
+
+{% if page.tags %}
+  <small>tags: <em>{{ page.tags | join: "</em> - <em>" }}</em></small>
+{% endif %}

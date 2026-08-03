@@ -1,0 +1,27 @@
+---
+---
+
+@import "jekyll-theme-hacker";
+
+/* Custom overrides */
+
+/* The theme's default ul bullet is a chunky raster ">>" glyph that reads as
+   noisy at body-copy size. Swap it for a single, thin chevron drawn in CSS
+   so it scales cleanly and sits quietly at the left margin. */
+ul li {
+  list-style: none;
+  position: relative;
+  padding-left: 1.1em;
+}
+
+ul li::before {
+  content: "\203A";
+  position: absolute;
+  left: 0;
+  color: $conifer;
+  opacity: 0.85;
+}
+
+ul ul li::before {
+  content: "\2013";
+}

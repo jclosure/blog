@@ -36,7 +36,7 @@ title: Joel Holder
 <section class="intro-band">
   <p class="intro-lede">This site is a rolling subset of my momentary interests. Here you'll find exploratory writing and interesting ideas turned into working things: software, simulations, and small instruments for thinking.</p>
   <div class="intro-note">
-    <span class="feature-kicker">Current direction</span>
+    <span class="feature-kicker">My lab</span>
     <strong>Learning in public, building for fun, and keeping the lab door open.</strong>
   </div>
 </section>

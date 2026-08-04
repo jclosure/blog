@@ -149,6 +149,119 @@
     }
   });
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var canvas = document.getElementById("hero-leaves");
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext("2d");
+
+    // Little torn scraps of paper, each carrying a fragment of what this
+    // notebook is actually made of: math, code, and the odd loose thought.
+    var symbols = ["{ }", "λ", "Σ", "π", "0", "∞", ";", "01",
+      "f(x)", "∴", "Δ", "→", "∀", "≈", "git",
+      "0x2A", "n²", "d/dx", "ssh", "AOP"];
+
+    var styles = getComputedStyle(document.documentElement);
+    var colors = ["--accent", "--accent-2", "--accent-3"].map(function (v) {
+      return styles.getPropertyValue(v).trim();
+    });
+
+    function rand(min, max) { return min + Math.random() * (max - min); }
+
+    function makeLeaf() {
+      return {
+        baseX: rand(0.04, 0.96),
+        baseY: rand(-0.2, 1.3),
+        vy: rand(0.000018, 0.000048),
+        driftAmp: rand(0.02, 0.06),
+        driftFreq: rand(0.00015, 0.00035),
+        driftPhase: rand(0, Math.PI * 2),
+        spin0: rand(-0.35, 0.35),
+        spinSpeed: rand(-0.00011, 0.00011),
+        size: rand(26, 48),
+        symbol: symbols[Math.floor(Math.random() * symbols.length)],
+        color: colors[Math.floor(Math.random() * colors.length)],
+        depth: rand(0.3, 1)
+      };
+    }
+
+    var LEAF_COUNT = 13;
+    var leaves = [];
+    for (var i = 0; i < LEAF_COUNT; i++) leaves.push(makeLeaf());
+
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w, h;
+
+    function resize() {
+      var rect = canvas.parentElement.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    function drawLeaf(leaf, t) {
+      var narrow = w < 640;
+      var span = 1.5;
+      var y = (((leaf.baseY + t * leaf.vy) % span) + span) % span - 0.2;
+      var x = leaf.baseX + Math.sin(t * leaf.driftFreq + leaf.driftPhase) * leaf.driftAmp;
+      var rot = leaf.spin0 + t * leaf.spinSpeed;
+      var size = leaf.size * (narrow ? 0.7 : 1);
+      var fold = size * 0.26;
+
+      ctx.save();
+      ctx.translate(x * w, y * h);
+      ctx.rotate(rot);
+      ctx.globalAlpha = (narrow ? 0.6 : 1) * (0.16 + leaf.depth * 0.48);
+
+      ctx.beginPath();
+      ctx.moveTo(-size / 2, -size * 0.62);
+      ctx.lineTo(size / 2 - fold, -size * 0.62);
+      ctx.lineTo(size / 2, -size * 0.62 + fold);
+      ctx.lineTo(size / 2, size * 0.62);
+      ctx.lineTo(-size / 2, size * 0.62);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(23, 29, 34, 0.4)";
+      ctx.fill();
+      ctx.strokeStyle = leaf.color;
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(size / 2 - fold, -size * 0.62);
+      ctx.lineTo(size / 2 - fold, -size * 0.62 + fold);
+      ctx.lineTo(size / 2, -size * 0.62 + fold);
+      ctx.stroke();
+
+      ctx.fillStyle = leaf.color;
+      ctx.font = "600 " + Math.round(size * 0.3) + "px 'SFMono-Regular', Menlo, Consolas, monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(leaf.symbol, 0, size * 0.05);
+
+      ctx.restore();
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+      leaves.forEach(function (leaf) { drawLeaf(leaf, t); });
+      ctx.globalAlpha = 1;
+    }
+
+    if (reduceMotion) {
+      draw(9000);
+    } else {
+      requestAnimationFrame(function loop(t) {
+        draw(t);
+        requestAnimationFrame(loop);
+      });
+    }
+  });
+</script>
 <style>
   :root {
     --page-bg: #101418;
@@ -497,6 +610,10 @@
   .archive-head,
   .intro-band {
     margin: 2.4rem 0;
+  }
+
+  .archive-eyebrow {
+    margin: 2.2rem 0 0.5rem;
   }
 
   .section-heading h2,

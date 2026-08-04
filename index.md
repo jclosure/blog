@@ -7,14 +7,8 @@ title: Joel Holder
   <div class="hero-media"><canvas id="hero-geometry" aria-hidden="true"></canvas></div>
   <div class="hero-copy">
     <hr/>
-    <nav class="hero-nav" aria-label="Main sections">
-      <a href="{{ '/blog/' | relative_url }}">Writing</a>
-      <a href="{{ '/projects/' | relative_url }}">Projects</a>
-      <a href="{{ '/about/' | relative_url }}">About</a>
-    </nav>
 
     <div class="hero-statement">
-      <p class="eyebrow">Inquiry and lab</p>
       <h1>Joel Holder</h1>
       <p class="lede">Recreational Learning & Discovery</p>
       <div class="hero-focus" aria-label="Areas of focus">
@@ -23,6 +17,7 @@ title: Joel Holder
         <span>Artificial Intelligence</span> -->
       </div>
     </div>
+
 
     <div class="hero-bottom">
       <div class="hero-actions" aria-label="Primary sections">
@@ -34,9 +29,9 @@ title: Joel Holder
 </section>
 
 <section class="intro-band">
-  <p class="intro-lede">This site is a rolling subset of my momentary interests. Here you'll find exploratory writing and interesting ideas turned into working things: software, simulations, and small instruments for thinking.</p>
+  <p class="intro-lede">This site is a rolling subset of my momentary interests. Here you'll find exploratory writing and ideas turned into software, simulations, and small instruments for thinking.</p>
   <div class="intro-note">
-    <span class="feature-kicker">My lab</span>
+    <span class="feature-kicker">What am I doing?</span>
     <strong>Learning in public, building for fun, and keeping the lab door open.</strong>
   </div>
 </section>

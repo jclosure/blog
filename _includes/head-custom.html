@@ -53,16 +53,96 @@
       });
     }
 
-    var verts4 = simplexVertices(4).map(function (v) { return v.map(function (x) { return x * 1.7; }); });
-    var edges = [];
-    for (var i = 0; i < verts4.length; i++) {
-      for (var j = i + 1; j < verts4.length; j++) edges.push([i, j]);
+    // The 4-cube: 16 vertices at every combination of (+-r, +-r, +-r, +-r),
+    // edges wherever two vertices differ in exactly one coordinate.
+    function tesseractVertices(r) {
+      var pts = [];
+      for (var i = 0; i < 16; i++) {
+        var v = [];
+        for (var k = 0; k < 4; k++) v.push(((i >> k) & 1) ? r : -r);
+        pts.push(v);
+      }
+      var edges = [];
+      for (var a = 0; a < pts.length; a++) {
+        for (var b = a + 1; b < pts.length; b++) {
+          var diff = 0;
+          for (var k = 0; k < 4; k++) if (pts[a][k] !== pts[b][k]) diff++;
+          if (diff === 1) edges.push([a, b]);
+        }
+      }
+      return { verts: pts, edges: edges };
+    }
+
+    function completeEdges(count) {
+      var e = [];
+      for (var i = 0; i < count; i++) for (var j = i + 1; j < count; j++) e.push([i, j]);
+      return e;
+    }
+
+    // simplexVertices(3) hands back 3D points (a tetrahedron); pad to 4D
+    // with a zero so it can ride through the same 4D rotation pipeline.
+    function to4(v) {
+      var out = v.slice();
+      while (out.length < 4) out.push(0);
+      return out;
     }
 
     var colors = [
       getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#5fd38d",
       getComputedStyle(document.documentElement).getPropertyValue("--accent-2").trim() || "#f2b84b",
       getComputedStyle(document.documentElement).getPropertyValue("--accent-3").trim() || "#64c7d8"
+    ];
+
+    var tess = tesseractVertices(0.62);
+
+    // A small constellation of polytopes on one shared clock: each spins in
+    // its own pair of 4D planes at its own rate, but the rates are simple
+    // multiples of one another, so they keep drifting in and out of step
+    // rather than ever looking random. Each also wanders a little from its
+    // home point (driftAX/driftAY, as a fraction of width/height), so
+    // nothing sits frozen in place -- rotation alone can look like a
+    // photograph; a little translation makes it look like company.
+    var bodies = [
+      { // the 5-cell (regular 4-simplex) -- the anchor shape, biggest and brightest
+        verts: simplexVertices(4).map(function (v) { return v.map(function (x) { return x * 1.7; }); }),
+        edges: completeEdges(5),
+        cx: 0.68, cy: 0.5, scale: 3.4,
+        narrowCx: 0.8, narrowCy: 0.15, narrowScale: 1.4,
+        freq: 1, phase: 0, dot: 4.4, weight: 2.6, minA: 0.58, maxA: 1,
+        driftAX: 0.018, driftFX: 0.00011, driftAY: 0.02, driftFY: 0.00014,
+        showNarrow: true
+      },
+      { // tesseract, tucked up top -- cooler and quieter, its own rhythm
+        verts: tess.verts, edges: tess.edges,
+        cx: 0.87, cy: 0.18, scale: 1.35,
+        freq: 1.5, phase: 1.9, dot: 3, weight: 2, minA: 0.46, maxA: 0.85,
+        driftAX: 0.022, driftFX: 0.00016, driftAY: 0.03, driftFY: 0.0001
+      },
+      { // a tetrahedron (3-simplex) drifting low
+        verts: simplexVertices(3).map(function (v) { return to4(v.map(function (x) { return x * 1.3; })); }),
+        edges: completeEdges(4),
+        cx: 0.84, cy: 0.84, scale: 2.1,
+        freq: 0.75, phase: 4.1, dot: 3.6, weight: 2.4, minA: 0.5, maxA: 0.92,
+        driftAX: 0.02, driftFX: 0.00009, driftAY: 0.024, driftFY: 0.00013
+      },
+      { // a triangle (2-simplex) keeping the headline company -- simple
+        // enough to still read clearly at a small, quiet size
+        verts: simplexVertices(2).map(function (v) { return to4(v.map(function (x) { return x * 1.3; })); }),
+        edges: completeEdges(3),
+        cx: 0.2, cy: 0.26, scale: 1.15,
+        freq: 1.2, phase: 2.6, dot: 3.1, weight: 2.2, minA: 0.46, maxA: 0.8,
+        driftAX: 0.026, driftFX: 0.00013, driftAY: 0.03, driftFY: 0.00017,
+        noThread: true
+      },
+      { // a second triangle in the quiet gap left of the buttons --
+        // bookends the headline with the one above it
+        verts: simplexVertices(2).map(function (v) { return to4(v.map(function (x) { return x * 1.5; })); }),
+        edges: completeEdges(3),
+        cx: 0.22, cy: 0.6, scale: 1.35,
+        freq: 0.9, phase: 3.3, dot: 3.3, weight: 2.3, minA: 0.5, maxA: 0.88,
+        driftAX: 0.028, driftFX: 0.0001, driftAY: 0.024, driftFY: 0.00015,
+        noThread: true
+      }
     ];
 
     function rotatePlane(v, i, j, angle) {
@@ -97,10 +177,10 @@
       return { x: x * f2, y: y * f2, depth: v[3] };
     }
 
-    function draw(t) {
-      var a = t * 0.00013;
-      var b = t * 0.00009;
-      var rotated = verts4.map(function (v) {
+    function drawBody(body, t, narrow, alphaMul, pulse) {
+      var a = t * 0.00013 * body.freq + body.phase;
+      var b = t * 0.00009 * body.freq + body.phase * 0.5;
+      var rotated = body.verts.map(function (v) {
         v = rotatePlane(v, 0, 1, a);
         v = rotatePlane(v, 2, 3, b);
         v = rotatePlane(v, 0, 2, b * 0.6);
@@ -108,34 +188,107 @@
       });
       var projected = rotated.map(project);
 
-      ctx.clearRect(0, 0, w, h);
-      var narrow = w < 640;
-      var scale = Math.min(w, h) * (narrow ? 1.4 : 3.4);
-      var cx = narrow ? w * 0.8 : w * 0.68;
-      var cy = narrow ? h * 0.15 : h * 0.5;
-      var alphaMul = narrow ? 0.8 : 1;
+      var scale = Math.min(w, h) * (narrow ? body.narrowScale || body.scale : body.scale);
+      var driftX = (body.driftAX || 0) * Math.sin(t * (body.driftFX || 0.0001) + body.phase);
+      var driftY = (body.driftAY || 0) * Math.sin(t * (body.driftFY || 0.00013) + body.phase * 1.3 + 1.7);
+      var cx = w * ((narrow ? (body.narrowCx != null ? body.narrowCx : body.cx) : body.cx) + (narrow ? driftX * 0.4 : driftX));
+      var cy = h * ((narrow ? (body.narrowCy != null ? body.narrowCy : body.cy) : body.cy) + (narrow ? driftY * 0.4 : driftY));
 
-      edges.forEach(function (e, idx) {
+      // Each edge and node gets a dark "outline" pass drawn first, then the
+      // bright color on top -- a halo that reads against both the light and
+      // dark patches of the photo behind it, not just a plain dark page.
+      body.edges.forEach(function (e, idx) {
         var p0 = projected[e[0]], p1 = projected[e[1]];
         var depth = (p0.depth + p1.depth) / 2;
-        var alpha = (0.4 + (depth + 1.5) / 3 * 0.4) * alphaMul;
-        ctx.strokeStyle = colors[idx % 3];
-        ctx.globalAlpha = Math.max(0.3, Math.min(0.85, alpha));
-        ctx.lineWidth = 1.4;
+        var alpha = (body.minA + (depth + 1.5) / 3 * (body.maxA - body.minA)) * alphaMul * pulse;
+        var a = Math.max(0.05, Math.min(1, alpha));
+        var x0 = cx + p0.x * scale, y0 = cy + p0.y * scale;
+        var x1 = cx + p1.x * scale, y1 = cy + p1.y * scale;
+
+        ctx.strokeStyle = "rgba(4, 6, 7, 0.75)";
+        ctx.globalAlpha = Math.min(1, a + 0.15);
+        ctx.lineWidth = body.weight + 2.4;
         ctx.beginPath();
-        ctx.moveTo(cx + p0.x * scale, cy + p0.y * scale);
-        ctx.lineTo(cx + p1.x * scale, cy + p1.y * scale);
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
+        ctx.stroke();
+
+        ctx.strokeStyle = colors[idx % 3];
+        ctx.globalAlpha = a;
+        ctx.lineWidth = body.weight;
+        ctx.beginPath();
+        ctx.moveTo(x0, y0);
+        ctx.lineTo(x1, y1);
         ctx.stroke();
       });
 
       projected.forEach(function (p) {
-        var alpha = (0.55 + (p.depth + 1.5) / 3 * 0.4) * alphaMul;
-        ctx.globalAlpha = Math.max(0.4, Math.min(0.95, alpha));
-        ctx.fillStyle = "#f2f5f3";
+        var alpha = (body.minA + 0.2 + (p.depth + 1.5) / 3 * (body.maxA - body.minA)) * alphaMul * pulse;
+        var a = Math.max(0.08, Math.min(1, alpha));
+        var px = cx + p.x * scale, py = cy + p.y * scale;
+
+        ctx.globalAlpha = Math.min(1, a + 0.15);
+        ctx.fillStyle = "rgba(4, 6, 7, 0.75)";
         ctx.beginPath();
-        ctx.arc(cx + p.x * scale, cy + p.y * scale, 2.8, 0, Math.PI * 2);
+        ctx.arc(px, py, body.dot + 1.8, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.globalAlpha = a;
+        ctx.fillStyle = "#f8fbf9";
+        ctx.beginPath();
+        ctx.arc(px, py, body.dot, 0, Math.PI * 2);
         ctx.fill();
       });
+
+      return { x: cx, y: cy, alpha: alphaMul * pulse };
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, w, h);
+      var narrow = w < 640;
+      var alphaMul = narrow ? 0.8 : 1;
+      // One shared, slow breath -- each body spins on its own, but they
+      // all brighten and dim together, like they're listening to the
+      // same clock.
+      var pulse = 0.78 + Math.sin(t * 0.00028) * 0.22;
+
+      var active = narrow ? bodies.filter(function (body) { return body.showNarrow; }) : bodies;
+      var centers = active.map(function (body) { return drawBody(body, t, narrow, alphaMul, pulse); });
+
+      // Faint threads between the bodies, brightening on that same
+      // breath -- a quiet suggestion that these shapes are coordinating.
+      // The two ghost shapes flanking the copy sit out of this: they're
+      // meant to be quiet company for the text, not wired into the rest.
+      if (!narrow && centers.length > 1) {
+        ctx.setLineDash([2, 6]);
+        for (var i = 0; i < centers.length; i++) {
+          if (active[i].noThread) continue;
+          for (var j = i + 1; j < centers.length; j++) {
+            if (active[j].noThread) continue;
+            var dx = centers[i].x - centers[j].x, dy = centers[i].y - centers[j].y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            var alpha = 0.55 * pulse - dist / (w * 3.2);
+            if (alpha <= 0.02) continue;
+
+            ctx.strokeStyle = "rgba(4, 6, 7, 0.7)";
+            ctx.globalAlpha = Math.min(1, alpha + 0.15);
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(centers[i].x, centers[i].y);
+            ctx.lineTo(centers[j].x, centers[j].y);
+            ctx.stroke();
+
+            ctx.strokeStyle = colors[(i + j) % 3];
+            ctx.globalAlpha = alpha;
+            ctx.lineWidth = 1.8;
+            ctx.beginPath();
+            ctx.moveTo(centers[i].x, centers[i].y);
+            ctx.lineTo(centers[j].x, centers[j].y);
+            ctx.stroke();
+          }
+        }
+        ctx.setLineDash([]);
+      }
       ctx.globalAlpha = 1;
     }
 
@@ -330,6 +483,19 @@
     display: block;
     width: 100%;
     height: 100%;
+  }
+
+  .hero-photo {
+    position: absolute;
+    right: clamp(0.5rem, 4vw, 4.5rem);
+    bottom: 0;
+    height: 88%;
+    width: auto;
+    max-width: 56%;
+    object-fit: contain;
+    object-position: bottom;
+    filter: drop-shadow(0 18px 26px rgba(2, 4, 5, 0.65)) saturate(0.92);
+    opacity: 0.92;
   }
 
   .hero-media::after {
@@ -588,6 +754,12 @@
   }
 
   @media (max-width: 720px) {
+    .hero-photo {
+      max-width: 34%;
+      height: 54%;
+      opacity: 0.3;
+    }
+
     .proof-sequence {
       grid-template-columns: 1fr;
     }

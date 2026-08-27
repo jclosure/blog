@@ -4,7 +4,10 @@ title: Joel Holder
 ---
 
 <section class="site-hero">
-  <div class="hero-media"><canvas id="hero-geometry" aria-hidden="true"></canvas></div>
+  <div class="hero-media">
+    <img class="hero-photo" src="{{ '/assets/hero/bookshelf-spines.webp' | relative_url }}" alt="A shelf of well-worn programming, math, and philosophy books" />
+    <canvas id="hero-geometry" aria-hidden="true"></canvas>
+  </div>
   <div class="hero-copy">
     <hr/>
 

@@ -22,7 +22,7 @@ title: Joel Holder
 
 <section class="fractal-section">
   <div class="note-panel">
-    <p class="note-text">I'm a lifelong tinkerer with math, code, and the occasional unanswerable question &mdash; the kind of person who'll spend a weekend proving something nobody asked for, then spend the next one teaching a shape to breathe.</p>
+    <p class="note-text">I'm a lifelong tinkerer with math, code, and the occasional unanswerable question &mdash; I'd rather build a small working model of an idea than just read about it, then write down whatever I find along the way.</p>
     <p class="note-sub"><strong>Why write it down?</strong>Because the interesting part usually only shows up once you've tried to explain it.</p>
   </div>
 </section>

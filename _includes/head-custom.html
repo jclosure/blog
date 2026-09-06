@@ -1016,114 +1016,139 @@
     if (!canvas || !canvas.getContext || !window.THREE) return;
 
     try {
-      // One rule, repeated: every cube spawns eight smaller copies of
-      // itself, one in each of its own corners. Recurse a handful of
-      // times and that single instruction -- with nothing else added
-      // -- is enough to produce a space made entirely of smaller
-      // copies of itself, at every scale at once. Nobody designed the
-      // shape; it's just what the rule looks like once you let it run.
-      var SCALE = 0.42;
-      var ROOT_SIZE = 6;
       var narrow = window.innerWidth < 700;
-      var MAX_DEPTH = narrow ? 4 : 5;
-
-      function buildFractal(maxDepth, rootSize) {
-        var out = [];
-        function recurse(cx, cy, cz, size, depth) {
-          out.push({ x: cx, y: cy, z: cz, size: size, depth: depth });
-          if (depth >= maxDepth) return;
-          var childSize = size * SCALE;
-          var off = size * 0.5 * (1 - SCALE);
-          for (var sx = -1; sx <= 1; sx += 2) {
-            for (var sy = -1; sy <= 1; sy += 2) {
-              for (var sz = -1; sz <= 1; sz += 2) {
-                recurse(cx + sx * off, cy + sy * off, cz + sz * off, childSize, depth + 1);
-              }
-            }
-          }
-        }
-        recurse(0, 0, 0, rootSize, 0);
-        return out;
-      }
-
-      // The same corner-offset rule used to grow the fractal, reused
-      // here to find the exact center of one particular nested
-      // cluster -- so the camera's tour visits real coordinates in
-      // the structure, not approximations of them.
-      function poiCenter(signPath, radiusMul) {
-        var size = ROOT_SIZE, x = 0, y = 0, z = 0;
-        for (var i = 0; i < signPath.length; i++) {
-          var off = size * 0.5 * (1 - SCALE);
-          var s = signPath[i];
-          x += s[0] * off; y += s[1] * off; z += s[2] * off;
-          size *= SCALE;
-        }
-        return { x: x, y: y, z: z, radius: size * radiusMul };
-      }
-
-      var POIS = [
-        poiCenter([], 2.2),
-        poiCenter([[1, 1, 1]], 2.5),
-        poiCenter([[1, 1, 1], [1, -1, 1]], 2.7),
-        poiCenter([[1, 1, 1], [1, -1, 1], [-1, 1, 1]], 3.4),
-        poiCenter([[-1, -1, -1]], 2.4),
-        poiCenter([], 1.7)
-      ];
-
-      var nodes = buildFractal(MAX_DEPTH, ROOT_SIZE);
 
       var VOID_COLOR = 0x0a0712;
       var scene = new THREE.Scene();
       scene.background = new THREE.Color(VOID_COLOR);
-      scene.fog = new THREE.FogExp2(VOID_COLOR, 0.022);
+      scene.fog = new THREE.FogExp2(VOID_COLOR, 0.034);
 
       var w = window.innerWidth, h = window.innerHeight;
-      var camera = new THREE.PerspectiveCamera(58, w / h, 0.05, 60);
+      var camera = new THREE.PerspectiveCamera(50, w / h, 0.05, 40);
       var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.setSize(w, h, false);
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.15;
 
-      // A hue per recursion depth -- cool and distant at the outer
-      // scale, warming as it goes, glowing hottest at the deepest
-      // (smallest, most numerous) cluster of copies.
-      var DEPTH_HUES = [262, 288, 322, 18, 42, 178, 178];
-
-      var geometry = new THREE.OctahedronGeometry(1, 0);
-      var material = new THREE.MeshBasicMaterial({
-        vertexColors: true,
-        transparent: true,
-        opacity: 1,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      });
-      var mesh = new THREE.InstancedMesh(geometry, material, nodes.length);
-      var dummy = new THREE.Object3D();
-      var color = new THREE.Color();
-      for (var i = 0; i < nodes.length; i++) {
-        var n = nodes[i];
-        dummy.position.set(n.x, n.y, n.z);
-        // How much of its own cell each shape fills, by depth. A flat
-        // fraction makes the single huge root cell visually swallow
-        // everything nested inside it; filling shallow cells thinly
-        // and deep ones generously instead keeps the outer levels as
-        // a soft atmosphere while the dense, numerous deep clusters
-        // -- the actual "fractal dust" -- stay the visible part.
-        var fill = Math.min(0.86, 0.36 + n.depth * 0.1);
-        var s = n.size * fill;
-        dummy.scale.set(s, s, s);
-        dummy.updateMatrix();
-        mesh.setMatrixAt(i, dummy.matrix);
-        var hue = DEPTH_HUES[n.depth] + (Math.random() * 16 - 8);
-        color.setHSL((((hue % 360) + 360) % 360) / 360, 0.85 + Math.random() * 0.12, 0.78 + Math.random() * 0.16);
-        mesh.setColorAt(i, color);
+      // ---- The core: one living form, not a scatter of many small
+      // ones. A real physically-based material -- clearcoat and
+      // iridescence over a metal-ish base -- catches and colors light
+      // the way canvas 2D never could; that's the actual point of
+      // reaching for three.js. Its surface does nothing exotic: each
+      // vertex's radius is nudged by a small sum of sine waves in its
+      // own direction and time, recomputed every frame -- cheap,
+      // deterministic, and enough to look like something breathing.
+      var coreDetail = narrow ? 3 : 4;
+      var coreGeo = new THREE.IcosahedronGeometry(1.6, coreDetail);
+      var corePos = coreGeo.attributes.position.array;
+      var coreDirs = new Float32Array(corePos.length);
+      for (var vi = 0; vi < corePos.length; vi += 3) {
+        var vx = corePos[vi], vy = corePos[vi + 1], vz = corePos[vi + 2];
+        var vlen = Math.sqrt(vx * vx + vy * vy + vz * vz) || 1;
+        coreDirs[vi] = vx / vlen; coreDirs[vi + 1] = vy / vlen; coreDirs[vi + 2] = vz / vlen;
       }
-      mesh.instanceMatrix.needsUpdate = true;
-      if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-      scene.add(mesh);
+      var coreMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x1a1430,
+        metalness: 0.3,
+        roughness: 0.26,
+        clearcoat: 1,
+        clearcoatRoughness: 0.14,
+        iridescence: 1,
+        iridescenceIOR: 1.3,
+        iridescenceThicknessRange: [120, 420]
+      });
+      var core = new THREE.Mesh(coreGeo, coreMaterial);
+      scene.add(core);
 
-      // ---- Camera: a slow orbit that tours a few real coordinates
-      // inside the structure, diving from the whole shape down into
-      // one nested corner and back out -- always draggable and
+      function updateCore(t) {
+        var pos = coreGeo.attributes.position.array;
+        for (var i = 0; i < pos.length; i += 3) {
+          var dx = coreDirs[i], dy = coreDirs[i + 1], dz = coreDirs[i + 2];
+          var wobble = 1 +
+            0.16 * Math.sin(dx * 2.4 + t * 0.5) * Math.cos(dy * 1.8 - t * 0.35) +
+            0.10 * Math.sin(dy * 3.1 - t * 0.7 + dz * 2.0) +
+            0.07 * Math.sin((dx + dy + dz) * 3.6 + t * 0.9);
+          var r = 1.6 * wobble;
+          pos[i] = dx * r; pos[i + 1] = dy * r; pos[i + 2] = dz * r;
+        }
+        coreGeo.attributes.position.needsUpdate = true;
+        coreGeo.computeVertexNormals();
+        core.rotation.y = t * 0.07;
+        core.rotation.x = t * 0.025;
+      }
+
+      // ---- A loose orbit of small glass-and-metal shards -- company
+      // for the core, and something for the point lights to glint off
+      // as they pass, without repeating the earlier mistake of
+      // thousands of things too small and too dim to actually see.
+      var shardCount = narrow ? 22 : 46;
+      var shardGeo = new THREE.OctahedronGeometry(0.16, 0);
+      var shardMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x14101f,
+        metalness: 0.4,
+        roughness: 0.18,
+        clearcoat: 1,
+        transmission: 0.45,
+        thickness: 0.6,
+        iridescence: 1,
+        iridescenceIOR: 1.25
+      });
+      var shards = new THREE.InstancedMesh(shardGeo, shardMaterial, shardCount);
+      scene.add(shards);
+      var shardData = [];
+      for (var si = 0; si < shardCount; si++) {
+        shardData.push({
+          radius: 2.7 + Math.random() * 2.3,
+          speed: 0.07 + Math.random() * 0.1,
+          incline: Math.random() * Math.PI,
+          phase: Math.random() * Math.PI * 2,
+          tilt: Math.random() * Math.PI * 2,
+          scale: 0.5 + Math.random() * 1.15
+        });
+      }
+      var shardDummy = new THREE.Object3D();
+      function updateShards(t) {
+        for (var i = 0; i < shardCount; i++) {
+          var d = shardData[i];
+          var a = t * d.speed + d.phase;
+          shardDummy.position.set(
+            Math.cos(a) * d.radius,
+            Math.sin(a * 0.6 + d.incline) * d.radius * 0.35,
+            Math.sin(a) * d.radius
+          );
+          shardDummy.rotation.set(t * 0.4 + d.tilt, t * 0.3, 0);
+          shardDummy.scale.setScalar(d.scale);
+          shardDummy.updateMatrix();
+          shards.setMatrixAt(i, shardDummy.matrix);
+        }
+        shards.instanceMatrix.needsUpdate = true;
+      }
+
+      // ---- Light: three orbiting colored point lights are what
+      // actually paint the core and shards -- the color you see is
+      // real illumination hitting a real material, not a vertex color
+      // baked in ahead of time.
+      scene.add(new THREE.AmbientLight(0x1a1530, 0.55));
+      scene.add(new THREE.HemisphereLight(0x584bff, 0x0a0712, 0.35));
+      var lightColors = [0x9d6bff, 0x4be0ff, 0xffc24b];
+      var lights = lightColors.map(function (c) {
+        var l = new THREE.PointLight(c, 2.2, 22, 2);
+        scene.add(l);
+        return l;
+      });
+      function updateLights(t) {
+        lights.forEach(function (l, i) {
+          var a = t * (0.22 + i * 0.05) + i * 2.1;
+          var r = 3.6 + i * 0.7;
+          l.position.set(Math.cos(a) * r, Math.sin(a * 0.7) * 2.4, Math.sin(a) * r);
+        });
+      }
+
+      // ---- Camera: a slow orbit that breathes in and out around the
+      // core -- pulling back for the full form, pushing in close
+      // enough to see the surface move -- always draggable and
       // zoomable on top of that autonomous drift, never blocking it.
       var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       var target = new THREE.Vector3();
@@ -1131,8 +1156,15 @@
       var userRadiusScale = 1;
       var basePhi = 1.15;
       var poiIndex = 0;
-      var LEG_MS = 9000, HOLD_MS = 2600;
+      var LEG_MS = 8000, HOLD_MS = 2200;
       var legStart = 0;
+
+      var POIS = [
+        { x: 0, y: 0, z: 0, radius: 7.4 },
+        { x: 0.25, y: 0.15, z: -0.2, radius: 3.0 },
+        { x: -0.2, y: -0.1, z: 0.25, radius: 5.2 },
+        { x: 0.1, y: 0.2, z: 0.15, radius: 9.2 }
+      ];
 
       function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
       function smoothstep(t) { return t * t * (3 - 2 * t); }
@@ -1239,6 +1271,9 @@
         lastFrame = now;
         elapsed += dt;
         updateCamera(elapsed);
+        updateCore(elapsed);
+        updateShards(elapsed);
+        updateLights(elapsed);
         renderer.render(scene, camera);
         raf = requestAnimationFrame(frame);
       }
@@ -1271,6 +1306,9 @@
         // and zoom live -- render on demand instead of every frame.
         legStart = 0;
         updateCamera(0);
+        updateCore(0);
+        updateShards(0);
+        updateLights(0);
         renderer.render(scene, camera);
         window.addEventListener("pointermove", function () { if (dragging) { updateCamera(0); renderer.render(scene, camera); } });
         window.addEventListener("wheel", function () { updateCamera(0); renderer.render(scene, camera); }, { passive: true });

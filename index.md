@@ -10,8 +10,8 @@ title: Joel Holder
 <section class="fractal-mast">
   <p class="fractal-kicker">Recreational learning &amp; discovery</p>
   <h1 class="fractal-name">Joel Holder</h1>
-  <p class="fractal-tagline">The field behind this page is one rule, run recursively: every cube spawns eight smaller copies of itself, in its own corners, forever.</p>
-  <p class="fractal-caption">Drag to look around. Scroll or pinch to dive in. The camera has its own slow tour of the structure &mdash; take it over any time.</p>
+  <p class="fractal-tagline">A small, living form adrift in colored light &mdash; real geometry, real physics, nothing faked.</p>
+  <p class="fractal-caption">Drag to orbit it. Scroll or pinch to move closer. It has its own slow orbit too &mdash; take over any time.</p>
 
   <div class="fractal-actions">
     <a class="fractal-btn primary" href="{{ '/blog/' | relative_url }}">Read the blog</a>
@@ -22,7 +22,7 @@ title: Joel Holder
 
 <section class="fractal-section">
   <div class="note-panel">
-    <p class="note-text">I'm a lifelong tinkerer with math, code, and the occasional unanswerable question &mdash; the kind of person who'll spend a weekend proving something nobody asked for, then spend the next one teaching a recursive rule to build something no one could sketch by hand.</p>
+    <p class="note-text">I'm a lifelong tinkerer with math, code, and the occasional unanswerable question &mdash; the kind of person who'll spend a weekend proving something nobody asked for, then spend the next one teaching a shape to breathe.</p>
     <p class="note-sub"><strong>Why write it down?</strong>Because the interesting part usually only shows up once you've tried to explain it.</p>
   </div>
 </section>

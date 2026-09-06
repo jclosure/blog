@@ -10,13 +10,13 @@ title: Joel Holder
 <section class="fractal-mast">
   <p class="fractal-kicker">Recreational learning &amp; discovery</p>
   <h1 class="fractal-name">Joel Holder</h1>
-  <p class="fractal-tagline">A small, living form adrift in colored light &mdash; real geometry, real physics, nothing faked.</p>
-  <p class="fractal-caption">Drag to orbit it. Scroll or pinch to move closer. It has its own slow orbit too &mdash; take over any time.</p>
+  <p class="fractal-tagline">A small shape that never sits still, lit by three colored lights in slow orbit around it.</p>
+  <p class="fractal-caption">Drag to orbit, scroll or pinch to move closer &mdash; it drifts on its own too, so take over whenever you like.</p>
 
   <div class="fractal-actions">
     <a class="fractal-btn primary" href="{{ '/blog/' | relative_url }}">Read the blog</a>
     <a class="fractal-btn" href="{{ '/projects/' | relative_url }}">See projects</a>
-    <button type="button" id="fractal-toggle" class="fractal-toggle">Pause the field</button>
+    <button type="button" id="fractal-toggle" class="fractal-toggle">Pause the motion</button>
   </div>
 </section>
 

@@ -1280,13 +1280,13 @@
 
       function setRunning(v) {
         running = v;
-        if (toggle) toggle.textContent = running ? "Pause the field" : "Resume the field";
+        if (toggle) toggle.textContent = running ? "Pause the motion" : "Resume the motion";
         if (running && !raf) { lastFrame = null; raf = requestAnimationFrame(frame); }
         else if (!running && raf) { cancelAnimationFrame(raf); raf = null; }
       }
 
       if (toggle) {
-        toggle.textContent = running ? "Pause the field" : "Resume the field";
+        toggle.textContent = running ? "Pause the motion" : "Resume the motion";
         toggle.addEventListener("click", function () { setRunning(!running); });
       }
 

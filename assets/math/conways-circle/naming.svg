@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 588" role="img" aria-labelledby="ttl dsc">
+  <title id="ttl">How the sides are named, and what the semiperimeter is</title>
+  <desc id="dsc">Each side of triangle A B C carries the lower-case letter of the corner straight across from it: side a is opposite corner A, side b opposite B, side c opposite C. Below, the three side lengths are laid end to end; the semiperimeter s is half of that combined length.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f2f5f3; }
+    .mut { fill: #c9d3d8; }
+    .lab { font-size: 21px; font-weight: 700; }
+    .sml { font-size: 16px; }
+    .tny { font-size: 13px; }
+    .ital { font-style: italic; }
+  </style>
+  <rect width="900" height="588" fill="#101418"/>
+<polygon points="168.00,348.00 540.00,348.00 399.17,69.00" fill="rgba(95, 211, 141, 0.10)" stroke="#3a4650" stroke-width="2" stroke-linejoin="round"/>
+<line x1="540.00" y1="348.00" x2="399.17" y2="69.00" stroke="#5fd38d" stroke-width="6" stroke-linecap="round"/>
+<line x1="399.17" y1="69.00" x2="168.00" y2="348.00" stroke="#64c7d8" stroke-width="6" stroke-linecap="round"/>
+<line x1="168.00" y1="348.00" x2="540.00" y2="348.00" stroke="#f2b84b" stroke-width="6" stroke-linecap="round"/>
+<circle cx="168.00" cy="348.00" r="7" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="540.00" cy="348.00" r="7" fill="#64c7d8" stroke="#101418" stroke-width="2"/>
+<circle cx="399.17" cy="69.00" r="7" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<text x="150.00" y="356.00" class="lab" text-anchor="end" fill="#5fd38d">A</text>
+<text x="558.00" y="356.00" class="lab" text-anchor="start" fill="#64c7d8">B</text>
+<text x="399.17" y="55.00" class="lab" text-anchor="middle" fill="#f2b84b">C</text>
+<text x="516.01" y="185.07" class="lab ital" text-anchor="middle" fill="#5fd38d">a</text>
+<text x="532.97" y="176.51" class="tny mut" text-anchor="middle">opposite A</text>
+<text x="243.54" y="175.32" class="lab ital" text-anchor="middle" fill="#64c7d8">b</text>
+<text x="228.91" y="163.20" class="tny mut" text-anchor="middle">opposite B</text>
+<text x="354.00" y="374.00" class="lab ital" text-anchor="middle" fill="#f2b84b">c</text>
+<text x="354.00" y="391.00" class="tny mut" text-anchor="middle">opposite C</text>
+<text x="720.00" y="132.00" class="sml" text-anchor="middle" fill="#f2f5f3">Each side takes the</text>
+<text x="720.00" y="154.00" class="sml" text-anchor="middle" fill="#f2f5f3">name of the corner</text>
+<text x="720.00" y="176.00" class="sml" text-anchor="middle" fill="#f2f5f3">straight across from it</text>
+<rect x="150.0" y="476.0" width="179.1" height="24" fill="#5fd38d" opacity="0.92"/>
+<text x="239.56" y="493.00" class="sml" text-anchor="middle" fill="#07100b">a</text>
+<rect x="329.1" y="476.0" width="207.7" height="24" fill="#64c7d8" opacity="0.92"/>
+<text x="432.96" y="493.00" class="sml" text-anchor="middle" fill="#07100b">b</text>
+<rect x="536.8" y="476.0" width="213.2" height="24" fill="#f2b84b" opacity="0.92"/>
+<text x="643.40" y="493.00" class="sml" text-anchor="middle" fill="#07100b">c</text>
+<path d="M 150.0 462.0 L 150.0 454.0 L 450.0 454.0 L 450.0 462.0" fill="none" stroke="#f2f5f3" stroke-width="2"/>
+<line x1="450.00" y1="472.00" x2="450.00" y2="504.00" stroke="#f2f5f3" stroke-width="2" stroke-linecap="round"/>
+<text x="300.00" y="449.00" class="sml" text-anchor="middle" fill="#f2f5f3">s  =  half the perimeter</text>
+<text x="150.00" y="526.00" class="tny mut" text-anchor="start">start</text>
+<text x="750.00" y="526.00" class="tny mut" text-anchor="end">back to start</text>
+<text x="450.00" y="566.00" class="sml mut" text-anchor="middle">perimeter = a + b + c        so        s = (a + b + c) ÷ 2</text>
+</svg>

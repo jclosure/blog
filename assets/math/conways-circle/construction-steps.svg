@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 940" role="img" aria-labelledby="ttl dsc">
+  <title id="ttl">Building Conway's circle in four steps</title>
+  <desc id="dsc">Four panels. One: the triangle, with the side opposite corner A marked. Two: a compass arc of that length swung from A crosses the two sides produced past A, fixing two points. Three: the same at B and C gives six points in all. Four: a single circle passes through all six.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f2f5f3; }
+    .mut { fill: #c9d3d8; }
+    .lab { font-size: 20px; font-weight: 700; }
+    .sml { font-size: 15px; }
+    .tny { font-size: 13px; }
+    .ital { font-style: italic; }
+  </style>
+  <rect width="880" height="940" fill="#101418"/>
+<rect x="0.0" y="0.0" width="436" height="466" fill="none" stroke="#3a4650" stroke-width="1"/>
+<polygon points="147.70,254.24 271.70,254.24 224.76,161.23" fill="rgba(95, 211, 141, 0.10)" stroke="#3a4650" stroke-width="2" stroke-linejoin="round"/>
+<line x1="224.76" y1="161.23" x2="147.70" y2="254.24" stroke="#3a4650" stroke-width="2" stroke-linecap="round"/>
+<line x1="147.70" y1="254.24" x2="271.70" y2="254.24" stroke="#3a4650" stroke-width="2" stroke-linecap="round"/>
+<line x1="271.70" y1="254.24" x2="224.76" y2="161.23" stroke="#5fd38d" stroke-width="6" stroke-linecap="round"/>
+<text x="275.01" y="194.22" class="lab ital" text-anchor="middle" fill="#5fd38d">a</text>
+<circle cx="147.70" cy="254.24" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="271.70" cy="254.24" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="224.76" cy="161.23" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<rect x="0.0" y="436.0" width="436" height="30" fill="#0b0f12"/>
+<text x="218.00" y="456.00" class="sml" text-anchor="middle" fill="#f2f5f3">1 — the side across from corner A is called  a</text>
+<rect x="444.0" y="0.0" width="436" height="466" fill="none" stroke="#3a4650" stroke-width="1"/>
+<polygon points="591.70,254.24 715.70,254.24 668.76,161.23" fill="rgba(95, 211, 141, 0.10)" stroke="#5fd38d" stroke-width="2.6" stroke-linejoin="round"/>
+<circle cx="591.70" cy="254.24" r="104.18" fill="none" stroke="#5fd38d" stroke-width="1.4" stroke-dasharray="4 5" opacity="0.85"/>
+<line x1="591.70" y1="254.24" x2="487.52" y2="254.24" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/>
+<circle cx="487.52" cy="254.24" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<line x1="591.70" y1="254.24" x2="525.23" y2="334.46" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/>
+<circle cx="525.23" cy="334.46" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<text x="549.61" y="248.24" class="sml" text-anchor="start" fill="#f2b84b">= a</text>
+<circle cx="591.70" cy="254.24" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="715.70" cy="254.24" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="668.76" cy="161.23" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<rect x="444.0" y="436.0" width="436" height="30" fill="#0b0f12"/>
+<text x="662.00" y="456.00" class="sml" text-anchor="middle" fill="#f2f5f3">2 — swing that length past the corner</text>
+<rect x="0.0" y="474.0" width="436" height="466" fill="none" stroke="#3a4650" stroke-width="1"/>
+<line x1="43.52" y1="728.24" x2="392.48" y2="728.24" stroke="#3a4650" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+<line x1="326.13" y1="836.06" x2="168.88" y2="524.53" stroke="#3a4650" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+<line x1="303.87" y1="539.75" x2="81.23" y2="808.46" stroke="#3a4650" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+<polygon points="147.70,728.24 271.70,728.24 224.76,635.23" fill="rgba(95, 211, 141, 0.10)" stroke="#5fd38d" stroke-width="2.6" stroke-linejoin="round"/>
+<circle cx="147.70" cy="728.24" r="104.18" fill="none" stroke="#5fd38d" stroke-width="1.4" stroke-dasharray="4 5" opacity="0.4"/>
+<line x1="147.70" y1="728.24" x2="43.52" y2="728.24" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/>
+<circle cx="43.52" cy="728.24" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<line x1="147.70" y1="728.24" x2="81.23" y2="808.46" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/>
+<circle cx="81.23" cy="808.46" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="271.70" cy="728.24" r="120.78" fill="none" stroke="#64c7d8" stroke-width="1.4" stroke-dasharray="4 5" opacity="0.4"/>
+<line x1="271.70" y1="728.24" x2="392.48" y2="728.24" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/>
+<circle cx="392.48" cy="728.24" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<line x1="271.70" y1="728.24" x2="326.13" y2="836.06" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/>
+<circle cx="326.13" cy="836.06" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="224.76" cy="635.23" r="124.00" fill="none" stroke="#f2b84b" stroke-width="1.4" stroke-dasharray="4 5" opacity="0.4"/>
+<line x1="224.76" y1="635.23" x2="303.87" y2="539.75" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/>
+<circle cx="303.87" cy="539.75" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<line x1="224.76" y1="635.23" x2="168.88" y2="524.53" stroke="#f2b84b" stroke-width="3" stroke-linecap="round"/>
+<circle cx="168.88" cy="524.53" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="43.52" cy="728.24" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="392.48" cy="728.24" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="326.13" cy="836.06" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="168.88" cy="524.53" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="303.87" cy="539.75" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="81.23" cy="808.46" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="147.70" cy="728.24" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="271.70" cy="728.24" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="224.76" cy="635.23" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<rect x="0.0" y="910.0" width="436" height="30" fill="#0b0f12"/>
+<text x="218.00" y="930.00" class="sml" text-anchor="middle" fill="#f2f5f3">3 — repeat at all three corners</text>
+<rect x="444.0" y="474.0" width="436" height="466" fill="none" stroke="#3a4650" stroke-width="1"/>
+<circle cx="662.00" cy="695.19" r="177.58" fill="none" stroke="#f2b84b" stroke-width="3"/>
+<line x1="487.52" y1="728.24" x2="836.48" y2="728.24" stroke="#3a4650" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+<line x1="770.13" y1="836.06" x2="612.88" y2="524.53" stroke="#3a4650" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+<line x1="747.87" y1="539.75" x2="525.23" y2="808.46" stroke="#3a4650" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+<polygon points="591.70,728.24 715.70,728.24 668.76,635.23" fill="rgba(95, 211, 141, 0.10)" stroke="#5fd38d" stroke-width="2.6" stroke-linejoin="round"/>
+<circle cx="487.52" cy="728.24" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="836.48" cy="728.24" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="770.13" cy="836.06" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="612.88" cy="524.53" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="747.87" cy="539.75" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="525.23" cy="808.46" r="5.5" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="662.00" cy="695.19" r="4.5" fill="#64c7d8" stroke="#101418" stroke-width="2"/>
+<circle cx="591.70" cy="728.24" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="715.70" cy="728.24" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="668.76" cy="635.23" r="5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<rect x="444.0" y="910.0" width="436" height="30" fill="#0b0f12"/>
+<text x="662.00" y="930.00" class="sml" text-anchor="middle" fill="#f2f5f3">4 — one circle holds all six points</text>
+</svg>

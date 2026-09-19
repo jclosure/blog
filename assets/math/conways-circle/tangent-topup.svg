@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 280" role="img" aria-labelledby="ttl dsc">
+  <title id="ttl">Why the six points land: every run tops up to s</title>
+  <desc id="dsc">The incircle touches side AB at F, splitting the side into tangent lengths s minus a and s minus b. Producing the side past A by a, and past B by b, extends each of those runs to exactly s.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f2f5f3; }
+    .mut { fill: #c9d3d8; }
+    .lab { font-size: 22px; font-weight: 700; }
+    .sml { font-size: 17px; }
+    .tny { font-size: 13px; }
+    .ital { font-style: italic; }
+  </style>
+  <rect width="940" height="280" fill="#101418"/>
+<line x1="86.00" y1="92.00" x2="854.00" y2="92.00" stroke="#3a4650" stroke-width="2" stroke-linecap="round"/>
+<line x1="92.00" y1="92.00" x2="317.70" y2="92.00" stroke="#f2b84b" stroke-width="4" stroke-linecap="round"/>
+<line x1="317.70" y1="92.00" x2="470.00" y2="92.00" stroke="#64c7d8" stroke-width="4" stroke-linecap="round"/>
+<line x1="470.00" y1="92.00" x2="586.34" y2="92.00" stroke="#64c7d8" stroke-width="4" stroke-linecap="round"/>
+<line x1="586.34" y1="92.00" x2="848.00" y2="92.00" stroke="#f2b84b" stroke-width="4" stroke-linecap="round"/>
+<circle cx="92.00" cy="92.00" r="6" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<circle cx="317.70" cy="92.00" r="6" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="470.00" cy="92.00" r="6" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="586.34" cy="92.00" r="6" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<circle cx="848.00" cy="92.00" r="6" fill="#f2b84b" stroke="#101418" stroke-width="2"/>
+<text x="204.85" y="72.00" class="lab ital" text-anchor="middle" fill="#f2b84b">a</text>
+<text x="393.85" y="72.00" class="sml" text-anchor="middle" fill="#64c7d8">s − a</text>
+<text x="528.17" y="72.00" class="sml" text-anchor="middle" fill="#64c7d8">s − b</text>
+<text x="717.17" y="72.00" class="lab ital" text-anchor="middle" fill="#f2b84b">b</text>
+<text x="92.00" y="124.00" class="sml mut" text-anchor="middle">beyond A</text>
+<text x="317.70" y="126.00" class="lab" text-anchor="middle" fill="#f2f5f3">A</text>
+<text x="470.00" y="126.00" class="lab" text-anchor="middle" fill="#5fd38d">F</text>
+<text x="586.34" y="126.00" class="lab" text-anchor="middle" fill="#f2f5f3">B</text>
+<text x="848.00" y="124.00" class="sml mut" text-anchor="middle">beyond B</text>
+<path d="M 470.0 152.0 q 0 10 10 10 L 271.0 162.0 q 10 0 10 10 q 0 -10 10 -10 L 82.0 162.0 q 10 0 10 -10" fill="none" stroke="#64c7d8" stroke-width="2"/>
+<text x="281.00" y="192.00" class="lab" text-anchor="middle" fill="#64c7d8">F → beyond A  =  s</text>
+<path d="M 470.0 152.0 q 0 10 10 10 L 649.0 162.0 q 10 0 10 10 q 0 -10 10 -10 L 838.0 162.0 q 10 0 10 -10" fill="none" stroke="#64c7d8" stroke-width="2"/>
+<text x="659.00" y="192.00" class="lab" text-anchor="middle" fill="#64c7d8">F → beyond B  =  s</text>
+<text x="282.00" y="266.00" class="sml mut" text-anchor="middle">(s − a) + a  =  s</text>
+<text x="658.00" y="266.00" class="sml mut" text-anchor="middle">(s − b) + b  =  s</text>
+</svg>

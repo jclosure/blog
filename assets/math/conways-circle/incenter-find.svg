@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 468" role="img" aria-labelledby="ttl dsc">
+  <title id="ttl">Finding the incenter: the point equally far from all three sides</title>
+  <desc id="dsc">Triangle A B C. The bisector of corner A (the line splitting that corner into two equal angles) and the bisector of corner B are drawn; they cross at a point I. From I, a perpendicular of the same length r reaches each of the three sides, so the circle of radius r centred at I touches all three sides from inside. That circle is the incircle; I is the incenter.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #f2f5f3; }
+    .mut { fill: #c9d3d8; }
+    .lab { font-size: 21px; font-weight: 700; }
+    .sml { font-size: 16px; }
+    .tny { font-size: 13px; }
+    .ital { font-style: italic; }
+  </style>
+  <rect width="900" height="468" fill="#101418"/>
+<line x1="170.00" y1="300.00" x2="370.69" y2="205.65" stroke="#c9d3d8" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="6 5"/>
+<line x1="470.00" y1="300.00" x2="321.89" y2="208.85" stroke="#c9d3d8" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="6 5"/>
+<polygon points="170.00,300.00 470.00,300.00 356.43,75.00" fill="rgba(95, 211, 141, 0.10)" stroke="#5fd38d" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="340.08" cy="220.05" r="79.95" fill="none" stroke="#f2b84b" stroke-width="2.4"/>
+<line x1="340.08" y1="220.05" x2="340.08" y2="300.00" stroke="#64c7d8" stroke-width="3" stroke-linecap="round"/>
+<path d="M 352.08 300.00 L 352.08 288.00 L 340.08 288.00" fill="none" stroke="#f2f5f3" stroke-width="1.8"/>
+<line x1="345.08" y1="260.02" x2="335.08" y2="260.02" stroke="#64c7d8" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="340.08" cy="300.00" r="4.5" fill="#64c7d8" stroke="#101418" stroke-width="2"/>
+<line x1="340.08" y1="220.05" x2="411.46" y2="184.02" stroke="#64c7d8" stroke-width="3" stroke-linecap="round"/>
+<path d="M 406.05 173.31 L 395.34 178.71 L 400.74 189.43" fill="none" stroke="#f2f5f3" stroke-width="1.8"/>
+<line x1="373.52" y1="197.57" x2="378.02" y2="206.50" stroke="#64c7d8" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="411.46" cy="184.02" r="4.5" fill="#64c7d8" stroke="#101418" stroke-width="2"/>
+<line x1="340.08" y1="220.05" x2="278.51" y2="169.03" stroke="#64c7d8" stroke-width="3" stroke-linecap="round"/>
+<path d="M 270.86 178.27 L 280.10 185.93 L 287.75 176.69" fill="none" stroke="#f2f5f3" stroke-width="1.8"/>
+<line x1="306.11" y1="198.39" x2="312.49" y2="190.69" stroke="#64c7d8" stroke-width="2.4" stroke-linecap="round"/>
+<circle cx="278.51" cy="169.03" r="4.5" fill="#64c7d8" stroke="#101418" stroke-width="2"/>
+<circle cx="340.08" cy="220.05" r="6" fill="#f8fbf9" stroke="#101418" stroke-width="2"/>
+<text x="354.08" y="225.05" class="lab" text-anchor="start" fill="#f2f5f3">I</text>
+<text x="328.08" y="264.02" class="lab ital" text-anchor="end" fill="#64c7d8">r</text>
+<circle cx="170.00" cy="300.00" r="5.5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<text x="152.00" y="308.00" class="lab" text-anchor="middle" fill="#f2f5f3">A</text>
+<circle cx="470.00" cy="300.00" r="5.5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<text x="486.00" y="308.00" class="lab" text-anchor="middle" fill="#f2f5f3">B</text>
+<circle cx="356.43" cy="75.00" r="5.5" fill="#5fd38d" stroke="#101418" stroke-width="2"/>
+<text x="356.43" y="61.00" class="lab" text-anchor="middle" fill="#f2f5f3">C</text>
+<text x="450.00" y="398.00" class="sml mut" text-anchor="middle">Each bisector = the points equally far from the two sides at that corner.</text>
+<text x="450.00" y="422.00" class="sml mut" text-anchor="middle">Where two bisectors cross, the point is the same distance r from all three sides.</text>
+<text x="450.00" y="446.00" class="sml mut" text-anchor="middle">That point is the incenter I; its circle, the incircle, is the largest that fits inside.</text>
+</svg>
